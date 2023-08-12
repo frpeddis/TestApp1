@@ -12,8 +12,10 @@ import pandas as pd
 import os
 
 # Define the path to the CSV file
-csv_file_path = os.path.expanduser("~/Documents/Hist_events.xlsx")
- 
+#csv_file_path = os.path.expanduser("~/Documents/Hist_events.xlsx")
+#csv_file_path = os.path.expanduser("Hist_events.xlsx")
+
+
 # Load the CSV file into a pandas DataFrame
 #df = pd.read_csv(csv_file_path)
 
