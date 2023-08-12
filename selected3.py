@@ -22,7 +22,7 @@ st.markdown(
 )
 
 # Streamlit app title
-st.title("What day was it? :sunglasses:", - Please select)
+st.title("What day was it? - Please select :sunglasses:")
 
 # Get user input for year, month, and day
 selected_year = st.number_input("Select a year:", min_value=1582, max_value=2099, value=2023)
