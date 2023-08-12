@@ -9,17 +9,14 @@ import streamlit as st
 from datetime import datetime
 
 import pandas as pd
-import os
-
-# Define the path to the CSV file
-#csv_file_path = os.path.expanduser("~/Documents/Hist_events.xlsx")
-#csv_file_path = os.path.expanduser("Hist_events.xlsx")
+import requests
 
 
-# Load the CSV file into a pandas DataFrame
-#df = pd.read_csv(csv_file_path)
+url= 'https://github.com/frpeddis/TestApp1/blob/22d66352a78bd73d3bead8c14d93a14540dbc73b/Hist_events.xlsx'
+myfile = requests.get(url)
 
-df = pd.read_excel(csv_file_path)
+df=pd.read_excel(myfile.content)
+
 
 
 
