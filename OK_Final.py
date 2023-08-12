@@ -10,7 +10,7 @@ import streamlit as st
 from datetime import datetime, timedelta
 
 # Streamlit app title
-st.title("What day was it ? :sunglasses:")
+st.title("What day was it ? - Random choice:sunglasses:")
 
 # Function to calculate a random date
 def calculate_random_date():
