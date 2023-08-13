@@ -23,7 +23,7 @@ import pandas as pd
 import requests
 import openai
 # Set your OpenAI API key
-openai.api_key = "OPENAI_API_KEY"
+openai.api_key = "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"
 
 
 # URL to the raw Excel file
