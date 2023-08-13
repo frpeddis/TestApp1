@@ -77,7 +77,7 @@ if check_button and not invalid_date:
         
 import openai
 # Set your OpenAI API key
-openai.api_key = "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"
+openai.api_key = "secret !!!"
 
 
 def generate_news(selected_date):
