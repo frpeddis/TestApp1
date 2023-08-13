@@ -83,9 +83,9 @@ if check_button and not invalid_date:
         st.error(day_of_week + " WRONG!!!")
         
         
-rslt_df = df.loc[df['YEAR'] == selected_year]
+#rslt_df = df.loc[df['YEAR'] == selected_year]
   
-st.write('\nResult dataframe :\n', rslt_df)
+#st.write('\nResult dataframe :\n', rslt_df)
 
 
 
