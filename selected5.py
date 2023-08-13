@@ -12,10 +12,11 @@ import pandas as pd
 import requests
 
 
-url= 'https://github.com/frpeddis/TestApp1/blob/22d66352a78bd73d3bead8c14d93a14540dbc73b/Hist_events.xlsx'
-myfile = requests.get(url)
+# URL to the raw Excel file
+url = "https://github.com/frpeddis/TestApp1/raw/849ac8d55141d9d4f472ec456127705d315e30eb/Hist_events.xlsx"
 
-df=pd.read_excel(myfile.content)
+# Load the Excel file into a Pandas DataFrame
+df = pd.read_excel(url)
 
 
 
