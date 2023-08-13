@@ -21,9 +21,6 @@ import streamlit as st
 from datetime import datetime
 import pandas as pd
 import requests
-import openai
-# Set your OpenAI API key
-openai.api_key = "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"
 
 
 # URL to the raw Excel file
@@ -78,6 +75,9 @@ if check_button and not invalid_date:
     else:
         st.error(day_of_week + " WRONG!!!")
         
+import openai
+# Set your OpenAI API key
+openai.api_key = "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"
 
 
 def generate_news(selected_date):
