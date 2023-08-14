@@ -13,7 +13,8 @@ import streamlit as st
 #openai.api_key = "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"
 #openai.api_key = creds.OPENAI_API_KEY
 
-os.environ['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
+#os.environ['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
+openai.api_key = st.secrets['OPENAI_API_KEY']
 
 def generate_news(selected_date):
     prompt = f"What happened on {selected_date}?\nGive me a good news with a 😄, a neutral news with a 😐, and a bad news with a 😔. Insert related Wikipedia links."
