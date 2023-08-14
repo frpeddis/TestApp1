@@ -22,7 +22,7 @@ def generate_news(selected_date):
 
     return response.choices[0].text.strip()
 
-selected_date = "1960-03-09"  # Replace this with your desired date
+selected_date = "1961-03-09"  # Replace this with your desired date
 news_summary = generate_news(selected_date)
 print(news_summary)
 
