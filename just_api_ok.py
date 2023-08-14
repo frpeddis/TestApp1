@@ -24,5 +24,5 @@ def generate_news(selected_date):
 
 selected_date = "1960-03-09"  # Replace this with your desired date
 news_summary = generate_news(selected_date)
-st.write(news_summary)
+print(news_summary)
 
