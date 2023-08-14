@@ -25,5 +25,5 @@ def generate_news(selected_date):
 selected_date = "1961-03-09"  # Replace this with your desired date
 news_summary = generate_news(selected_date)
 print(news_summary)
-st.write('Finito')
+
 
