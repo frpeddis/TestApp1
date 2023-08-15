@@ -99,9 +99,13 @@ if check_button and not invalid_date:
     if day_of_week == expected_day_of_week:
         st.success(day_of_week + " OK")
         news_summary = generate_news(selected_date)
+        st.title("According to ChatGPT that day...")
         st.write(news_summary) 
     else:
         st.error(day_of_week + " WRONG!!!")
+        news_summary = generate_news(selected_date)
+        st.title("According to ChatGPT that day...")
+        st.write(news_summary) 
         
         
 #selected_date = "1969-03-09"  # Replace this with your desired date
