@@ -18,6 +18,17 @@ import openai
 
 openai.api_key = st.secrets["API_KEY"]
 
+def generate_news(selected_date):
+    prompt = f"What happened on {selected_date}?\nGive me a good news with a 😄, a neutral news with a 😐, and a bad news with a 😔. Insert related Wikipedia links."
+
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=150,
+        temperature=0.7
+    )
+
+    return response.choices[0].text.strip()
 
 
 
@@ -33,7 +44,7 @@ def calculate_random_date():
 # Check if random_date and start_time are in session state, if not, calculate and store them
 if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
-    selected_date = st.session_state.random_date
+    
 
 if 'start_time' not in st.session_state:
     st.session_state.start_time = datetime.now()
@@ -46,19 +57,7 @@ if 'time_taken' not in st.session_state:
 
 # Display the date in the format dd-mmm-yyyy
 st.write("Random Date:", st.session_state.random_date.strftime("%d-%b-%Y"))
-
-def generate_news(selected_date):
-    prompt = f"What happened on {selected_date}?\nGive me a good news with a 😄, a neutral news with a 😐, and a bad news with a 😔. Insert related Wikipedia links."
-
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=150,
-        temperature=0.7
-    )
-
-    return response.choices[0].text.strip()
-
+selected_date = st.session_state.random_date.strftime("%d-%b-%Y")
 
 # Calculate time taken
 if not st.session_state.check_pressed:
