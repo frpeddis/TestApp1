@@ -18,7 +18,7 @@ import openai
 openai.api_key = st.secrets["API_KEY"]
 
 def generate_news(selected_date):
-    prompt = f"What happened on {selected_date}?\nGive me a good news with a 😄, a neutral news with a 😐, and a bad news with a 😔. Insert related Wikipedia links."
+    prompt = f"What happened on {selected_date}?\nGive me a good news with a 😄, a neutral news with a 😐, and a bad news with a 😔. Do not mention good, neutral or bad news, just use the icons. Do not repet the selected date in the answer. Insert related Wikipedia links."
 
     response = openai.Completion.create(
         engine="text-davinci-003",
