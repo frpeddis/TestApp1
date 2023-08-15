@@ -84,11 +84,13 @@ if check_button:
         news_summary = generate_news(selected_date)
         st.title("According to ChatGPT that day...")
         st.write(news_summary) 
+        st.write("Please verify!")
     else:
         st.error(day_of_week + " WRONG!!!")
         news_summary = generate_news(selected_date)
         st.title("According to ChatGPT that day...")
-        st.write(news_summary) 
+        st.write(news_summary)
+        st.write("Please verify!")
 
     # Calculate time taken to make the selection
     st.session_state.time_taken = (datetime.now() - st.session_state.start_time).total_seconds()
