@@ -38,7 +38,8 @@ st.markdown(
 
 
 page_names = ['Select date', 'Random date' ]
-page - st.radio('Navigation', page _names, index-1) | st.write("*The variable 'page' returns: *" page)
+page = st.radio('Navigation', page_names, index=1) 
+st.write("*The variable 'page' returns: *" page)
 if page = 'Select date'
     st.subheader ( 'Welcome to the Chelkbox page!') st.write("Nice to see you!:wave:")
 
