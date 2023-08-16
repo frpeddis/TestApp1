@@ -33,7 +33,7 @@ def generate_news(selected_date):
 
 
 # Streamlit app title
-st.title("What day was it ? - Random choice:sunglasses:")
+st.title(":sunglasses: What day was it ? - Random choice")
 
 # Function to calculate a random date
 def calculate_random_date():
