@@ -44,13 +44,13 @@ col1, col2, col3 = st.columns(3)
 
 # Get user input for year, month, and day
 with col1:
-    selected_year = st.number_input("Select a year:", min_value=1582, max_value=2099, value=2023)
+    selected_year = st.number_input("Year:", min_value=1582, max_value=2099, value=2023)
 
 with col2:
-    selected_month = st.number_input("Select a month:", min_value=1, max_value=12, value=8)
+    selected_month = st.number_input("Month:", min_value=1, max_value=12, value=8)
 
 with col3:
-    selected_day = st.number_input("Select a day:", min_value=1, max_value=31, value=12)
+    selected_day = st.number_input("Day:", min_value=1, max_value=31, value=12)
 
 # Check for consistency among months and days
 invalid_date = False
