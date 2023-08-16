@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 import calendar
 import streamlit as st
 from datetime import datetime
@@ -99,12 +87,12 @@ if check_button and not invalid_date:
     if day_of_week == expected_day_of_week:
         st.success(day_of_week + " OK")
         news_summary = generate_news(selected_date)
-        st.title("According to ChatGPT that day...")
+        st.title("Please verify, but according to ChatGPT that day...")
         st.write(news_summary) 
     else:
         st.error(day_of_week + " WRONG!!!")
         news_summary = generate_news(selected_date)
-        st.title("According to ChatGPT that day...")
+        st.title("Please verify, but according to ChatGPT that day...")
         st.write(news_summary) 
         
         
