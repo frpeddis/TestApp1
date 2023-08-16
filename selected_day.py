@@ -18,18 +18,6 @@ def generate_news(selected_date):
     return response.choices[0].text.strip()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Apply custom CSS for dark theme
 st.markdown(
     """
@@ -95,6 +83,4 @@ if check_button and not invalid_date:
         st.title("Please verify, but according to ChatGPT that day...")
         st.write(news_summary) 
         
-        
-#selected_date = "1969-03-09"  # Replace this with your desired date
 
