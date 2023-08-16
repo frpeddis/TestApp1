@@ -82,12 +82,12 @@ if check_button:
     if selected_day_of_week == day_of_week:
         st.success(day_of_week + " OK :thumbsup:")
         news_summary = generate_news(selected_date)
-        st.title("Please verify, but according to ChatGPT that day...")
+        st.title("Please verify, but according to ChatGPT in that period...")
         st.write(news_summary)         
     else:
         st.error(day_of_week + " WRONG!!!")
         news_summary = generate_news(selected_date)
-        st.title("Please verify, but according to ChatGPT that day...")
+        st.title("Please verify, but according to ChatGPT in that period...")
         st.write(news_summary)
         
 
