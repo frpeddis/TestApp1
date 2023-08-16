@@ -80,7 +80,7 @@ if check_button:
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
 
     if selected_day_of_week == day_of_week:
-        st.success(day_of_week + " OK")
+        st.success(day_of_week + " OK :thumbsup:")
         news_summary = generate_news(selected_date)
         st.title("Please verify, but according to ChatGPT that day...")
         st.write(news_summary)         
