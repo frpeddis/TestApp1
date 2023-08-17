@@ -55,13 +55,12 @@ def main():
     # Check button to verify user's selection
     check_button = st.button("Check")
 
-    # Check if user pressed the check button
+    # Check if user pressed the check button and show result
     if check_button:
-        # Compare user's selection with the actual day of the week
         if user_selected_day == actual_day_of_week:
-            st.write(":thumbsup: Correct! It was", actual_day_of_week)
+            st.write("OK")
         else:
-            st.write("Incorrect. The correct day of the week was:", actual_day_of_week)
+            st.write("Not correct. The correct day of the week was:", actual_day_of_week)
 
 if __name__ == "__main__":
     main()
