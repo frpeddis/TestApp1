@@ -11,8 +11,8 @@ import openai
 openai.api_key = st.secrets["API_KEY"]
 
 def generate_news(selected_date):
-    prompt = f"What happened on {selected_date}?\nGive me a good news with a 😄, a neutral news with a 😐, and a bad news with a 😔. Insert related Wikipedia links."
-
+    prompt = f"What happened on {selected_date}?\nGive me a good news simply with an initial 😄, a neutral news simply with an initial 😐, and a bad news simply with an initial 😔. Do not mention if it is good, neutral or bad news, just use the icons. Do not mention any date in the answer. jump a line forevery news. Insert related Wikipedia links."
+   
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
@@ -76,12 +76,12 @@ def main():
         if user_selected_day == actual_day_of_week:
             st.write(" :thumbsup: OK")
             news_summary = generate_news(selected_date)
-            st.title("According to ChatGPT that day...")
+            st.header("According to ChatGPT that day...")
             st.write(news_summary) 
         else:
             st.write("Not correct. The day of the week was:", actual_day_of_week)
             news_summary = generate_news(selected_date)
-            st.title("According to ChatGPT that day...")
+            st.header("According to ChatGPT that day...")
             st.write(news_summary) 
 
 if __name__ == "__main__":
