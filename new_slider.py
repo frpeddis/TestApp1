@@ -25,7 +25,7 @@ def get_day_of_week(year, month, day):
 
 # Streamlit app
 def main():
-    st.title("Date Selector")
+    st.title(" :sunglasses: What day was it? - Please select ")
 
     # Year slider
     selected_year = st.slider("Select Year", 1582, 2099)
@@ -58,7 +58,7 @@ def main():
     # Check if user pressed the check button and show result
     if check_button:
         if user_selected_day == actual_day_of_week:
-            st.write("OK")
+            st.write(":thumbsup:OK")
         else:
             st.write("Not correct. The correct day of the week was:", actual_day_of_week)
 
