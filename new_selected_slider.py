@@ -40,6 +40,22 @@ def is_leap_year(year):
 def main():
     st.title("Date Selector")
 
+    # Function to check if a year is a leap year
+def is_leap_year(year):
+    if year % 4 == 0:
+        if year % 100 == 0:
+            if year % 400 == 0:
+                return True
+            else:
+                return False
+        else:
+            return True
+    return False
+
+# Streamlit app
+def main():
+    st.title("Date Selector")
+
     # Year slider
     selected_year = st.slider("Select Year", 1582, 2099)
 
@@ -55,9 +71,10 @@ def main():
         days_in_month = 31
     selected_day = st.slider("Select Day", 1, days_in_month)
 
-    st.write("Selected Date: {}-{}-{}".format(selected_day, selected_month, selected_year))
-
+    selected_date = f"{selected_year}-{selected_month:02d}-{selected_day:02d}"
+    st.write("Selected Date: {}".format(selected_date))
     # Streamlit app title
+    
     st.title("What day was it? - Please select :sunglasses:")
 
     
