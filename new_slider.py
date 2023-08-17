@@ -52,11 +52,16 @@ def main():
     options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     user_selected_day = st.selectbox("What day of the week was it?", options)
 
-    # Check if user's selection is correct
-    if user_selected_day == actual_day_of_week:
-        st.write("OK")
-    else:
-        st.write("Not correct. The correct day of the week was:", actual_day_of_week)
+    # Check button to verify user's selection
+    check_button = st.button("Check")
+
+    # Check if user pressed the check button
+    if check_button:
+        # Compare user's selection with the actual day of the week
+        if user_selected_day == actual_day_of_week:
+            st.write("Correct! It was", actual_day_of_week)
+        else:
+            st.write("Incorrect. The correct day of the week was:", actual_day_of_week)
 
 if __name__ == "__main__":
     main()
