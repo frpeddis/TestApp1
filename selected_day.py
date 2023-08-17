@@ -38,8 +38,8 @@ st.title("What day was it? - Please select :sunglasses:")
 selected_year = st.number_input("Select a year:", min_value=1582, max_value=2099, value=2023)
 selected_month = st.number_input("Select a month:", min_value=1, max_value=12, value=8)
 selected_day = st.number_input("Select a day:", min_value=1, max_value=31, value=12)
-selected_month = st.slider("Select a month:", value=(date(1582,10,15), date(2099,12,31))
-
+selected_date2 = st.slider("Select a month:", value=(date(1582,10,15), date(2099,12,31))
+st.write(selected_day2)
 
 
 # Check for consistency among months and days
