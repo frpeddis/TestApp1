@@ -44,7 +44,7 @@ if 'time_taken' not in st.session_state:
     st.session_state.time_taken = 0
 
 # Display the date in the format dd-mmm-yyyy
-st.header("Random Date:", st.session_state.random_date.strftime("%d-%b-%Y"))
+st.write("Random Date:", st.session_state.random_date.strftime("%d-%b-%Y"))
 selected_date = st.session_state.random_date.strftime("%d-%b-%Y")
 
 # Calculate time taken
