@@ -79,7 +79,8 @@ def main():
             st.header("According to ChatGPT that day...")
             st.write(news_summary) 
         else:
-            st.write("Not correct. The day of the week was:", actual_day_of_week)
+            st.error("Not correct. The day of the week was:", actual_day_of_week)
+            #st.write("Not correct. The day of the week was:", actual_day_of_week)
             news_summary = generate_news(selected_date)
             st.header("According to ChatGPT that day...")
             st.write(news_summary) 
