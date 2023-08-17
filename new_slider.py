@@ -42,7 +42,7 @@ def main():
         days_in_month = 31
     selected_day = st.slider("Select Day", 1, days_in_month)
 
-    selected_date = f"{selected_year}-{selected_month:02d}-{selected_day:02d}"
+    selected_date = f"{selected_day:02d}-{selected_month:02d}-{selected_year}"
     st.write("Selected Date: {}".format(selected_date))
 
     # Determine the day of the week for the selected date
