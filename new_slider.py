@@ -6,6 +6,22 @@
 
 import streamlit as st
 import datetime
+import openai
+
+openai.api_key = st.secrets["API_KEY"]
+
+def generate_news(selected_date):
+    prompt = f"What happened on {selected_date}?\nGive me a good news with a 😄, a neutral news with a 😐, and a bad news with a 😔. Insert related Wikipedia links."
+
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=150,
+        temperature=0.7
+    )
+
+    return response.choices[0].text.strip()
+
 
 # Function to check if a year is a leap year
 def is_leap_year(year):
@@ -59,8 +75,14 @@ def main():
     if check_button:
         if user_selected_day == actual_day_of_week:
             st.write(" :thumbsup: OK")
+            news_summary = generate_news(selected_date)
+            st.title("According to ChatGPT that day...")
+            st.write(news_summary) 
         else:
-            st.write("Not correct. The correct day of the week was:", actual_day_of_week)
+            st.write("Not correct. The day of the week was:", actual_day_of_week)
+            news_summary = generate_news(selected_date)
+            st.title("According to ChatGPT that day...")
+            st.write(news_summary) 
 
 if __name__ == "__main__":
     main()
