@@ -58,7 +58,7 @@ def main():
     # Check if user pressed the check button and show result
     if check_button:
         if user_selected_day == actual_day_of_week:
-            st.write(":thumbsup:OK")
+            st.write(" :thumbsup: OK")
         else:
             st.write("Not correct. The correct day of the week was:", actual_day_of_week)
 
