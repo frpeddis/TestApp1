@@ -21,7 +21,7 @@ def generate_news(selected_date):
 
 
 # Streamlit app title
-st.title(":sunglasses: What day was it ? - Random choice")
+st.title(":sunglasses: What day was it?")
 
 # Function to calculate a random date
 def calculate_random_date():
