@@ -92,5 +92,5 @@ if check_button:
 
 # Show the amount of seconds taken
 if display_time_taken:
-    st.write("Time taken to check:", round(time_taken, 2), "seconds")
+    st.write(":hourglass: Time taken to check:", round(time_taken, 2), "seconds")
 
