@@ -1,21 +1,21 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
+import json
 import streamlit as st
-from streamlit.components.v1 import components
-
-def main():
-    st.title("Lottie Animation in Streamlit")
-
-    # Load the Lottie JSON animation
-    animation_json = open("animation.json", "r").read()
-
-    # Display the Lottie animation
-    components.html(animation_json, width=400, height=400)
-
-if __name__ == "__main__":
-    main()
-
+from streamlit_lottie import st_lottie
+  
+path = "<Provide entire Path of the downloaded JSON file>"
+with open(path,"r") as file:
+    url = json.load(file)
+  
+  
+  
+st.title("Adding Lottie Animation in Streamlit WebApp")
+  
+st_lottie(url,
+    reverse=True,
+    height=400,
+    width=400,
+    speed=1,
+    loop=True,
+    quality='high',
+    key='Car'
+)
