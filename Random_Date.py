@@ -78,7 +78,7 @@ if check_button:
         st.success(day_of_week + " OK :thumbsup:")
                 
     else:
-        st.error(" Oh nooo! the right day was :coffee:" + day_of_week )
+        st.error(" Oh nooo! the right day was :coffee:" + day_of_week)
         com.iframe("https://lottie.host/?file=380d3ff9-0c30-4a96-b25b-7eeb8868bfeb/vnvhMZFQ8j.json")
 
         
