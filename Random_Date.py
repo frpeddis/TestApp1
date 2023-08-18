@@ -76,12 +76,12 @@ if check_button:
         st.balloons()
         st.success(day_of_week + " OK :thumbsup:")
         news_summary = generate_news(selected_date)
-        st.header(":calendar: Please verify, but according to ChatGPT in that period...")
+        st.header("Please verify, but according to ChatGPT in that period...")
         st.write(news_summary)         
     else:
         st.error(day_of_week + " was the right day !")
         news_summary = generate_news(selected_date)
-        st.header(":calendar: Please verify, but according to ChatGPT in that period...")
+        st.header("Please verify, but according to ChatGPT in that period...")
         st.write(news_summary)
         
 
