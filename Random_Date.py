@@ -47,6 +47,12 @@ if 'time_taken' not in st.session_state:
 st.write("Random Date:", st.session_state.random_date.strftime("%d-%b-%Y"))
 selected_date = st.session_state.random_date.strftime("%d-%b-%Y")
 
+placeholder=st.empty()
+with placeholder:
+    for second in range(45):
+        st.markdown(second)
+        time.sleep(1)
+
 # Calculate time taken
 if not st.session_state.check_pressed:
     time_taken = (datetime.now() - st.session_state.start_time).total_seconds()
@@ -74,7 +80,7 @@ if check_button:
         st.header("Please verify, but according to ChatGPT in that period...")
         st.write(news_summary)         
     else:
-        st.error(day_of_week + " WRONG!!!")
+        st.error(day_of_week + " was the right day !")
         news_summary = generate_news(selected_date)
         st.header("Please verify, but according to ChatGPT in that period...")
         st.write(news_summary)
