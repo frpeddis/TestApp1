@@ -90,7 +90,8 @@ if check_button:
 if display_time_taken:
     st.write(":hourglass: Time taken to check:", round(time_taken, 2), "seconds")
 
-news_summary = generate_news(selected_date)
-st.header("Please verify, but according to ChatGPT in that period...")
-st.write(news_summary) 
+if st.button("To learn more..."):
+        news_summary = generate_news(selected_date)
+        st.header("Please verify, but according to ChatGPT in that period...")
+        st.write(news_summary)
 
