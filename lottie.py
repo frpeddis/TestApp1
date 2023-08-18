@@ -1,5 +1,6 @@
 import json
 import streamlit as st
+import os
 from streamlit_lottie import st_lottie
   
 path = "~/Download/animation.json"
