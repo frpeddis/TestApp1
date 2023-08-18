@@ -75,7 +75,7 @@ if check_button:
 
     if selected_day_of_week == day_of_week:
         st.balloons()
-        st.success(day_of_week + " OK :thumbsup:")
+        st.success(day_of_week + " is OK! :thumbsup:")
                 
     else:
         st.error(day_of_week + " was the right day! :coffee: Try again...")
