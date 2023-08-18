@@ -3,6 +3,7 @@ import calendar
 import streamlit as st
 from datetime import datetime, timedelta
 import openai
+import time
 
 openai.api_key = st.secrets["API_KEY"]
 
