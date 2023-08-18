@@ -4,6 +4,7 @@ import streamlit as st
 from datetime import datetime, timedelta
 import openai
 import time
+import streamlit.components.v1 as com
 
 openai.api_key = st.secrets["API_KEY"]
 
@@ -78,6 +79,8 @@ if check_button:
                 
     else:
         st.error(day_of_week + " was the right date :coffee:" )
+        com.iframe("https://lottie.host/?file=380d3ff9-0c30-4a96-b25b-7eeb8868bfeb/vnvhMZFQ8j.json")
+
         
         
 
