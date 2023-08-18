@@ -2,7 +2,7 @@ import json
 import streamlit as st
 from streamlit_lottie import st_lottie
   
-path = "<Provide entire Path of the downloaded JSON file>"
+path = "~/Download/animation.json"
 with open(path,"r") as file:
     url = json.load(file)
   
