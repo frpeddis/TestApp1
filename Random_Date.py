@@ -79,7 +79,7 @@ if check_button:
         st.header("Please verify, but according to ChatGPT in that period...")
         st.write(news_summary)         
     else:
-        st.error(day_of_week + "was the right date :coffee:" )
+        st.error(day_of_week + " was the right date :coffee:" )
         news_summary = generate_news(selected_date)
         st.header("Please verify, but according to ChatGPT in that period...")
         st.write(news_summary)
