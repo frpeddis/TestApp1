@@ -64,11 +64,7 @@ selected_day_of_week = st.selectbox("Select the day of the week:", list(calendar
 # Add a "Check" button to confirm the selection
 check_button = st.button("Check")
 
-placeholder=st.empty()
-with placeholder:
-    for second in range(45):
-        st.markdown(second)
-        time.sleep(1)
+
 
 if check_button:
     st.session_state.check_pressed = True
