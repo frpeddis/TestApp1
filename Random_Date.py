@@ -75,14 +75,10 @@ if check_button:
     if selected_day_of_week == day_of_week:
         st.balloons()
         st.success(day_of_week + " OK :thumbsup:")
-        news_summary = generate_news(selected_date)
-        st.header("Please verify, but according to ChatGPT in that period...")
-        st.write(news_summary)         
+                
     else:
         st.error(day_of_week + " was the right date :coffee:" )
-        news_summary = generate_news(selected_date)
-        st.header("Please verify, but according to ChatGPT in that period...")
-        st.write(news_summary)
+        
         
 
     # Calculate time taken to make the selection
@@ -93,4 +89,8 @@ if check_button:
 # Show the amount of seconds taken
 if display_time_taken:
     st.write(":hourglass: Time taken to check:", round(time_taken, 2), "seconds")
+
+news_summary = generate_news(selected_date)
+st.header("Please verify, but according to ChatGPT in that period...")
+st.write(news_summary) 
 
