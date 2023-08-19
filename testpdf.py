@@ -8,7 +8,7 @@ def main():
 
     # URLs of the JPG images in your GitLab repository
     image1_url = "https://github.com/frpeddis/TestApp1/blob/5aef3485bfa0d8a0ee51160aa2c6d8108aaf2bbb/MAGIC%20DAY%20CALCULATOR%20ADVENTURE%201.jpg"
-    image2_url = "https://gitlab.com/your_username/your_repository/raw/main/image2.jpg"
+    image2_url = "https://github.com/frpeddis/TestApp1/blob/cc5b547bc827972886fa017c0e8c93de399cbc64/MAGIC%20DAY%20CALCULATOR%20ADVENTURE%202.jpg"
 
     # Fetch the images from the URLs
     image1_response = requests.get(image1_url)
