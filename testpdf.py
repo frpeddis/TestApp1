@@ -1,12 +1,13 @@
 import streamlit as st
 
 def main():
-    #st.title("PDF Downloader")
+    st.title("PDF Viewer")
 
-    pdf_url = "https://github.com/frpeddis/TestApp1/raw/9a5249fa93ebbb3d724c139f48c27476c30d0cd4/MAGIC%20DAY%20CALCULATOR%20ADVENTURE.pdf"
+    pdf_url = "URL_TO_YOUR_PDF"  # Replace with the URL of your PDF
 
-   
-    st.markdown(f"[Download MAGIC DAY CALCULATOR ADVENTURE!]({pdf_url})")
+    st.write("Embedding PDF using Google Docs Viewer:")
+    st.write(f'<iframe src="https://docs.google.com/viewer?url={pdf_url}&embedded=true" width="800" height="600"></iframe>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
+
