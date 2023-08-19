@@ -3,26 +3,18 @@ import requests
 from PIL import Image
 from io import BytesIO
 
-def main():
-    st.title("Image Details Viewer")
+# Checkbox to toggle image display
+show_images = st.checkbox("Show Images")
 
-    # URLs of the JPG images in your GitLab repository
-    image1_url = "https://github.com/frpeddis/TestApp1/blob/5aef3485bfa0d8a0ee51160aa2c6d8108aaf2bbb/MAGIC%20DAY%20CALCULATOR%20ADVENTURE%201.jpg"
-    image2_url = "https://github.com/frpeddis/TestApp1/blob/cc5b547bc827972886fa017c0e8c93de399cbc64/MAGIC%20DAY%20CALCULATOR%20ADVENTURE%202.jpg"
+if show_images:
+    # First image
+    url1 = "https://raw.githubusercontent.com/frpeddis/TestApp1/8e0d72dc7d773c2061ab58791b4c7bc3fd3332ea/MAGIC%20DAY%20CALCULATOR%20ADVENTURE%201.jpg"
+    response1 = requests.get(url1)
+    img1 = Image.open(BytesIO(response1.content))
+    st.image(img1, caption='Image 1 Caption', use_column_width=True)
 
-    # Fetch the images from the URLs
-    image1_response = requests.get(image1_url)
-    image2_response = requests.get(image2_url)
-
-    if image1_response.status_code == 200 and image2_response.status_code == 200:
-        image1 = Image.open(BytesIO(image1_response.content))
-        image2 = Image.open(BytesIO(image2_response.content))
-
-        st.image(image1, caption="Image 1", use_column_width=True)
-        st.image(image2, caption="Image 2", use_column_width=True)
-
-        if st.checkbox("Expand for Details"):
-            st.write("Details about the selected part will be displayed here.")
-
-if _name_ == "_main_":
-    main()
+    # Second image
+    url2 = "https://raw.githubusercontent.com/frpeddis/TestApp1/7f1918029c103ff0eaf318cb1e692a688f94fdbd/MAGIC%20DAY%20CALCULATOR%20ADVENTURE%202.jpg"
+    response2 = requests.get(url2)
+    img2 = Image.open(BytesIO(response2.content))
+    st.image(img2, caption='Image 2 Caption', use_column_width=True)
