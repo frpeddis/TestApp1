@@ -80,8 +80,8 @@ if check_button:
     else:
         st.error(day_of_week + " was the right day! :coffee: Try again...")
         com.iframe("https://lottie.host/?file=380d3ff9-0c30-4a96-b25b-7eeb8868bfeb/vnvhMZFQ8j.json")
-        pdf_url = "https://github.com/frpeddis/TestApp1/raw/9a5249fa93ebbb3d724c139f48c27476c30d0cd4/MAGIC%20DAY%20CALCULATOR%20ADVENTURE.pdf"
-        st.markdown(f"[Download MAGIC DAY CALCULATOR ADVENTURE!]({pdf_url})")
+        #pdf_url = "https://github.com/frpeddis/TestApp1/raw/9a5249fa93ebbb3d724c139f48c27476c30d0cd4/MAGIC%20DAY%20CALCULATOR%20ADVENTURE.pdf"
+        #st.markdown(f"[Download MAGIC DAY CALCULATOR ADVENTURE!]({pdf_url})")
 
 
 
