@@ -1,12 +1,28 @@
 import streamlit as st
+import requests
+from PIL import Image
+from io import BytesIO
 
 def main():
-    st.title("PDF Viewer")
+    st.title("Image Details Viewer")
 
-    pdf_url = "https://github.com/frpeddis/TestApp1/raw/ad57d944ad9141a2b973d60bf7f0230dbb8c3b32/MAGIC%20DAY%20CALCULATOR%20ADVENTURE.pdf"
+    # URLs of the JPG images in your GitLab repository
+    image1_url = "https://gitlab.com/your_username/your_repository/raw/main/image1.jpg"
+    image2_url = "https://gitlab.com/your_username/your_repository/raw/main/image2.jpg"
 
-    st.write("Embedding PDF using iframe:")
-    st.write(f'<iframe src="{pdf_url}" width="800" height="600"></iframe>', unsafe_allow_html=True)
+    # Fetch the images from the URLs
+    image1_response = requests.get(image1_url)
+    image2_response = requests.get(image2_url)
 
-if __name__ == "__main__":
+    if image1_response.status_code == 200 and image2_response.status_code == 200:
+        image1 = Image.open(BytesIO(image1_response.content))
+        image2 = Image.open(BytesIO(image2_response.content))
+
+        st.image(image1, caption="Image 1", use_column_width=True)
+        st.image(image2, caption="Image 2", use_column_width=True)
+
+        if st.checkbox("Expand for Details"):
+            st.write("Details about the selected part will be displayed here.")
+
+if _name_ == "_main_":
     main()
