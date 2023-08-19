@@ -5,9 +5,8 @@ def main():
 
     pdf_url = "URL_TO_YOUR_PDF"  # Replace with the URL of your PDF
 
-    st.write("Embedding PDF using Google Docs Viewer:")
-    st.write(f'<iframe src="https://docs.google.com/viewer?url={pdf_url}&embedded=true" width="800" height="600"></iframe>', unsafe_allow_html=True)
+    st.write("Embedding PDF using iframe:")
+    st.write(f'<iframe src="{pdf_url}" width="800" height="600"></iframe>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
-
