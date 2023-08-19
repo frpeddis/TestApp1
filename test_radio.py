@@ -13,4 +13,4 @@ st.image(img1, use_column_width=True)
 url2 = "https://raw.githubusercontent.com/frpeddis/TestApp1/7f1918029c103ff0eaf318cb1e692a688f94fdbd/MAGIC%20DAY%20CALCULATOR%20ADVENTURE%202.jpg"
 response2 = requests.get(url2)
 img2 = Image.open(BytesIO(response2.content))
-st.image(img2, caption='Image 2 Caption', use_column_width=True)
+st.image(img2, use_column_width=True)
