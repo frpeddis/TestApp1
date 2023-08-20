@@ -11,19 +11,6 @@ from io import BytesIO
 
 
 # Checkbox to toggle image display
-show_images = st.checkbox("Show me how to calculate !")
-
-if show_images:
-    image_links = [
-        "https://raw.githubusercontent.com/frpeddis/TestApp1/1ce97d47cedac010c814496ef6e34773a748cff6/MAGIC%20DAY%20CALCULATOR_1.jpeg",
-        "https://raw.githubusercontent.com/frpeddis/TestApp1/1ce97d47cedac010c814496ef6e34773a748cff6/MAGIC%20DAY%20CALCULATOR_2.jpeg",
-        "https://raw.githubusercontent.com/frpeddis/TestApp1/1ce97d47cedac010c814496ef6e34773a748cff6/MAGIC%20DAY%20CALCULATOR_3.jpeg",
-        "https://raw.githubusercontent.com/frpeddis/TestApp1/1ce97d47cedac010c814496ef6e34773a748cff6/MAGIC%20DAY%20CALCULATOR_4.jpeg"    ]
-    
-    for i, link in enumerate(image_links):
-        response = requests.get(link)
-        img = Image.open(BytesIO(response.content))
-        st.image(img, use_column_width=True)
 
 openai.api_key = st.secrets["API_KEY"]
 
@@ -43,6 +30,20 @@ def generate_news(selected_date):
 
 # Streamlit app title
 st.title(":sunglasses: What day was it?")
+show_images = st.checkbox("Show me how to calculate !")
+
+if show_images:
+    image_links = [
+        "https://raw.githubusercontent.com/frpeddis/TestApp1/1ce97d47cedac010c814496ef6e34773a748cff6/MAGIC%20DAY%20CALCULATOR_1.jpeg",
+        "https://raw.githubusercontent.com/frpeddis/TestApp1/1ce97d47cedac010c814496ef6e34773a748cff6/MAGIC%20DAY%20CALCULATOR_2.jpeg",
+        "https://raw.githubusercontent.com/frpeddis/TestApp1/1ce97d47cedac010c814496ef6e34773a748cff6/MAGIC%20DAY%20CALCULATOR_3.jpeg",
+        "https://raw.githubusercontent.com/frpeddis/TestApp1/1ce97d47cedac010c814496ef6e34773a748cff6/MAGIC%20DAY%20CALCULATOR_4.jpeg"    ]
+    
+    for i, link in enumerate(image_links):
+        response = requests.get(link)
+        img = Image.open(BytesIO(response.content))
+        st.image(img, use_column_width=True)
+
 
 # Function to calculate a random date
 def calculate_random_date():
