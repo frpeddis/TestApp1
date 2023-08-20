@@ -19,6 +19,14 @@ if selected_date:
     st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
     subtotal = year_last_2_digits + year_divided_by_4
     st.write("    Subtotal after year division:", subtotal)
+    
+    # Display Century Correction Table
+    century_correction_table = {
+        "Century": [1500, 1600, 1700, 1800, 1900, 2000],
+        "Correction": [0, 6, 4, 2, 0, -1]
+    }
+    st.write("    Century Correction Table:")
+    st.table(century_correction_table)
 
     # Step 4: Add the "Century Correction"
     century_correction = {
@@ -29,18 +37,17 @@ if selected_date:
     st.write("Step 4: Century Correction value:", century_correction_value)
     subtotal += century_correction_value
     st.write("    Subtotal after century correction:", subtotal)
-    
-    # Display Century Correction Table
-    st.write("    Century Correction Table:")
-    st.table(century_correction)
 
     # Step 5: Add the "Month Coefficient"
     month_coefficients = {
-        1: 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
-        2: 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
-        3: 4, 4: 0, 5: 2, 6: 5, 7: 0, 8: 3, 9: 6, 10: 1, 11: 4, 12: 6
+        "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
+        "February": 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
+        "March": 4, "April": 0, "May": 2, "June": 5,
+        "July": 0, "August": 3, "September": 6,
+        "October": 1, "November": 4, "December": 6
     }
-    month_coefficient = month_coefficients[selected_date.month]
+    month = selected_date.strftime("%B")
+    month_coefficient = month_coefficients[month]
     st.write("Step 5: Month Coefficient value:", month_coefficient)
     subtotal += month_coefficient
     st.write("    Subtotal after month coefficient:", subtotal)
@@ -58,20 +65,22 @@ if selected_date:
     # Step 7: Divide the subtotal by 7 and find the remainder
     remainder = subtotal % 7
     st.write("Step 7: Remainder after dividing by 7:", remainder)
-
-    # Step 8: Find the day of the week
-    days_of_week = [
-        "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
-    ]
-    day_of_week = days_of_week[remainder]
-    st.write("Step 8: Calculated Day of the Week:", day_of_week)
     
     # Display Correspondence Table
     correspondence_table = {
         "Remainder": list(range(7)),
         "Day of the Week": days_of_week
     }
+    
+    # Step 8: Find the day of the week
+    days_of_week = [
+        "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+    ]
+    day_of_week = days_of_week[remainder]
+    st.write("Step 8: Calculated Day of the Week:", day_of_week)
+
     st.write("Correspondence between Remainders and Days of the Week:")
     st.table(correspondence_table)
+
 
 
