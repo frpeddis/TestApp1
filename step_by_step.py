@@ -102,34 +102,12 @@ if check_button:
                 
     else:
         st.error(day_of_week + " is the right day! :coffee: Try again...")
-        com.iframe("https://lottie.host/?file=380d3ff9-0c30-4a96-b25b-7eeb8868bfeb/vnvhMZFQ8j.json")
-        
-    
-        #pdf_url = "https://github.com/frpeddis/TestApp1/raw/9a5249fa93ebbb3d724c139f48c27476c30d0cd4/MAGIC%20DAY%20CALCULATOR%20ADVENTURE.pdf"
-        #st.markdown(f"[Download MAGIC DAY CALCULATOR ADVENTURE!]({pdf_url})")
-
-
-
-        
-        
+        com.iframe("https://lottie.host/?file=380d3ff9-0c30-4a96-b25b-7eeb8868bfeb/vnvhMZFQ8j.json")  
 
     # Calculate time taken to make the selection
     st.session_state.time_taken = (datetime.now() - st.session_state.start_time).total_seconds()
     time_taken = st.session_state.time_taken
     display_time_taken = True
-
-# Show the amount of seconds taken
-if display_time_taken:
-    st.write(":hourglass: Time taken to check:", round(time_taken, 2), "seconds")
-
-    if st.button("In that period..."):
-            news_summary = generate_news(selected_date)
-            st.header("Please verify, but according to ChatGPT in that period... ")
-            st.write(news_summary)
-
-###################
-
-import streamlit as st
 
 def calculate_day_of_week(selected_date):
     # Step 1: Use selected_date variable as a starting point
@@ -218,6 +196,22 @@ selected_date = st.date_input("Select a date")
 if selected_date:
     day_of_week = calculate_day_of_week(selected_date)
     st.write(f"The day of the week for {selected_date.strftime('%B %d, %Y')} is {day_of_week}")
+
+
+
+
+
+
+# Show the amount of seconds taken
+if display_time_taken:
+    st.write(":hourglass: Time taken to check:", round(time_taken, 2), "seconds")
+
+    if st.button("In that period..."):
+            news_summary = generate_news(selected_date)
+            st.header("Please verify, but according to ChatGPT in that period... ")
+            st.write(news_summary)
+
+###################
 
 
 
