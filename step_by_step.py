@@ -15,6 +15,7 @@ def calculate_random_date():
 # Check if random_date and start_time are in session state, if not, calculate and store them
 if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
+    selected_date = st.session_state.random_date
 
 if 'start_time' not in st.session_state:
     st.session_state.start_time = datetime.now()
