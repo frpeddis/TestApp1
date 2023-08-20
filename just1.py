@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import datetime
 
 # Streamlit app title
-st.title("FP Calculate Day of the Week")
+st.title("Calculate Day of the Week")
 
 # Step 1: User selects a date
 selected_date = st.date_input("Step 1: Select a date")
@@ -16,8 +16,9 @@ if selected_date:
 
     # Step 3: Divide the year number by 4 and add it
     year_divided_by_4 = year_last_2_digits // 4
+    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
     subtotal = year_last_2_digits + year_divided_by_4
-    st.write("Step 3: Subtotal after year division:", subtotal)
+    st.write("    Subtotal after year division:", subtotal)
 
     # Step 4: Add the "Century Correction"
     century_correction = {
@@ -25,8 +26,9 @@ if selected_date:
     }
     century = (selected_date.year // 100) * 100
     century_correction_value = century_correction.get(century, 0)
+    st.write("Step 4: Century Correction value:", century_correction_value)
     subtotal += century_correction_value
-    st.write("Step 4: Subtotal after century correction:", subtotal)
+    st.write("    Subtotal after century correction:", subtotal)
 
     # Step 5: Add the "Month Coefficient"
     month_coefficients = {
@@ -35,13 +37,15 @@ if selected_date:
         3: 4, 4: 0, 5: 2, 6: 5, 7: 0, 8: 3, 9: 6, 10: 1, 11: 4, 12: 6
     }
     month_coefficient = month_coefficients[selected_date.month]
+    st.write("Step 5: Month Coefficient value:", month_coefficient)
     subtotal += month_coefficient
-    st.write("Step 5: Subtotal after month coefficient:", subtotal)
+    st.write("    Subtotal after month coefficient:", subtotal)
 
     # Step 6: Add the day of the month
     day_of_month = selected_date.day
+    st.write("Step 6: Day of the month:", day_of_month)
     subtotal += day_of_month
-    st.write("Step 6: Subtotal after adding day of the month:", subtotal)
+    st.write("    Subtotal after adding day of the month:", subtotal)
 
     # Step 7: Divide the subtotal by 7 and find the remainder
     remainder = subtotal % 7
