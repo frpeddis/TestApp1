@@ -11,7 +11,7 @@ from io import BytesIO
 
 
 # Checkbox to toggle image display
-show_images = st.checkbox("Show me how to calculate")
+show_images = st.checkbox("Show me how to calculate !")
 
 if show_images:
     image_links = [
