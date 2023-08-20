@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import datetime
 
 # Streamlit app title
-st.title("Calculate Day of the Week")
+st.title("FP Calculate Day of the Week")
 
 # Step 1: User selects a date
 selected_date = st.date_input("Step 1: Select a date")
