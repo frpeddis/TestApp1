@@ -58,12 +58,12 @@ if show_calculation:
 
 # Rest of your code...
 
-openai.api_key = st.secrets["API_KEY"]
+#openai.api_key = st.secrets["API_KEY"]
 
 # Function to generate news based on the selected date
-def generate_news(selected_date):
+#def generate_news(selected_date):
     # Your news generation logic here...
-    pass
+ #   pass
 
 # Rest of your code for displaying images and getting user inputs...
 
