@@ -192,7 +192,7 @@ def calculate_day_of_week(selected_date):
 
 st.title("Day of the Week Calculator")
 
-selected_date = st.date_input("Select a date")
+#selected_date = st.date_input("Select a date")
 if selected_date:
     day_of_week = calculate_day_of_week(selected_date)
     st.write(f"The day of the week for {selected_date.strftime('%B %d, %Y')} is {day_of_week}")
