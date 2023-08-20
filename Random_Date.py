@@ -66,8 +66,10 @@ if 'time_taken' not in st.session_state:
     st.session_state.time_taken = 0
 
 # Display the date in the format dd-mmm-yyyy
-st.write("**Random Date:**", st.session_state.random_date.strftime("%d-%b-%Y"))
-#st.markdown(f"**Random Date:** {st.session_state.random_date.strftime('%d-%b-%Y')}")
+description = "**Random Date:**"
+value = "**" + st.session_state.random_date.strftime("%d-%b-%Y") + "**"
+st.markdown(f"{description} {value}")
+#st.write("**Random Date:**", st.session_state.random_date.strftime("%d-%b-%Y"))
 selected_date = st.session_state.random_date.strftime("%d-%b-%Y")
 #com.iframe("https://lottie.host/?file=380d3ff9-0c30-4a96-b25b-7eeb8868bfeb/vnvhMZFQ8j.json")
 
