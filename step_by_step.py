@@ -56,7 +56,7 @@ if check_button:
 # Step 1: User selects a date
 selected_date = st.session_state.random_date
 
-if selected_date:
+if sselected_date = st.session_state.random_date
     st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
 
     # Step 2: Take the last 2 digits of the year
