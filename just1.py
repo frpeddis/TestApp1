@@ -26,11 +26,12 @@ if selected_date:
         "Correction": [0, 6, 4, 2, 0, -1]
     }
     st.write("Step 4: Century Correction Table:")
-    formatted_century_correction_table = [
-        ["Century", "Correction"],
-        *[[f"**{century}**", f"**{correction}**"] if century == (selected_date.year // 100) * 100 else [century, correction]
-          for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"])]
-    ]
+    formatted_century_correction_table = []
+    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
+        if century == (selected_date.year // 100) * 100:
+            formatted_century_correction_table.append(["**" + str(century) + "**", "**" + str(correction) + "**"])
+        else:
+            formatted_century_correction_table.append([str(century), str(correction)])
     st.table(formatted_century_correction_table)
 
     # Step 4: Add the "Century Correction"
@@ -56,11 +57,12 @@ if selected_date:
 
     # Display Month Coefficient Table
     st.write("Step 5: Month Coefficient Table:")
-    formatted_month_coefficients_table = [
-        ["Month", "Coefficient"],
-        *[[f"**{month}**", f"**{coeff}**"] if month == selected_date.strftime("%B") else [month, coeff]
-          for month, coeff in month_coefficients.items()]
-    ]
+    formatted_month_coefficients_table = []
+    for month, coeff in month_coefficients.items():
+        if month == selected_date.strftime("%B"):
+            formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
+        else:
+            formatted_month_coefficients_table.append([month, str(coeff)])
     st.table(formatted_month_coefficients_table)
 
     # Step 6: Add the day of the month
@@ -79,9 +81,10 @@ if selected_date:
         "Remainder": list(range(7)),
         "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     }
-    formatted_correspondence_table = [
-        ["Remainder", "Day of the Week"],
-        *[[f"**{remainder}**", f"**{day}**"] if remainder == remainder else [remainder, day]
-          for remainder, day in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"])]
-    ]
+    formatted_correspondence_table = []
+    for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
+        if r == remainder:
+            formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
+        else:
+            formatted_correspondence_table.append([str(r), d])
     st.table(formatted_correspondence_table)
