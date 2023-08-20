@@ -43,7 +43,7 @@ if check_button:
 
 ###
 # Step 1: User selects a date
-selected_date = st.date_input("Step 1: Select a date")
+selected_date = st.session_state.random_date
 
 if selected_date:
     st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
