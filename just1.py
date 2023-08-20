@@ -66,21 +66,17 @@ if selected_date:
     remainder = subtotal % 7
     st.write("Step 7: Remainder after dividing by 7:", remainder)
     
-    # Display Correspondence Table
-    correspondence_table = {
-        "Remainder": list(range(7)),
-        "Day of the Week": days_of_week
-    }
-    
     # Step 8: Find the day of the week
     days_of_week = [
         "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
     ]
     day_of_week = days_of_week[remainder]
     st.write("Step 8: Calculated Day of the Week:", day_of_week)
-
+    
+    # Display Correspondence Table
+    correspondence_table = {
+        "Remainder": list(range(7)),
+        "Day of the Week": days_of_week
+    }
     st.write("Correspondence between Remainders and Days of the Week:")
     st.table(correspondence_table)
-
-
-
