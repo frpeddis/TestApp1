@@ -53,7 +53,6 @@ if check_button:
     else:
         st.error(day_of_week + " WRONG!!!")
                
-        if selected_date:
             st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
         
             # Step 2: Take the last 2 digits of the year
