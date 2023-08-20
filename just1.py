@@ -18,7 +18,7 @@ if selected_date:
     year_divided_by_4 = year_last_2_digits // 4
     st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
     subtotal = year_last_2_digits + year_divided_by_4
-    st.write("    Subtotal after year division:", subtotal)
+    st.write("    Sum of the above:", subtotal)
 
     # Step 4: Add the "Century Correction"
     century_correction = {
@@ -28,7 +28,7 @@ if selected_date:
     century_correction_value = century_correction.get(century, 0)
     st.write("Step 4: Century Correction value:", century_correction_value)
     subtotal += century_correction_value
-    st.write("    Subtotal after century correction:", subtotal)
+    st.write("    Sum of the above:", subtotal)
 
     # Step 5: Add the "Month Coefficient"
     month_coefficients = {
@@ -39,13 +39,13 @@ if selected_date:
     month_coefficient = month_coefficients[selected_date.month]
     st.write("Step 5: Month Coefficient value:", month_coefficient)
     subtotal += month_coefficient
-    st.write("    Subtotal after month coefficient:", subtotal)
+    st.write("    Sum of the above:", subtotal)
 
     # Step 6: Add the day of the month
     day_of_month = selected_date.day
     st.write("Step 6: Day of the month:", day_of_month)
     subtotal += day_of_month
-    st.write("    Subtotal after adding day of the month:", subtotal)
+    st.write("    Sum of the above:", subtotal)
 
     # Step 7: Divide the subtotal by 7 and find the remainder
     remainder = subtotal % 7
