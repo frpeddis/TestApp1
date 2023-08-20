@@ -18,7 +18,7 @@ if show_images:
         "https://raw.githubusercontent.com/frpeddis/TestApp1/712049d40da877b81ab0eaa7bb8387cf532dfe55/MAGIC%20DAY%20CALCULATOR%20ADVENTURE_1.jpg",
         "https://raw.githubusercontent.com/frpeddis/TestApp1/712049d40da877b81ab0eaa7bb8387cf532dfe55/MAGIC%20DAY%20CALCULATOR%20ADVENTURE_2.jpg",
         "https://raw.githubusercontent.com/frpeddis/TestApp1/712049d40da877b81ab0eaa7bb8387cf532dfe55/MAGIC%20DAY%20CALCULATOR%20ADVENTURE_3.jpg",
-        #"https://raw.githubusercontent.com/frpeddis/TestApp1/712049d40da877b81ab0eaa7bb8387cf532dfe55/MAGIC%20DAY%20CALCULATOR%20ADVENTURE_4%20(1).jpg"
+        "https://raw.githubusercontent.com/frpeddis/TestApp1/712049d40da877b81ab0eaa7bb8387cf532dfe55/MAGIC%20DAY%20CALCULATOR%20ADVENTURE_4.jpg"
     ]
     
     for i, link in enumerate(image_links):
