@@ -109,7 +109,9 @@ if check_button:
     time_taken = st.session_state.time_taken
     display_time_taken = True
 
-def calculate_day_of_week(selected_date):
+def calculate_day_of_week():
+    selected_date = st.session_state.random_date
+
     # Step 1: Use selected_date variable as a starting point
     st.write(f"Step 1: Starting with the selected date: {selected_date.strftime('%B %d, %Y')}")
 
@@ -192,14 +194,17 @@ def calculate_day_of_week(selected_date):
 
 st.title("Day of the Week Calculator")
 
-#selected_date = st.date_input("Select a date")
-if selected_date:
-    day_of_week = calculate_day_of_week(selected_date)
-    st.write(f"The day of the week for {selected_date.strftime('%B %d, %Y')} is {day_of_week}")
+if 'random_date' not in st.session_state:
+    st.session_state.random_date = None
 
+random_date = st.date_input("Select a date", st.session_state.random_date)
+if random_date:
+    st.session_state.random_date = random_date
 
-
-
+calculate_button = st.button("Calculate")
+if calculate_button and st.session_state.random_date:
+    day_of_week = calculate_day_of_week()
+    st.write(f"The day of the week for {st.session_state.random_date.strftime('%B %d, %Y')} is {day_of_week}")
 
 
 # Show the amount of seconds taken
