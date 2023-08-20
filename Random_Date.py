@@ -15,7 +15,7 @@ from io import BytesIO
 openai.api_key = st.secrets["API_KEY"]
 
 def generate_news(selected_date):
-    prompt = f"What happened on {selected_date}?\nGive me a good news simply with an initial 😄, a neutral news simply with an initial 😐, and a bad news simply with an initial 😔. Do not mention if it is good, neutral or bad news, just use the icons. Do not mention any date in your answer. jump a line forevery news. Insert related Wikipedia links."
+    prompt = f"What happens on {selected_date}?\nGive me a good news simply with an initial 😄, a neutral news simply with an initial 😐, and a bad news simply with an initial 😔. Do not mention if it is good, neutral or bad news, just use the icons. Do not mention any date in your answer. jump a line forevery news. Insert related Wikipedia links."
 
     response = openai.Completion.create(
         engine="text-davinci-003",
@@ -29,7 +29,7 @@ def generate_news(selected_date):
 
 
 # Streamlit app title
-st.title(":sunglasses: What day was it?")
+st.title(":sunglasses: What day is it?")
 show_images = st.checkbox("Show me how to calculate !")
 
 if show_images:
@@ -98,7 +98,7 @@ if check_button:
         st.success(day_of_week + " is OK! :thumbsup:")
                 
     else:
-        st.error(day_of_week + " was the right day! :coffee: Try again...")
+        st.error(day_of_week + " is the right day! :coffee: Try again...")
         com.iframe("https://lottie.host/?file=380d3ff9-0c30-4a96-b25b-7eeb8868bfeb/vnvhMZFQ8j.json")
         
     
