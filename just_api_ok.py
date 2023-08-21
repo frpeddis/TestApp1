@@ -67,7 +67,7 @@ if display_time_taken:
 selected_date = st.session_state.random_date
 
 if selected_date:
-    st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
+    st.write("Date:", selected_date.strftime("%d-%b-%Y"))
 
     # Step 2: Take the last 2 digits of the year
     year_last_2_digits = selected_date.year % 100
@@ -106,24 +106,9 @@ if selected_date:
 
     # Display calculated string
     calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
-    st.write("Sum: ", calculated_string, " = ", subtotal)
+    st.write("Magic Sum: ", calculated_string, " = ", subtotal)
 
-    # Display Century Correction Table
-    st.write("Step 4: Century Correction Table:")
-    century_correction_table = {
-        "Century": [1500, 1600, 1700, 1800, 1900, 2000],
-        "Correction": [0, 6, 4, 2, 0, -1]
-    }
-    formatted_century_correction_table = []
-    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
-        if century == (selected_date.year // 100) * 100:
-            formatted_century_correction_table.append(["**" + str(century) + "**", "**" + str(correction) + "**"])
-        else:
-            formatted_century_correction_table.append([str(century), str(correction)])
-    df_century_correction = pd.DataFrame(formatted_century_correction_table, columns=["Century", "Correction"])
-    st.write("Century Correction Table:")
-    st.dataframe(df_century_correction)
-
+    
     # Step 2: Take the last 2 digits of the year (continued)
     st.write("Step 2: Last 2 digits of the year:", year_last_2_digits)
 
@@ -180,3 +165,19 @@ if selected_date:
     df_correspondence = pd.DataFrame(formatted_correspondence_table, columns=["Reminder", "Day of the week"])
     st.write("Correspondence between Remainders and Days of the Week Table:")
     st.dataframe(df_correspondence)
+    
+# Display Century Correction Table
+    #st.write("Century Correction")
+    century_correction_table = {
+        "Century": [1500, 1600, 1700, 1800, 1900, 2000],
+        "Correction": [0, 6, 4, 2, 0, -1]
+    }
+    formatted_century_correction_table = []
+    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
+        if century == (selected_date.year // 100) * 100:
+            formatted_century_correction_table.append(["**" + str(century) + "**", "**" + str(correction) + "**"])
+        else:
+            formatted_century_correction_table.append([str(century), str(correction)])
+    df_century_correction = pd.DataFrame(formatted_century_correction_table, columns=["Century", "Correction"])
+    st.write("Century Correction Table:")
+    st.dataframe(df_century_correction)
