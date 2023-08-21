@@ -136,7 +136,7 @@ if selected_date:
     st.write("Remainder after dividing the Magic Sum ", subtotal, " by 7:", remainder)
 
      # Display Correspondence Table
-    st.write("Correspondence between Remainders and Days of the Week:")
+    st.write("Remainders and Days of the Week:")
     correspondence_table = {
         "Remainder": list(range(7)),
         "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
