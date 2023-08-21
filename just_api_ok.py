@@ -156,7 +156,7 @@ if selected_date:
         else:
             formatted_century_correction_table.append([str(century), str(correction)])
     df_century_correction = pd.DataFrame(formatted_century_correction_table, columns=["Century", "Correction"])
-    st.write("Century Correction Table:")
+    #st.write("Century Correction Table:")
     st.dataframe(df_century_correction)
 
     
@@ -176,7 +176,7 @@ if selected_date:
         else:
             formatted_month_coefficients_table.append([month, str(coeff)])
     df_month_coefficients = pd.DataFrame(formatted_month_coefficients_table, columns=["Month", "Value"])
-    st.write("Month Coefficient Table:")
+    #st.write("Month Coefficient Table:")
     st.dataframe(df_month_coefficients)
 
   
