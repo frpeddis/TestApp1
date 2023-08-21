@@ -74,7 +74,7 @@ selected_date = st.session_state.random_date
 ###
 
 if selected_date:
-    st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
+    st.write("Date:", selected_date.strftime("%d-%b-%Y"))
 
     # Step 2: Take the last 2 digits of the year
     year_last_2_digits = selected_date.year % 100
@@ -113,8 +113,29 @@ if selected_date:
 
     # Display calculated string
     calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
-    st.write("Calculated string: ", calculated_string)
+    st.write("Magic Sum: ", calculated_string)
 
+    
+    # Step 2: Take the last 2 digits of the year (continued)
+    st.write("Last 2 digits of the year:", year_last_2_digits)
+
+    # Step 3: Divide the year number by 4 and add it (continued)
+    st.write("Integer part of year divided by 4:", year_divided_by_4)
+ 
+    # Step 4: Add the "Century Correction" (continued)
+    st.write("Century Correction:", century_correction_value)
+    #st.write("    Subtotal after century correction:", subtotal)
+
+    # Step 5: Add the "Month Coefficient" (continued)
+    st.write("Month Coefficient:", month_coefficient)
+
+    # Step 6: Add the day of the month (continued)
+    st.write("Day of the month:", day_of_month)
+    
+    # Step 7: Divide the subtotal by 7 and find the remainder (continued)
+    st.write("Remainder after dividing by 7:", remainder)
+
+    
     # Display Century Correction Table
     st.write("Step 4: Century Correction Table:")
     formatted_century_correction_table = []
@@ -125,21 +146,8 @@ if selected_date:
             formatted_century_correction_table.append([str(century), correction])
     st.table(formatted_century_correction_table)
 
-    # Step 2: Take the last 2 digits of the year (continued)
-    st.write("Step 2: Last 2 digits of the year:", year_last_2_digits)
-
-    # Step 3: Divide the year number by 4 and add it (continued)
-    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
-    st.write("    Subtotal after year division:", subtotal)
-
-    # Step 4: Add the "Century Correction" (continued)
-    st.write("Step 4: Century Correction value:", century_correction_value)
-    st.write("    Subtotal after century correction:", subtotal)
-
-    # Step 5: Add the "Month Coefficient" (continued)
-    st.write("Step 5: Month Coefficient value:", month_coefficient)
-    st.write("    Subtotal after month coefficient:", subtotal)
-
+    
+    
     # Display Month Coefficient Table (continued)
     st.write("Step 5: Month Coefficient Table:")
     formatted_month_coefficients_table = []
@@ -150,13 +158,9 @@ if selected_date:
             formatted_month_coefficients_table.append([month, str(coeff)])
     st.table(formatted_month_coefficients_table)
 
-    # Step 6: Add the day of the month (continued)
-    st.write("Step 6: Day of the month:", day_of_month)
-    st.write("    Subtotal after adding day of the month:", subtotal)
-
-    # Step 7: Divide the subtotal by 7 and find the remainder (continued)
-    st.write("Step 7: Remainder after dividing by 7:", remainder)
-
+    
+    
+    
     # Display Correspondence Table
     st.write("Correspondence between Remainders and Days of the Week:")
     correspondence_table = {
