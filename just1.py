@@ -19,24 +19,23 @@ if selected_date:
     st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
     subtotal = year_last_2_digits + year_divided_by_4
     st.write("    Subtotal after year division:", subtotal)
-
+    
     # Display Century Correction Table
     century_correction_table = {
         "Century": [1500, 1600, 1700, 1800, 1900, 2000],
         "Correction": [0, 6, 4, 2, 0, -1]
     }
-    st.write("Step 4: Century Correction Table:")
-    formatted_century_correction_table = []
-    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
-        if century == (selected_date.year // 100) * 100:
-            formatted_century_correction_table.append(["**" + str(century) + "**", "**" + str(correction) + "**"])
-        else:
-            formatted_century_correction_table.append([str(century), str(correction)])
-    st.table(formatted_century_correction_table)
+    st.write("    Century Correction Table:")
+    highlighted_century_correction = {str(century): f"<font color='red'>{correction}</font>" 
+                                      for century, correction in century_correction_table.items()}
+    st.table([highlighted_century_correction])
 
     # Step 4: Add the "Century Correction"
+    century_correction = {
+        1500: 0, 1600: 6, 1700: 4, 1800: 2, 1900: 0, 2000: -1
+    }
     century = (selected_date.year // 100) * 100
-    century_correction_value = century_correction_table["Correction"][century_correction_table["Century"].index(century)]
+    century_correction_value = century_correction.get(century, 0)
     st.write("Step 4: Century Correction value:", century_correction_value)
     subtotal += century_correction_value
     st.write("    Subtotal after century correction:", subtotal)
@@ -54,16 +53,12 @@ if selected_date:
     st.write("Step 5: Month Coefficient value:", month_coefficient)
     subtotal += month_coefficient
     st.write("    Subtotal after month coefficient:", subtotal)
-
+    
     # Display Month Coefficient Table
-    st.write("Step 5: Month Coefficient Table:")
-    formatted_month_coefficients_table = []
-    for month, coeff in month_coefficients.items():
-        if month == selected_date.strftime("%B"):
-            formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
-        else:
-            formatted_month_coefficients_table.append([month, str(coeff)])
-    st.table(formatted_month_coefficients_table)
+    st.write("    Month Coefficient Table:")
+    highlighted_month_coefficients = {month: f"<font color='red'>{coeff}</font>" 
+                                     for month, coeff in month_coefficients.items()}
+    st.table([highlighted_month_coefficients])
 
     # Step 6: Add the day of the month
     day_of_month = selected_date.day
@@ -74,17 +69,12 @@ if selected_date:
     # Step 7: Divide the subtotal by 7 and find the remainder
     remainder = subtotal % 7
     st.write("Step 7: Remainder after dividing by 7:", remainder)
-
+    
     # Display Correspondence Table
-    st.write("Correspondence between Remainders and Days of the Week:")
     correspondence_table = {
         "Remainder": list(range(7)),
         "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     }
-    formatted_correspondence_table = []
-    for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
-        if r == remainder:
-            formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
-        else:
-            formatted_correspondence_table.append([str(r), d])
-    st.table(formatted_correspondence_table)
+    st.write("Correspondence between Remainders and Days of the Week:")
+    st.table(correspondence_table)
+
