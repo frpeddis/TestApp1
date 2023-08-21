@@ -169,22 +169,6 @@ if check_button:
             st.write("Remainder after dividing ", subtotal, "  by 7:", remainder)
             
                         
-        # Display Correspondence Table
-            #st.write("Correspondence between Remainders and Days of the Week Table:")
-            correspondence_table = {
-                "Remainder": list(range(7)),
-                "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-            }
-            formatted_correspondence_table = []
-            for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
-                if r == remainder:
-                    formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
-                else:
-                    formatted_correspondence_table.append([str(r), d])
-            df_correspondence = pd.DataFrame(formatted_correspondence_table, columns=["Reminder", "Day of the week"])
-            st.write("Remainders and Days of the Week:")
-            st.dataframe(df_correspondence)
-            
             # Display Century Correction Table
             st.write("Century Correction")
             century_correction_table = {
