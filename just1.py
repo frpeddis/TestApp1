@@ -126,7 +126,7 @@ if selected_date:
     st.write(day_of_month, ": Day of the month")
     
     # Step 7: Divide the subtotal by 7 and find the remainder (continued)
-    st.title("Remainder after dividing ", subtotal, "  by 7:", remainder)
+    st.write("Remainder after dividing ", subtotal, "  by 7:", remainder)
     
     # Display Correspondence Table
     #st.write("Correspondence between Remainders and Days of the Week Table:")
@@ -179,6 +179,3 @@ if selected_date:
     df_month_coefficients = pd.DataFrame(formatted_month_coefficients_table, columns=["Month", "Value"])
     #st.write("Month Coefficient Table:")
     st.dataframe(df_month_coefficients)
-
-  
-    
