@@ -73,15 +73,6 @@ selected_date = st.session_state.random_date
 
 ###
 
-import streamlit as st
-from datetime import datetime
-
-# Streamlit app title
-st.title("Calculate Day of the Week")
-
-# Step 1: User selects a date
-selected_date = st.date_input("Step 1: Select a date")
-
 if selected_date:
     st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
 
