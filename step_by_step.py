@@ -113,7 +113,7 @@ if selected_date:
 
     # Display calculated string
     calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
-    st.write("Calculated string:", calculated_string)
+    st.write("Calculated string: ", calculated_string)
 
     # Display Century Correction Table
     st.write("Step 4: Century Correction Table:")
