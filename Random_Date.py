@@ -107,7 +107,7 @@ if check_button:
         selected_date = st.session_state.random_date
         
         if selected_date:
-            st.write("Date:", selected_date.strftime("%d-%b-%Y"))
+            st.write("That's why: consider the date:", selected_date.strftime("%d-%b-%Y"))
         
             # Step 2: Take the last 2 digits of the year
             year_last_2_digits = selected_date.year % 100
@@ -146,7 +146,7 @@ if check_button:
         
             # Display calculated string
             calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
-            st.write("Magic Sum: ", calculated_string, " = ", f"<span style='font-size:18px; font-weight:bold;'>{subtotal}</span>", unsafe_allow_html=True)
+            st.write(":point_right: Magic Sum: ", calculated_string, " = ", f"<span style='font-size:18px; font-weight:bold;'>{subtotal}</span>", unsafe_allow_html=True)
             #st.write("Magic Sum: ", calculated_string, " = ", subtotal)
             
             
