@@ -8,7 +8,7 @@ import streamlit.components.v1 as com
 import requests
 from PIL import Image
 from io import BytesIO
-
+import pandas as pd
 
 # Checkbox to toggle image display
 
