@@ -110,20 +110,24 @@ if selected_date:
 
     
     # Step 2: Take the last 2 digits of the year (continued)
-    st.write("Step 2: Last 2 digits of the year:", year_last_2_digits)
+    st.write(year_last_2_digits, ": Last 2 digits of the year")
 
     # Step 3: Divide the year number by 4 and add it (continued)
-    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
-    st.write("    Subtotal after year division:", subtotal)
-
+    st.write(year_divided_by_4, ": Integer part of year divided by 4")
+    
     # Step 4: Add the "Century Correction" (continued)
-    st.write("Step 4: Century Correction value:", century_correction_value)
-    st.write("    Subtotal after century correction:", subtotal)
-
+    st.write(century_correction_value, ": Century Correction value")
+  
     # Step 5: Add the "Month Coefficient" (continued)
-    st.write("Step 5: Month Coefficient value:", month_coefficient)
-    st.write("    Subtotal after month coefficient:", subtotal)
+    st.write(month_coefficient, ": Month Coefficient")
 
+    # Step 6: Add the day of the month (continued)
+    st.write(day_of_month, ": Day of the month")
+    
+    # Step 7: Divide the subtotal by 7 and find the remainder (continued)
+    st.write("Remainder after dividing by 7:", remainder)
+
+    
     # Display Month Coefficient Table (continued)
     st.write("Step 5: Month Coefficient Table:")
     month_coefficients = {
@@ -143,13 +147,7 @@ if selected_date:
     st.write("Month Coefficient Table:")
     st.dataframe(df_month_coefficients)
 
-    # Step 6: Add the day of the month (continued)
-    st.write("Step 6: Day of the month:", day_of_month)
-    st.write("    Subtotal after adding day of the month:", subtotal)
-
-    # Step 7: Divide the subtotal by 7 and find the remainder (continued)
-    st.write("Step 7: Remainder after dividing by 7:", remainder)
-
+  
     # Display Correspondence Table
     st.write("Correspondence between Remainders and Days of the Week Table:")
     correspondence_table = {
