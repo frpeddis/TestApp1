@@ -135,37 +135,37 @@ if selected_date:
     # Step 7: Divide the subtotal by 7 and find the remainder (continued)
     st.write("Remainder after dividing the Magic Sum ", subtotal, " by 7:", remainder)
 
-        Display Century Correction Table
-        st.write("Step 4: Century Correction Table:")
-        st.write("Century Correction:")
-        formatted_century_correction_table = []
-        for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
-            if century == (selected_date.year // 100) * 100:
-        @@ -149,7 +149,7 @@ def calculate_random_date():
-        
-        
-        # Display Month Coefficient Table (continued)
-        st.write("Step 5: Month Coefficient Table:")
-        st.write("Month Coefficient:")
-        formatted_month_coefficients_table = []
-        for month, coeff in month_coefficients.items():
-            if month == selected_date.strftime("%B"):
-                formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
-            else:
-                formatted_month_coefficients_table.append([month, str(coeff)])
-        st.table(formatted_month_coefficients_table)
-        
-        
-        
-        # Display Correspondence Table
-        st.write("Correspondence between Remainders and Days of the Week:")
-        correspondence_table = {
-            "Remainder": list(range(7)),
-            "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-        }
-        formatted_correspondence_table = []
-        for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
-            if r == remainder:
-                formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
-            else:
-                formatted_correspondence_table.append([str(r), d])
+    #Display Century Correction Table
+    st.write("Step 4: Century Correction Table:")
+    st.write("Century Correction:")
+    formatted_century_correction_table = []
+    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
+        if century == (selected_date.year // 100) * 100:
+    @@ -149,7 +149,7 @@ def calculate_random_date():
+    
+    
+    # Display Month Coefficient Table (continued)
+    st.write("Step 5: Month Coefficient Table:")
+    st.write("Month Coefficient:")
+    formatted_month_coefficients_table = []
+    for month, coeff in month_coefficients.items():
+        if month == selected_date.strftime("%B"):
+            formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
+        else:
+            formatted_month_coefficients_table.append([month, str(coeff)])
+    st.table(formatted_month_coefficients_table)
+    
+    
+    
+    # Display Correspondence Table
+    st.write("Correspondence between Remainders and Days of the Week:")
+    correspondence_table = {
+        "Remainder": list(range(7)),
+        "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    }
+    formatted_correspondence_table = []
+    for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
+        if r == remainder:
+            formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
+        else:
+            formatted_correspondence_table.append([str(r), d])
