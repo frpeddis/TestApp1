@@ -109,7 +109,7 @@ if selected_date:
     month_coefficients = {
         "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
         "February": 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
-        "March": 4, "April": 0, "May": 2, "June": 5,
+        "March": 4, "April": 0, "May": 2, "June ": 5,
         "July": 0, "August": 3, "September": 6,
         "October": 1, "November": 4, "December": 6
     }
