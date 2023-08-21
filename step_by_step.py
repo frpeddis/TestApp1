@@ -117,20 +117,20 @@ if selected_date:
 
     
     # Step 2: Take the last 2 digits of the year (continued)
-    st.write(year_last_2_digits, ": last 2 digits of the year:")
+    st.write(year_last_2_digits, ": Last 2 digits of the year:")
 
     # Step 3: Divide the year number by 4 and add it (continued)
-    st.write("Integer part of year divided by 4:", year_divided_by_4)
+    st.write(year_divided_by_4, ": Integer part of year divided by 4:" )
  
     # Step 4: Add the "Century Correction" (continued)
-    st.write("Century Correction:", century_correction_value)
-    #st.write("    Subtotal after century correction:", subtotal)
+    st.write(century_correction_value, ": Century Correction")
+   
 
     # Step 5: Add the "Month Coefficient" (continued)
-    st.write("Month Coefficient:", month_coefficient)
+    st.write(month_coefficient, ": Month Coefficient")
 
     # Step 6: Add the day of the month (continued)
-    st.write("Day of the month:", day_of_month)
+    st.write( day_of_month, ": Day of the month")
     
     # Step 7: Divide the subtotal by 7 and find the remainder (continued)
     st.write("Remainder after dividing the Magic Sum ", subtotal, " by 7:", remainder)
