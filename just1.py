@@ -137,7 +137,7 @@ if selected_date:
 
     
     # Display Century Correction Table
-    st.write("Step 4: Century Correction Table:")
+    st.write("Century Correction:")
     formatted_century_correction_table = []
     for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
         if century == (selected_date.year // 100) * 100:
@@ -149,7 +149,7 @@ if selected_date:
     
     
     # Display Month Coefficient Table (continued)
-    st.write("Step 5: Month Coefficient Table:")
+    st.write("Month Coefficient:")
     formatted_month_coefficients_table = []
     for month, coeff in month_coefficients.items():
         if month == selected_date.strftime("%B"):
