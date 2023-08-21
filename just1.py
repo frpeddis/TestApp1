@@ -1,6 +1,7 @@
 import random
 import calendar
 import streamlit as st
+import pandas as pd
 from datetime import datetime, timedelta
 
 # Streamlit app title
@@ -68,7 +69,44 @@ selected_date = st.session_state.random_date
 if selected_date:
     st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
 
-    # ... (Other steps remain unchanged)
+    # Step 2: Take the last 2 digits of the year
+    year_last_2_digits = selected_date.year % 100
+
+    # Step 3: Divide the year number by 4 and add it
+    year_divided_by_4 = year_last_2_digits // 4
+    subtotal = year_last_2_digits + year_divided_by_4
+
+    # Step 4: Add the "Century Correction"
+    century_correction_table = {
+        "Century": [1500, 1600, 1700, 1800, 1900, 2000],
+        "Correction": [0, 6, 4, 2, 0, -1]
+    }
+    century = (selected_date.year // 100) * 100
+    century_correction_value = century_correction_table["Correction"][century_correction_table["Century"].index(century)]
+    subtotal += century_correction_value
+
+    # Step 5: Add the "Month Coefficient"
+    month_coefficients = {
+        "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
+        "February": 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
+        "March": 4, "April": 0, "May": 2, "June": 5,
+        "July": 0, "August": 3, "September": 6,
+        "October": 1, "November": 4, "December": 6
+    }
+    month = selected_date.strftime("%B")
+    month_coefficient = month_coefficients[month]
+    subtotal += month_coefficient
+
+    # Step 6: Add the day of the month
+    day_of_month = selected_date.day
+    subtotal += day_of_month
+
+    # Step 7: Divide the subtotal by 7 and find the remainder
+    remainder = subtotal % 7
+
+    # Display calculated string
+    calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
+    st.write("Sum: ", calculated_string, " = ", subtotal)
 
     # Display Century Correction Table
     st.write("Step 4: Century Correction Table:")
@@ -82,11 +120,26 @@ if selected_date:
             formatted_century_correction_table.append(["**" + str(century) + "**", "**" + str(correction) + "**"])
         else:
             formatted_century_correction_table.append([str(century), str(correction)])
-    st.table(formatted_century_correction_table, headers=["Century", "Correction"])
+    df_century_correction = pd.DataFrame(formatted_century_correction_table, columns=["Century", "Correction"])
+    st.write("Century Correction Table:")
+    st.dataframe(df_century_correction)
 
-    # ... (Other steps remain unchanged)
+    # Step 2: Take the last 2 digits of the year (continued)
+    st.write("Step 2: Last 2 digits of the year:", year_last_2_digits)
 
-    # Display Month Coefficient Table
+    # Step 3: Divide the year number by 4 and add it (continued)
+    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
+    st.write("    Subtotal after year division:", subtotal)
+
+    # Step 4: Add the "Century Correction" (continued)
+    st.write("Step 4: Century Correction value:", century_correction_value)
+    st.write("    Subtotal after century correction:", subtotal)
+
+    # Step 5: Add the "Month Coefficient" (continued)
+    st.write("Step 5: Month Coefficient value:", month_coefficient)
+    st.write("    Subtotal after month coefficient:", subtotal)
+
+    # Display Month Coefficient Table (continued)
     st.write("Step 5: Month Coefficient Table:")
     month_coefficients = {
         "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
@@ -101,9 +154,16 @@ if selected_date:
             formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
         else:
             formatted_month_coefficients_table.append([month, str(coeff)])
-    st.table(formatted_month_coefficients_table, headers=["Month", "Value"])
+    df_month_coefficients = pd.DataFrame(formatted_month_coefficients_table, columns=["Month", "Value"])
+    st.write("Month Coefficient Table:")
+    st.dataframe(df_month_coefficients)
 
-    # ... (Other steps remain unchanged)
+    # Step 6: Add the day of the month (continued)
+    st.write("Step 6: Day of the month:", day_of_month)
+    st.write("    Subtotal after adding day of the month:", subtotal)
+
+    # Step 7: Divide the subtotal by 7 and find the remainder (continued)
+    st.write("Step 7: Remainder after dividing by 7:", remainder)
 
     # Display Correspondence Table
     st.write("Correspondence between Remainders and Days of the Week Table:")
@@ -117,4 +177,6 @@ if selected_date:
             formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
         else:
             formatted_correspondence_table.append([str(r), d])
-    st.table(formatted_correspondence_table, headers=["Reminder", "Day of the week"])
+    df_correspondence = pd.DataFrame(formatted_correspondence_table, columns=["Reminder", "Day of the week"])
+    st.write("Correspondence between Remainders and Days of the Week Table:")
+    st.dataframe(df_correspondence)
