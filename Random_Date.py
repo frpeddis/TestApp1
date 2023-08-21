@@ -166,7 +166,7 @@ if check_button:
             st.write(day_of_month, ": Day of the month")
             
             # Step 7: Divide the subtotal by 7 and find the remainder (continued)
-            st.write("Remainder after dividing ", subtotal, "  by 7:", remainder)
+            st.write(":point_right: Remainder after dividing ", subtotal, "  by 7:", remainder)
         
             # Display Correspondence Table
             #st.write("Correspondence between Remainders and Days of the Week Table:")
@@ -181,7 +181,7 @@ if check_button:
                 else:
                     formatted_correspondence_table.append([str(r), d])
             df_correspondence = pd.DataFrame(formatted_correspondence_table, columns=["Reminder", "Day of the week"])
-            st.write("Remainders and Days of the Week:")
+            #st.write("Remainders and Days of the Week:")
             st.dataframe(df_correspondence)
             
             
