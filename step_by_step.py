@@ -135,45 +135,26 @@ if selected_date:
     # Step 7: Divide the subtotal by 7 and find the remainder (continued)
     st.write("Remainder after dividing the Magic Sum ", subtotal, " by 7:", remainder)
 
-     # Display Correspondence Table
-    st.write("Remainders and Days of the Week:")
-    correspondence_table = {
-        "Remainder": list(range(7)),
-        "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    }
-    formatted_correspondence_table = []
-    for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
-        if r == remainder:
-            formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
-        else:
-            formatted_correspondence_table.append([str(r), d])
-    st.table(formatted_correspondence_table)
+  import streamlit as st
 
-    
-    
-    # Display Century Correction Table
-    st.write("Century Correction:")
-    formatted_century_correction_table = []
-    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
-        if century == (selected_date.year // 100) * 100:
-            formatted_century_correction_table.append(["**" + str(century) + "**", correction])
-        else:
-            formatted_century_correction_table.append([str(century), correction])
-    st.table(formatted_century_correction_table)
+# Assuming you have defined your century_correction_table, century_correction_table, and selected_date somewhere above
 
-    
-    
-    # Display Month Coefficient Table (continued)
-    st.write("Month Coefficient:")
-    formatted_month_coefficients_table = []
-    for month, coeff in month_coefficients.items():
-        if month == selected_date.strftime("%B"):
-            formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
-        else:
-            formatted_month_coefficients_table.append([month, str(coeff)])
-    st.table(formatted_month_coefficients_table)
+# Display Century Correction Table
+st.write("Century Correction:")
+formatted_century_correction_table = [["Century", "Correction"]]  # Initialize with headers
+for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
+    if century == (selected_date.year // 100) * 100:
+        formatted_century_correction_table.append(["**" + str(century) + "**", correction])
+    else:
+        formatted_century_correction_table.append([str(century), correction])
+st.table(formatted_century_correction_table)
 
-    
-    
-    
-   
+# Display Month Coefficient Table (continued)
+st.write("Month Coefficient:")
+formatted_month_coefficients_table = [["Month", "Coefficient"]]  # Initialize with headers
+for month, coeff in month_coefficients.items():
+    if month == selected_date.strftime("%B"):
+        formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
+    else:
+        formatted_month_coefficients_table.append([month, str(coeff)])
+st.table(formatted_month_coefficients_table)
