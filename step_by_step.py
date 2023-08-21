@@ -135,6 +135,21 @@ if selected_date:
     # Step 7: Divide the subtotal by 7 and find the remainder (continued)
     st.write("Remainder after dividing the Magic Sum ", subtotal, " by 7:", remainder)
 
+     # Display Correspondence Table
+    st.write("Correspondence between Remainders and Days of the Week:")
+    correspondence_table = {
+        "Remainder": list(range(7)),
+        "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    }
+    formatted_correspondence_table = []
+    for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
+        if r == remainder:
+            formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
+        else:
+            formatted_correspondence_table.append([str(r), d])
+    st.table(formatted_correspondence_table)
+
+    
     
     # Display Century Correction Table
     st.write("Century Correction:")
@@ -161,16 +176,4 @@ if selected_date:
     
     
     
-    # Display Correspondence Table
-    st.write("Correspondence between Remainders and Days of the Week:")
-    correspondence_table = {
-        "Remainder": list(range(7)),
-        "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    }
-    formatted_correspondence_table = []
-    for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
-        if r == remainder:
-            formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
-        else:
-            formatted_correspondence_table.append([str(r), d])
-    st.table(formatted_correspondence_table)
+   
