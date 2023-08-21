@@ -70,53 +70,16 @@ if display_time_taken:
 # Step 1: User selects a date
 selected_date = st.session_state.random_date
 
-import streamlit as st
-from datetime import datetime
-
-# Streamlit app title
-st.title("Calculate Day of the Week")
-
-# Step 1: User selects a date
-selected_date = st.date_input("Step 1: Select a date")
 
 if selected_date:
-    st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
-
-    # Step 2: Take the last 2 digits of the year
+    # Calculate intermediate string
     year_last_2_digits = selected_date.year % 100
-    year_last_2_digits_str = f"**{year_last_2_digits}**"
-    st.write("Step 2: Last 2 digits of the year:", year_last_2_digits_str)
-
-    # Step 3: Divide the year number by 4 and add it
     year_divided_by_4 = year_last_2_digits // 4
-    year_divided_by_4_str = f"**{year_divided_by_4}**"
-    subtotal = year_last_2_digits + year_divided_by_4
-    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4_str)
-    st.write("    Subtotal after year division:", subtotal)
-
-    # Display Century Correction Table
     century_correction_table = {
-        "Century": [1500, 1600, 1700, 1800, 1900, 2000],
-        "Correction": [0, 6, 4, 2, 0, -1]
+        1500: 0, 1600: 6, 1700: 4, 1800: 2, 1900: 0, 2000: -1
     }
-    st.write("Step 4: Century Correction Table:")
-    formatted_century_correction_table = []
-    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
-        if century == (selected_date.year // 100) * 100:
-            formatted_century_correction_table.append(["**" + str(century) + "**", "**" + str(correction) + "**"])
-        else:
-            formatted_century_correction_table.append([str(century), str(correction)])
-    st.table(formatted_century_correction_table)
-
-    # Step 4: Add the "Century Correction"
     century = (selected_date.year // 100) * 100
-    century_correction_value = century_correction_table["Correction"][century_correction_table["Century"].index(century)]
-    century_correction_value_str = f"**{century_correction_value}**"
-    subtotal += century_correction_value
-    st.write("Step 4: Century Correction value:", century_correction_value_str)
-    st.write("    Subtotal after century correction:", subtotal)
-
-    # Step 5: Add the "Month Coefficient"
+    century_correction_value = century_correction_table.get(century, 0)
     month_coefficients = {
         "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
         "February": 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
@@ -126,34 +89,42 @@ if selected_date:
     }
     month = selected_date.strftime("%B")
     month_coefficient = month_coefficients[month]
-    month_coefficient_str = f"**{month_coefficient}**"
-    subtotal += month_coefficient
-    st.write("Step 5: Month Coefficient value:", month_coefficient_str)
-    st.write("    Subtotal after month coefficient:", subtotal)
+    day_of_month = selected_date.day
+    intermediate_string = (
+        f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
+    )
+    st.write("Intermediate Calculation:", intermediate_string)
+
+    # Display the breakdown
+    st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
+    st.write("Step 2: Last 2 digits of the year:", year_last_2_digits)
+    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
+    
+    # Display Century Correction Table
+    st.write("Step 4: Century Correction Table:")
+    formatted_century_correction_table = []
+    for century, correction in century_correction_table.items():
+        formatted_century_correction_table.append(["**" + str(century) + "**", "**" + str(correction) + "**"])
+    st.table(formatted_century_correction_table)
+    
+    st.write("Step 4: Century Correction value:", century_correction_value)
+
+    st.write("Step 5: Month Coefficient value:", month_coefficient)
 
     # Display Month Coefficient Table
     st.write("Step 5: Month Coefficient Table:")
     formatted_month_coefficients_table = []
-    for m, c in month_coefficients.items():
-        if m == month:
-            formatted_month_coefficients_table.append(["**" + m + "**", "**" + str(c) + "**"])
+    for month, coeff in month_coefficients.items():
+        if month == selected_date.strftime("%B"):
+            formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
         else:
-            formatted_month_coefficients_table.append([m, str(c)])
+            formatted_month_coefficients_table.append([month, str(coeff)])
     st.table(formatted_month_coefficients_table)
 
-    # Step 6: Add the day of the month
-    day_of_month = selected_date.day
-    day_of_month_str = f"**{day_of_month}**"
-    subtotal += day_of_month
-    st.write("Step 6: Day of the month:", day_of_month_str)
-    st.write("    Subtotal after adding day of the month:", subtotal)
+    st.write("Step 6: Day of the month:", day_of_month)
 
-    # Display sum of addends
-    sum_str = (
-        f"{year_last_2_digits_str} + {year_divided_by_4_str} + {century_correction_value_str} + "
-        f"{month_coefficient_str} + {day_of_month_str} = **{subtotal}**"
-    )
-    st.write("Sum of addends:", sum_str)
+    subtotal = year_last_2_digits + year_divided_by_4 + century_correction_value + month_coefficient + day_of_month
+    st.write("Intermediate Subtotal:", subtotal)
 
     # Step 7: Divide the subtotal by 7 and find the remainder
     remainder = subtotal % 7
