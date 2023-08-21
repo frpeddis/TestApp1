@@ -106,7 +106,7 @@ if selected_date:
 
     # Display calculated string
     calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
-    st.write("Magic Sum: ", calculated_string, " = " subtotal)
+    st.write("Magic Sum: ", calculated_string, " = ", subtotal)
 
     
     # Step 2: Take the last 2 digits of the year (continued)
