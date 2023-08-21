@@ -71,7 +71,16 @@ if display_time_taken:
 selected_date = st.session_state.random_date
 
 
+###
 
+import streamlit as st
+from datetime import datetime
+
+# Streamlit app title
+st.title("Calculate Day of the Week")
+
+# Step 1: User selects a date
+selected_date = st.date_input("Step 1: Select a date")
 
 if selected_date:
     st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
@@ -115,22 +124,22 @@ if selected_date:
     calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
     st.write("Calculated string:", calculated_string)
 
+    # Display Century Correction Table
+    st.write("Step 4: Century Correction Table:")
+    formatted_century_correction_table = []
+    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
+        if century == (selected_date.year // 100) * 100:
+            formatted_century_correction_table.append(["**" + str(century) + "**", correction])
+        else:
+            formatted_century_correction_table.append([str(century), correction])
+    st.table(formatted_century_correction_table)
+
     # Step 2: Take the last 2 digits of the year (continued)
     st.write("Step 2: Last 2 digits of the year:", year_last_2_digits)
 
     # Step 3: Divide the year number by 4 and add it (continued)
     st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
     st.write("    Subtotal after year division:", subtotal)
-
-    # Display Century Correction Table (continued)
-    st.write("Step 4: Century Correction Table:")
-    formatted_century_correction_table = []
-    for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
-        if century == (selected_date.year // 100) * 100:
-            formatted_century_correction_table.append(["**" + str(century) + "**", "**" + str(correction) + "**"])
-        else:
-            formatted_century_correction_table.append([str(century), str(correction)])
-    st.table(formatted_century_correction_table)
 
     # Step 4: Add the "Century Correction" (continued)
     st.write("Step 4: Century Correction value:", century_correction_value)
