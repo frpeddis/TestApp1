@@ -117,7 +117,7 @@ if selected_date:
 
     
     # Step 2: Take the last 2 digits of the year (continued)
-    st.write("Last 2 digits of the year:", year_last_2_digits)
+    st.write(year_last_2_digits, ": last 2 digits of the year:")
 
     # Step 3: Divide the year number by 4 and add it (continued)
     st.write("Integer part of year divided by 4:", year_divided_by_4)
