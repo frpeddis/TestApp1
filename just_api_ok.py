@@ -127,29 +127,8 @@ if selected_date:
     # Step 7: Divide the subtotal by 7 and find the remainder (continued)
     st.write("Remainder after dividing ", subtotal, "  by 7:", remainder)
 
-    
-    # Display Month Coefficient Table (continued)
-    st.write("Step 5: Month Coefficient Table:")
-    month_coefficients = {
-        "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
-        "February": 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
-        "March": 4, "April": 0, "May": 2, "June": 5,
-        "July": 0, "August": 3, "September": 6,
-        "October": 1, "November": 4, "December": 6
-    }
-    formatted_month_coefficients_table = []
-    for month, coeff in month_coefficients.items():
-        if month == selected_date.strftime("%B"):
-            formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
-        else:
-            formatted_month_coefficients_table.append([month, str(coeff)])
-    df_month_coefficients = pd.DataFrame(formatted_month_coefficients_table, columns=["Month", "Value"])
-    st.write("Month Coefficient Table:")
-    st.dataframe(df_month_coefficients)
-
-  
     # Display Correspondence Table
-    st.write("Correspondence between Remainders and Days of the Week Table:")
+    #st.write("Correspondence between Remainders and Days of the Week Table:")
     correspondence_table = {
         "Remainder": list(range(7)),
         "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
@@ -179,3 +158,26 @@ if selected_date:
     df_century_correction = pd.DataFrame(formatted_century_correction_table, columns=["Century", "Correction"])
     st.write("Century Correction Table:")
     st.dataframe(df_century_correction)
+
+    
+    # Display Month Coefficient Table (continued)
+    st.write("Month Coefficient")
+    month_coefficients = {
+        "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
+        "February": 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
+        "March": 4, "April": 0, "May": 2, "June": 5,
+        "July": 0, "August": 3, "September": 6,
+        "October": 1, "November": 4, "December": 6
+    }
+    formatted_month_coefficients_table = []
+    for month, coeff in month_coefficients.items():
+        if month == selected_date.strftime("%B"):
+            formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
+        else:
+            formatted_month_coefficients_table.append([month, str(coeff)])
+    df_month_coefficients = pd.DataFrame(formatted_month_coefficients_table, columns=["Month", "Value"])
+    st.write("Month Coefficient Table:")
+    st.dataframe(df_month_coefficients)
+
+  
+    
