@@ -107,7 +107,7 @@ if check_button:
         selected_date = st.session_state.random_date
         
         if selected_date:
-            st.write("That's why: consider the date:", selected_date.strftime("%d-%b-%Y"))
+            st.write("That's why: consider the date ", selected_date.strftime("%d-%b-%Y"))
         
             # Step 2: Take the last 2 digits of the year
             year_last_2_digits = selected_date.year % 100
