@@ -140,11 +140,11 @@ if selected_date:
         else:
             formatted_correspondence_table.append([str(r), d])
     df_correspondence = pd.DataFrame(formatted_correspondence_table, columns=["Reminder", "Day of the week"])
-    st.write("Correspondence between Remainders and Days of the Week Table:")
+    st.write("Remainders and Days of the Week:")
     st.dataframe(df_correspondence)
     
     # Display Century Correction Table
-    #st.write("Century Correction")
+    st.write("Century Correction")
     century_correction_table = {
         "Century": [1500, 1600, 1700, 1800, 1900, 2000],
         "Correction": [0, 6, 4, 2, 0, -1]
