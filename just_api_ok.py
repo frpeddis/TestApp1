@@ -166,7 +166,7 @@ if selected_date:
     st.write("Correspondence between Remainders and Days of the Week Table:")
     st.dataframe(df_correspondence)
     
-# Display Century Correction Table
+    # Display Century Correction Table
     #st.write("Century Correction")
     century_correction_table = {
         "Century": [1500, 1600, 1700, 1800, 1900, 2000],
