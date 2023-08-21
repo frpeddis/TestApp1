@@ -83,7 +83,7 @@ if selected_date:
     st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
     subtotal = year_last_2_digits + year_divided_by_4
     st.write("    Subtotal after year division:", subtotal)
-
+    st.write("Somma: ", year_last_2_digits, "+", year_divided_by_4)
     # Display Century Correction Table
     century_correction_table = {
         "Century": [1500, 1600, 1700, 1800, 1900, 2000],
