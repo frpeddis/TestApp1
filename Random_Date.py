@@ -166,8 +166,9 @@ if check_button:
             st.write(day_of_month, ": Day of the month")
             
             # Step 7: Divide the subtotal by 7 and find the remainder (continued)
-            st.write(":point_right: Remainder after dividing ", subtotal, "  by 7:", remainder)
-        
+            #st.write(":point_right: Remainder after dividing ", subtotal, "  by 7:", remainder)
+            st.write(":point_right: Remainder after dividing ", subtotal, "  by 7:", f"<span style='font-size:18px; font-weight:bold;'>{reminder}</span>", unsafe_allow_html=True)
+            
             # Display Correspondence Table
             #st.write("Correspondence between Remainders and Days of the Week Table:")
             correspondence_table = {
