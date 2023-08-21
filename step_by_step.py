@@ -70,20 +70,30 @@ if display_time_taken:
 # Step 1: User selects a date
 selected_date = st.session_state.random_date
 
+import streamlit as st
+from datetime import datetime
+
+# Streamlit app title
+st.title("Calculate Day of the Week")
+
+# Step 1: User selects a date
+selected_date = st.date_input("Step 1: Select a date")
 
 if selected_date:
     st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
 
     # Step 2: Take the last 2 digits of the year
     year_last_2_digits = selected_date.year % 100
-    st.write("Step 2: Last 2 digits of the year:", year_last_2_digits)
+    year_last_2_digits_str = f"**{year_last_2_digits}**"
+    st.write("Step 2: Last 2 digits of the year:", year_last_2_digits_str)
 
     # Step 3: Divide the year number by 4 and add it
     year_divided_by_4 = year_last_2_digits // 4
-    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
+    year_divided_by_4_str = f"**{year_divided_by_4}**"
     subtotal = year_last_2_digits + year_divided_by_4
+    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4_str)
     st.write("    Subtotal after year division:", subtotal)
-    st.write("Somma: ", year_last_2_digits, "+", year_divided_by_4)
+
     # Display Century Correction Table
     century_correction_table = {
         "Century": [1500, 1600, 1700, 1800, 1900, 2000],
@@ -101,39 +111,49 @@ if selected_date:
     # Step 4: Add the "Century Correction"
     century = (selected_date.year // 100) * 100
     century_correction_value = century_correction_table["Correction"][century_correction_table["Century"].index(century)]
-    st.write("Step 4: Century Correction value:", century_correction_value)
+    century_correction_value_str = f"**{century_correction_value}**"
     subtotal += century_correction_value
+    st.write("Step 4: Century Correction value:", century_correction_value_str)
     st.write("    Subtotal after century correction:", subtotal)
 
     # Step 5: Add the "Month Coefficient"
     month_coefficients = {
         "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
         "February": 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
-        "March": 4, "April": 0, "May": 2, "June ": 5,
+        "March": 4, "April": 0, "May": 2, "June": 5,
         "July": 0, "August": 3, "September": 6,
         "October": 1, "November": 4, "December": 6
     }
     month = selected_date.strftime("%B")
     month_coefficient = month_coefficients[month]
-    st.write("Step 5: Month Coefficient value:", month_coefficient)
+    month_coefficient_str = f"**{month_coefficient}**"
     subtotal += month_coefficient
+    st.write("Step 5: Month Coefficient value:", month_coefficient_str)
     st.write("    Subtotal after month coefficient:", subtotal)
 
     # Display Month Coefficient Table
     st.write("Step 5: Month Coefficient Table:")
     formatted_month_coefficients_table = []
-    for month, coeff in month_coefficients.items():
-        if month == selected_date.strftime("%B"):
-            formatted_month_coefficients_table.append(["**" + month + "**", "**" + str(coeff) + "**"])
+    for m, c in month_coefficients.items():
+        if m == month:
+            formatted_month_coefficients_table.append(["**" + m + "**", "**" + str(c) + "**"])
         else:
-            formatted_month_coefficients_table.append([month, str(coeff)])
+            formatted_month_coefficients_table.append([m, str(c)])
     st.table(formatted_month_coefficients_table)
 
     # Step 6: Add the day of the month
     day_of_month = selected_date.day
-    st.write("Step 6: Day of the month:", day_of_month)
+    day_of_month_str = f"**{day_of_month}**"
     subtotal += day_of_month
+    st.write("Step 6: Day of the month:", day_of_month_str)
     st.write("    Subtotal after adding day of the month:", subtotal)
+
+    # Display sum of addends
+    sum_str = (
+        f"{year_last_2_digits_str} + {year_divided_by_4_str} + {century_correction_value_str} + "
+        f"{month_coefficient_str} + {day_of_month_str} = **{subtotal}**"
+    )
+    st.write("Sum of addends:", sum_str)
 
     # Step 7: Divide the subtotal by 7 and find the remainder
     remainder = subtotal % 7
