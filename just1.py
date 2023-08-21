@@ -67,7 +67,7 @@ if display_time_taken:
 selected_date = st.session_state.random_date
 
 if selected_date:
-    st.write("Step 1: Selected Date:", selected_date.strftime("%d-%b-%Y"))
+    st.write("Date:", selected_date.strftime("%d-%b-%Y"))
 
     # Step 2: Take the last 2 digits of the year
     year_last_2_digits = selected_date.year % 100
@@ -106,10 +106,46 @@ if selected_date:
 
     # Display calculated string
     calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
-    st.write("Sum: ", calculated_string, " = ", subtotal)
+    st.write("Magic Sum: ", calculated_string, " = ", f"<span style='font-size:18px; font-weight:bold;'>{subtotal}</span>", unsafe_allow_html=True)
+    #st.write("Magic Sum: ", calculated_string, " = ", subtotal)
+    
+    
+    # Step 2: Take the last 2 digits of the year (continued)
+    st.write(year_last_2_digits, ": Last 2 digits of the year")
 
+    # Step 3: Divide the year number by 4 and add it (continued)
+    st.write(year_divided_by_4, ": Integer part of year YY divided by 4")
+    
+    # Step 4: Add the "Century Correction" (continued)
+    st.write(century_correction_value, ": Century Correction")
+  
+    # Step 5: Add the "Month Coefficient" (continued)
+    st.write(month_coefficient, ": Month Coefficient")
+
+    # Step 6: Add the day of the month (continued)
+    st.write(day_of_month, ": Day of the month")
+    
+    # Step 7: Divide the subtotal by 7 and find the remainder (continued)
+    st.title("Remainder after dividing ", subtotal, "  by 7:", remainder)
+    
+    # Display Correspondence Table
+    #st.write("Correspondence between Remainders and Days of the Week Table:")
+    correspondence_table = {
+        "Remainder": list(range(7)),
+        "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    }
+    formatted_correspondence_table = []
+    for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
+        if r == remainder:
+            formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
+        else:
+            formatted_correspondence_table.append([str(r), d])
+    df_correspondence = pd.DataFrame(formatted_correspondence_table, columns=["Reminder", "Day of the week"])
+    st.write("Remainders and Days of the Week:")
+    st.dataframe(df_correspondence)
+    
     # Display Century Correction Table
-    st.write("Step 4: Century Correction Table:")
+    st.write("Century Correction")
     century_correction_table = {
         "Century": [1500, 1600, 1700, 1800, 1900, 2000],
         "Correction": [0, 6, 4, 2, 0, -1]
@@ -121,26 +157,12 @@ if selected_date:
         else:
             formatted_century_correction_table.append([str(century), str(correction)])
     df_century_correction = pd.DataFrame(formatted_century_correction_table, columns=["Century", "Correction"])
-    st.write("Century Correction Table:")
+    #st.write("Century Correction Table:")
     st.dataframe(df_century_correction)
 
-    # Step 2: Take the last 2 digits of the year (continued)
-    st.write("Step 2: Last 2 digits of the year:", year_last_2_digits)
-
-    # Step 3: Divide the year number by 4 and add it (continued)
-    st.write("Step 3: Integer part of year divided by 4:", year_divided_by_4)
-    st.write("    Subtotal after year division:", subtotal)
-
-    # Step 4: Add the "Century Correction" (continued)
-    st.write("Step 4: Century Correction value:", century_correction_value)
-    st.write("    Subtotal after century correction:", subtotal)
-
-    # Step 5: Add the "Month Coefficient" (continued)
-    st.write("Step 5: Month Coefficient value:", month_coefficient)
-    st.write("    Subtotal after month coefficient:", subtotal)
-
+    
     # Display Month Coefficient Table (continued)
-    st.write("Step 5: Month Coefficient Table:")
+    st.write("Month Coefficient")
     month_coefficients = {
         "January": 1 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 0,
         "February": 4 if not (selected_date.year % 4 == 0 and selected_date.month <= 2) else 3,
@@ -155,28 +177,8 @@ if selected_date:
         else:
             formatted_month_coefficients_table.append([month, str(coeff)])
     df_month_coefficients = pd.DataFrame(formatted_month_coefficients_table, columns=["Month", "Value"])
-    st.write("Month Coefficient Table:")
+    #st.write("Month Coefficient Table:")
     st.dataframe(df_month_coefficients)
 
-    # Step 6: Add the day of the month (continued)
-    st.write("Step 6: Day of the month:", day_of_month)
-    st.write("    Subtotal after adding day of the month:", subtotal)
-
-    # Step 7: Divide the subtotal by 7 and find the remainder (continued)
-    st.write("Step 7: Remainder after dividing by 7:", remainder)
-
-    # Display Correspondence Table
-    st.write("Correspondence between Remainders and Days of the Week Table:")
-    correspondence_table = {
-        "Remainder": list(range(7)),
-        "Day of the Week": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    }
-    formatted_correspondence_table = []
-    for r, d in zip(correspondence_table["Remainder"], correspondence_table["Day of the Week"]):
-        if r == remainder:
-            formatted_correspondence_table.append(["**" + str(r) + "**", "**" + d + "**"])
-        else:
-            formatted_correspondence_table.append([str(r), d])
-    df_correspondence = pd.DataFrame(formatted_correspondence_table, columns=["Reminder", "Day of the week"])
-    st.write("Correspondence between Remainders and Days of the Week Table:")
-    st.dataframe(df_correspondence)
+  
+    
