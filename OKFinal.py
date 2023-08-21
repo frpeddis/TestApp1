@@ -220,14 +220,6 @@ if check_button:
             #st.write("Month Coefficient Table:")
             st.dataframe(df_month_coefficients)
         
-    
-        #pdf_url = "https://github.com/frpeddis/TestApp1/raw/9a5249fa93ebbb3d724c139f48c27476c30d0cd4/MAGIC%20DAY%20CALCULATOR%20ADVENTURE.pdf"
-        #st.markdown(f"[Download MAGIC DAY CALCULATOR ADVENTURE!]({pdf_url})")
-
-
-
-        
-        
 
     # Calculate time taken to make the selection
     st.session_state.time_taken = (datetime.now() - st.session_state.start_time).total_seconds()
