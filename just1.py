@@ -113,7 +113,7 @@ if selected_date:
 
     # Display calculated string
     calculated_string = f"{year_last_2_digits} + {year_divided_by_4} + {century_correction_value} + {month_coefficient} + {day_of_month}"
-    st.write("Magic Sum: ", calculated_string)
+    st.write("Magic Sum: ", calculated_string, " = ", subtotal)
 
     
     # Step 2: Take the last 2 digits of the year (continued)
@@ -133,7 +133,7 @@ if selected_date:
     st.write("Day of the month:", day_of_month)
     
     # Step 7: Divide the subtotal by 7 and find the remainder (continued)
-    st.write("Remainder after dividing by 7:", remainder)
+    st.write("Remainder after dividing the Magic Sum ", subtotal, " by 7:", remainder)
 
     
     # Display Century Correction Table
