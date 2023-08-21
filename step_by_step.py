@@ -15,7 +15,7 @@ def calculate_random_date():
 # ... (rest of the code remains the same)
 
 # Display Century Correction Table
-st.write("Step 4: Century Correction Table:")
+st.write("Century Correction:")
 formatted_century_correction_table = []
 for century, correction in zip(century_correction_table["Century"], century_correction_table["Correction"]):
     if century == (selected_date.year // 100) * 100:
@@ -27,7 +27,7 @@ st.table(formatted_century_correction_table, header=["Century", "Value"])
 # ... (rest of the code remains the same)
 
 # Display Month Coefficient Table (continued)
-st.write("Step 5: Month Coefficient Table:")
+st.write("Month Coefficients:")
 formatted_month_coefficients_table = []
 for month, coeff in month_coefficients.items():
     if month == selected_date.strftime("%B"):
