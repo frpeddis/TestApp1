@@ -4,3 +4,5 @@ numpy
 openai
 streamlit_lottie
 pytesseract
+Pillow
+requests
