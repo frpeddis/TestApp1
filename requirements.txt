@@ -9,4 +9,7 @@ Pillow
 requests
 easyocr
 matplotlib
-
+streamlit==1.0.0  # Streamlit version may vary; check for the latest version
+numpy==1.21.2  # Numpy version may vary; check for the latest version
+Pillow==8.3.2  # The PIL library; version may vary
+pytesseract==0.3.8  # pytesseract version may vary; check for the latest version
