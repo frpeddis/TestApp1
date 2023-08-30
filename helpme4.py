@@ -1,12 +1,7 @@
-import os
 import streamlit as st
 import numpy as np
-import pytesseract 
-from PIL import Image 
-
-# Use an environment variable to get the Tesseract path, or set a default.
-tesseract_path = os.environ.get('TESSERACT_PATH', 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe')
-pytesseract.pytesseract.tesseract_cmd = tesseract_path
+import pytesseract
+from PIL import Image
 
 st.title("Our OCR APP")
 st.text("Upload an image that contains English text")
@@ -24,3 +19,4 @@ if upload_image is not None:
             st.write(output_text)
     except Exception as e:
         st.write("An error occurred: ", str(e))
+
