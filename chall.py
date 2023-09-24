@@ -1,4 +1,3 @@
-
 import random
 import calendar
 import streamlit as st
