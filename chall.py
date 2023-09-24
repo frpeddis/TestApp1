@@ -1,4 +1,3 @@
-
 import random
 import calendar
 import streamlit as st
@@ -25,7 +24,7 @@ if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
 
 if 'button_label' not in st.session_state:
-    st.session_state.button_label = "NEXT"
+    st.session_state.button_label = "Check Question 1"
 
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
@@ -34,7 +33,7 @@ if 'time_list' not in st.session_state:
 if st.session_state.question_count >= 5:
     st.session_state.question_count = 0
     st.session_state.total_time = 0.0
-    st.session_state.button_label = "NEXT"
+    st.session_state.button_label = "Check Question 1"
     st.session_state.time_list = []
     st.session_state.random_date = calculate_random_date()
     st.session_state.question_start_time = datetime.now()
@@ -69,6 +68,12 @@ if check_button:
         
         # Add the time to the list
         st.session_state.time_list.append(question_time_taken)
+        
+        # Change the button label to "NEXT" immediately
+        st.session_state.button_label = "Next"
+
+        # Change the button label back to "Check" and include the question number
+        st.session_state.button_label = f"Check Question {st.session_state.question_count + 2}"
         
         # Generate a new random date for the next question
         st.session_state.random_date = calculate_random_date()
