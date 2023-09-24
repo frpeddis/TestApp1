@@ -25,7 +25,7 @@ if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
 
 if 'button_label' not in st.session_state:
-    st.session_state.button_label = "Check"
+    st.session_state.button_label = "Check Question 1"
 
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
@@ -34,7 +34,7 @@ if 'time_list' not in st.session_state:
 if st.session_state.question_count >= 5:
     st.session_state.question_count = 0
     st.session_state.total_time = 0.0
-    st.session_state.button_label = "Check"
+    st.session_state.button_label = "Check Question 1"
     st.session_state.time_list = []
     st.session_state.random_date = calculate_random_date()
     st.session_state.question_start_time = datetime.now()
@@ -53,7 +53,7 @@ check_button = st.button(st.session_state.button_label)
 
 # Logic for checking the answer
 if check_button:
-    if st.session_state.button_label == "Check":
+    if "Check" in st.session_state.button_label:
         # Confirm the day of the week selected by the user
         day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
         
@@ -78,8 +78,8 @@ if check_button:
             st.error(day_of_week + " is the right day! :coffee: That's why...")
 
     elif st.session_state.button_label == "Next":
-        # Change the button label back to "Check"
-        st.session_state.button_label = "Check"
+        # Change the button label back to "Check" and include the question number
+        st.session_state.button_label = f"Check Question {st.session_state.question_count + 2}"
         
         # Generate a new random date for the next question
         st.session_state.random_date = calculate_random_date()
