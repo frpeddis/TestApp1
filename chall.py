@@ -71,8 +71,18 @@ if check_button:
             # Add the time to the list
             st.session_state.time_list.append(question_time_taken)
             
-            # Change the button label to "NEXT"
+            # Change the button label to "NEXT" immediately
             st.session_state.button_label = "Next"
+            st.session_state.button_label = f"Check Question {st.session_state.question_count + 2}"
+            
+            # Generate a new random date for the next question
+            st.session_state.random_date = calculate_random_date()
+            
+            # Increment the question count
+            st.session_state.question_count += 1
+            
+            # Reset the question start time
+            st.session_state.question_start_time = datetime.now()
         
         else:
             st.error(day_of_week + " is the right day! :coffee: That's why...")
