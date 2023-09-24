@@ -24,10 +24,11 @@ if 'start_time' not in st.session_state:
 if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
 
-# If 5 questions are answered, reset the session
+# Reset the session if 5 questions are answered
 if st.session_state.question_count >= 5:
     st.session_state.question_count = 0
     st.session_state.start_time = datetime.now()
+    st.session_state.random_date = calculate_random_date()
     st.write("Starting a new round of questions.")
 
 # Display the random date
@@ -43,9 +44,6 @@ check_button = st.button(f"Check for question {st.session_state.question_count +
 
 # Logic for checking the answer
 if check_button:
-    # Increment the question count
-    st.session_state.question_count += 1
-
     # Confirm the day of the week selected by the user
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
     
@@ -54,6 +52,10 @@ if check_button:
         st.success(day_of_week + " is OK! :thumbsup:")
         # Generate a new random date for the next question only if the answer was correct
         st.session_state.random_date = calculate_random_date()
+        
+        # Increment the question count
+        st.session_state.question_count += 1
+        
     else:
         st.error(day_of_week + " is the right day! :coffee: That's why...")
 
