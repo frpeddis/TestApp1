@@ -1,26 +1,9 @@
-# Import necessary modules and packages
+
 import random
 import calendar
 import streamlit as st
 from datetime import datetime, timedelta
-import openai
 import time
-import requests
-from PIL import Image
-from io import BytesIO
-import pandas as pd
-
-# Initialize session state for best_time
-if 'best_time' not in st.session_state:
-    st.session_state.best_time = float('inf')
-
-# Checkbox to toggle image display
-openai.api_key = st.secrets["API_KEY"]
-st.set_page_config(page_title="🌀 WeekDay Whiz")
-
-# Streamlit app title
-st.title(":sunglasses: What day is it? Random date 🎲")
-show_images = st.checkbox("Show me how to calculate ! ")
 
 # Function to calculate a random date
 def calculate_random_date():
@@ -28,44 +11,84 @@ def calculate_random_date():
     end_date = datetime(2099, 12, 31)
     return start_date + timedelta(seconds=random.randint(0, int((end_date - start_date).total_seconds())))
 
-# Check if random_date and start_time are in session state, if not, calculate and store them
+# Initialize session state variables if not already initialized
+if 'question_count' not in st.session_state:
+    st.session_state.question_count = 0
+
+if 'total_time' not in st.session_state:
+    st.session_state.total_time = 0.0
+
+if 'question_start_time' not in st.session_state:
+    st.session_state.question_start_time = datetime.now()
+
 if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
 
-if 'start_time' not in st.session_state:
-    st.session_state.start_time = datetime.now()
+if 'button_label' not in st.session_state:
+    st.session_state.button_label = "Check Question 1"
 
-if 'check_pressed' not in st.session_state:
-    st.session_state.check_pressed = False
+if 'time_list' not in st.session_state:
+    st.session_state.time_list = []
 
-if 'time_taken' not in st.session_state:
-    st.session_state.time_taken = 0
+# Reset the session if 5 questions are answered
+if st.session_state.question_count >= 5:
+    st.session_state.question_count = 0
+    st.session_state.total_time = 0.0
+    st.session_state.button_label = "Check Question 1"
+    st.session_state.time_list = []
+    st.session_state.random_date = calculate_random_date()
+    st.session_state.question_start_time = datetime.now()
+    st.write("Starting a new round of questions.")
 
-# Display the date
+# Display the random date
 description = "**Random Date:**"
 value = st.session_state.random_date.strftime("%d-%b-%Y")
 st.markdown(f"{description} {value}")
 
-# Calculate time taken
-if not st.session_state.check_pressed:
-    time_taken = (datetime.now() - st.session_state.start_time).total_seconds()
-    display_time_taken = False
-else:
-    time_taken = st.session_state.time_taken
-    display_time_taken = True
-
-# Show the amount of seconds taken and update best_time
-if display_time_taken:
-    if time_taken < st.session_state.best_time:
-        st.session_state.best_time = time_taken
-    st.write(f"Best time so far: {st.session_state.best_time} seconds")
-
 # Prompt the user to select the day of the week from a dropdown list
-selected_day_of_week = st.selectbox("Select the day of the week:", list(calendar.day_name))
+selected_day_of_week = st.selectbox(f"Select the day of the week for question {st.session_state.question_count + 1}:", list(calendar.day_name))
 
-# Add a "Check" button to confirm the selection
-check_button = st.button("Check")
+# Add a button to confirm the selection, label changes based on session state
+check_button = st.button(st.session_state.button_label)
 
-# Your existing logic for checking the selected day and providing feedback ...
+# Logic for checking the answer
+if check_button:
+    # Confirm the day of the week selected by the user
+    day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
+    
+    if selected_day_of_week == day_of_week:
+        st.balloons()
+        st.success(day_of_week + " is OK! :thumbsup:")
+        
+        # Calculate the time taken for this question
+        question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
+        st.write(f"Time taken for this question: {round(question_time_taken, 2)} seconds")
+        
+        # Update the total time
+        st.session_state.total_time += question_time_taken
+        
+        # Add the time to the list
+        st.session_state.time_list.append(question_time_taken)
+        
+        # Change the button label to "NEXT" immediately
+        st.session_state.button_label = "Next"
 
-# Add any other features or logic you have in your original code here
+        # Change the button label back to "Check" and include the question number
+        st.session_state.button_label = f"Check Question {st.session_state.question_count + 2}"
+        
+        # Generate a new random date for the next question
+        st.session_state.random_date = calculate_random_date()
+        
+        # Increment the question count
+        st.session_state.question_count += 1
+        
+        # Reset the question start time
+        st.session_state.question_start_time = datetime.now()
+    
+    else:
+        st.error(day_of_week + " is the right day! :coffee: That's why...")
+
+if st.session_state.question_count >= 5:
+    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
+    st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
+    st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
