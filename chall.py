@@ -15,11 +15,11 @@ def calculate_random_date():
 if 'question_count' not in st.session_state:
     st.session_state.question_count = 0
 
-if 'lowest_time_record' not in st.session_state:
-    st.session_state.lowest_time_record = 1e6  # 1 million seconds as an initial high value
+if 'total_time' not in st.session_state:
+    st.session_state.total_time = 0.0
 
-if 'start_time' not in st.session_state:
-    st.session_state.start_time = datetime.now()
+if 'question_start_time' not in st.session_state:
+    st.session_state.question_start_time = datetime.now()
 
 if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
@@ -27,7 +27,8 @@ if 'random_date' not in st.session_state:
 # Reset the session if 5 questions are answered
 if st.session_state.question_count >= 5:
     st.session_state.question_count = 0
-    st.session_state.start_time = datetime.now()
+    st.session_state.total_time = 0.0
+    st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
     st.write("Starting a new round of questions.")
 
@@ -50,26 +51,25 @@ if check_button:
     if selected_day_of_week == day_of_week:
         st.balloons()
         st.success(day_of_week + " is OK! :thumbsup:")
+        
+        # Calculate the time taken for this question
+        question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
+        st.write(f"Time taken for this question: {round(question_time_taken, 2)} seconds")
+        
+        # Update the total time
+        st.session_state.total_time += question_time_taken
+        
         # Generate a new random date for the next question only if the answer was correct
         st.session_state.random_date = calculate_random_date()
         
         # Increment the question count
         st.session_state.question_count += 1
         
+        # Reset the question start time
+        st.session_state.question_start_time = datetime.now()
+        
     else:
         st.error(day_of_week + " is the right day! :coffee: That's why...")
 
-    # Calculate the total time taken to complete all questions so far
-    time_taken = (datetime.now() - st.session_state.start_time).total_seconds()
-    
-    # Check if the time taken is less than the current lowest time record
-    if time_taken < st.session_state.lowest_time_record:
-        # Update the lowest time record
-        st.session_state.lowest_time_record = time_taken
-        st.write(f"New record! Lowest time taken: {st.session_state.lowest_time_record} seconds")
-    else:
-        st.write(f"Time taken: {time_taken} seconds")
-
-    # Display the total time taken and the lowest time record
-    st.write(f"Total time taken to complete questions so far: {time_taken} seconds")
-    st.write(f"Lowest time record: {st.session_state.lowest_time_record} seconds")
+    if st.session_state.question_count >= 5:
+        st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
