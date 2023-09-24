@@ -1,4 +1,3 @@
-
 import random
 import calendar
 import streamlit as st
@@ -53,41 +52,26 @@ check_button = st.button(st.session_state.button_label)
 
 # Logic for checking the answer
 if check_button:
-    if "Check" in st.session_state.button_label:
-        # Confirm the day of the week selected by the user
-        day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
+    # Confirm the day of the week selected by the user
+    day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
+    
+    if selected_day_of_week == day_of_week:
+        st.balloons()
+        st.success(day_of_week + " is OK! :thumbsup:")
         
-        if selected_day_of_week == day_of_week:
-            st.balloons()
-            st.success(day_of_week + " is OK! :thumbsup:")
-            
-            # Calculate the time taken for this question
-            question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
-            st.write(f"Time taken for this question: {round(question_time_taken, 2)} seconds")
-            
-            # Update the total time
-            st.session_state.total_time += question_time_taken
-            
-            # Add the time to the list
-            st.session_state.time_list.append(question_time_taken)
-            
-            # Change the button label to "NEXT" immediately
-            st.session_state.button_label = "Next"
-            st.session_state.button_label = f"Check Question {st.session_state.question_count + 2}"
-            
-            # Generate a new random date for the next question
-            st.session_state.random_date = calculate_random_date()
-            
-            # Increment the question count
-            st.session_state.question_count += 1
-            
-            # Reset the question start time
-            st.session_state.question_start_time = datetime.now()
+        # Calculate the time taken for this question
+        question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
+        st.write(f"Time taken for this question: {round(question_time_taken, 2)} seconds")
         
-        else:
-            st.error(day_of_week + " is the right day! :coffee: That's why...")
+        # Update the total time
+        st.session_state.total_time += question_time_taken
+        
+        # Add the time to the list
+        st.session_state.time_list.append(question_time_taken)
+        
+        # Change the button label to "NEXT" immediately
+        st.session_state.button_label = "Next"
 
-    elif st.session_state.button_label == "Next":
         # Change the button label back to "Check" and include the question number
         st.session_state.button_label = f"Check Question {st.session_state.question_count + 2}"
         
@@ -99,8 +83,11 @@ if check_button:
         
         # Reset the question start time
         st.session_state.question_start_time = datetime.now()
+    
+    else:
+        st.error(day_of_week + " is the right day! :coffee: That's why...")
 
-    if st.session_state.question_count >= 5:
-        st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
-        st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
-        st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
+if st.session_state.question_count >= 5:
+    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
+    st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
+    st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
