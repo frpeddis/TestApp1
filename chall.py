@@ -1,3 +1,4 @@
+
 import random
 import calendar
 import streamlit as st
@@ -26,18 +27,19 @@ if 'lowest_time_record' not in st.session_state:
 if 'start_time' not in st.session_state:
     st.session_state.start_time = datetime.now()
 
+if 'random_date' not in st.session_state:
+    st.session_state.random_date = calculate_random_date()
+
 # If 5 questions are answered, reset the session
 if st.session_state.question_count >= 5:
     st.session_state.question_count = 0
     st.session_state.start_time = datetime.now()
+    st.session_state.random_date = calculate_random_date()
     st.write("Starting a new round of questions.")
-
-# Generate a random date for the current question
-random_date = calculate_random_date()
 
 # Display the random date
 description = "**Random Date:**"
-value = random_date.strftime("%d-%b-%Y")
+value = st.session_state.random_date.strftime("%d-%b-%Y")
 st.markdown(f"{description} {value}")
 
 # Prompt the user to select the day of the week from a dropdown list
@@ -51,8 +53,11 @@ if check_button:
     # Increment the question count
     st.session_state.question_count += 1
 
+    # Generate a new random date for the next question
+    st.session_state.random_date = calculate_random_date()
+
     # Confirm the day of the week selected by the user
-    day_of_week = calendar.day_name[random_date.weekday()]
+    day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
     
     if selected_day_of_week == day_of_week:
         st.balloons()
