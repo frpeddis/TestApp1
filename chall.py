@@ -3,13 +3,7 @@ import random
 import calendar
 import streamlit as st
 from datetime import datetime, timedelta
-import openai
 import time
-import streamlit.components.v1 as com
-import requests
-from PIL import Image
-from io import BytesIO
-import pandas as pd
 
 # Function to calculate a random date
 def calculate_random_date():
@@ -34,7 +28,6 @@ if 'random_date' not in st.session_state:
 if st.session_state.question_count >= 5:
     st.session_state.question_count = 0
     st.session_state.start_time = datetime.now()
-    st.session_state.random_date = calculate_random_date()
     st.write("Starting a new round of questions.")
 
 # Display the random date
@@ -53,17 +46,15 @@ if check_button:
     # Increment the question count
     st.session_state.question_count += 1
 
-    # Generate a new random date for the next question
-    st.session_state.random_date = calculate_random_date()
-
     # Confirm the day of the week selected by the user
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
     
     if selected_day_of_week == day_of_week:
         st.balloons()
         st.success(day_of_week + " is OK! :thumbsup:")
+        # Generate a new random date for the next question only if the answer was correct
+        st.session_state.random_date = calculate_random_date()
     else:
-        com.iframe("https://lottie.host/?file=380d3ff9-0c30-4a96-b25b-7eeb8868bfeb/vnvhMZFQ8j.json")
         st.error(day_of_week + " is the right day! :coffee: That's why...")
 
     # Calculate the total time taken to complete all questions so far
