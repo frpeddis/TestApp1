@@ -88,6 +88,7 @@ if check_button:
         st.error(day_of_week + " is the right day! :coffee: That's why...")
 
 if st.session_state.question_count >= 5:
-    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
+    st.markdown(f"**Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds**")
+    #st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
     st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
