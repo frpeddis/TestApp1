@@ -87,6 +87,7 @@ if st.session_state.show_summary:
     plt.xlabel('Question Number')
     plt.ylabel('Time Taken (s)')
     plt.xticks(range(1, 6))  # Adjusted this line to remove decimal points on the x-axis
+    plt.ylim(bottom=0)  # Make the y-axis start from 0
     plt.title('Time Taken for Each Question')
     plt.legend(['Time Taken', 'Average Time'])
     st.pyplot(plt)
