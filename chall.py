@@ -2,7 +2,7 @@ import random
 import calendar
 import streamlit as st
 from datetime import datetime, timedelta
-import time
+import matplotlib.pyplot as plt  # Importing matplotlib for plotting
 
 # Function to calculate a random date
 def calculate_random_date():
@@ -29,15 +29,8 @@ if 'button_label' not in st.session_state:
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
 
-# Reset the session if 5 questions are answered
-if st.session_state.question_count >= 5:
-    st.session_state.question_count = 0
-    st.session_state.total_time = 0.0
-    st.session_state.button_label = "Check Question 1"
-    st.session_state.time_list = []
-    st.session_state.random_date = calculate_random_date()
-    st.session_state.question_start_time = datetime.now()
-    st.write("Starting a new round of questions.")
+if 'show_summary' not in st.session_state:  # New session state to control the summary display
+    st.session_state.show_summary = False
 
 # Display the random date
 description = "**Random Date:**"
@@ -57,37 +50,52 @@ if check_button:
     
     if selected_day_of_week == day_of_week:
         st.balloons()
-        st.success(day_of_week + " is OK! :thumbsup:")
+        st.success(f"{day_of_week} is OK! :thumbsup:")
         
         # Calculate the time taken for this question
         question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
-        st.write(f"Time taken for this question: {round(question_time_taken, 2)} seconds")
-        
-        # Update the total time
         st.session_state.total_time += question_time_taken
-        
-        # Add the time to the list
         st.session_state.time_list.append(question_time_taken)
-        
-        # Change the button label to "NEXT" immediately
-        st.session_state.button_label = "Next"
 
-        # Change the button label back to "Check" and include the question number
-        st.session_state.button_label = f"Check Question {st.session_state.question_count + 2}"
-        
-        # Generate a new random date for the next question
-        st.session_state.random_date = calculate_random_date()
-        
-        # Increment the question count
+        # Update for the next question
         st.session_state.question_count += 1
-        
-        # Reset the question start time
         st.session_state.question_start_time = datetime.now()
+        st.session_state.random_date = calculate_random_date()
+        st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
     
     else:
-        st.error(day_of_week + " is the right day! :coffee: That's why...")
+        st.error(f"{day_of_week} is the right day! :coffee:")
 
+# Actions after 5 questions
 if st.session_state.question_count >= 5:
+    st.session_state.show_summary = True  # Show the summary
+
+# Display the summary and the plot if show_summary is True
+if st.session_state.show_summary:
+    # Calculate and display the statistics
+    average_time = st.session_state.total_time / 5
+    st.markdown(f"### Summary:")
     st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
     st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
+    st.write(f"Average time taken: {round(average_time, 2)} seconds")
+    
+    # Directly display the plot
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--')
+    plt.axhline(y=average_time, color='r', linestyle='-')
+    plt.xlabel('Question Number')
+    plt.ylabel('Time Taken (s)')
+    plt.xticks(range(1, 6))  # Adjusted this line to remove decimal points on the x-axis
+    plt.title('Time Taken for Each Question')
+    plt.legend(['Time Taken', 'Average Time'])
+    st.pyplot(plt)
+    
+    # Add a button to restart a new session
+    if st.button("Restart"):  # New button
+        st.session_state.question_count = 0
+        st.session_state.total_time = 0.0
+        st.session_state.time_list = []
+        st.session_state.button_label = "Check Question 1"
+        st.session_state.show_summary = False  # Reset the summary display
+        st.experimental_rerun()  # Rerun the app to reset the display
