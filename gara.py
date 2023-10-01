@@ -29,9 +29,6 @@ if 'button_label' not in st.session_state:
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
 
-if 'show_plot' not in st.session_state:  # New session state for controlling the plot
-    st.session_state.show_plot = False
-
 # Display the random date
 description = "**Random Date:**"
 value = st.session_state.random_date.strftime("%d-%b-%Y")
@@ -76,24 +73,18 @@ if st.session_state.question_count >= 5:
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
     st.write(f"Average time taken: {round(average_time, 2)} seconds")
     
-    # Add an additional button to show the plot
-    if st.button("Show Plot"):  # Changed this line
-        st.session_state.show_plot = True
-    
-    if st.session_state.show_plot:
-        # Plot the graph
-        plt.figure(figsize=(10, 6))
-        plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--')
-        plt.axhline(y=average_time, color='r', linestyle='-')
-        plt.xlabel('Question Number')
-        plt.ylabel('Time Taken (s)')
-        plt.title('Time Taken for Each Question')
-        plt.legend(['Time Taken', 'Average Time'])
-        st.pyplot(plt)
+    # Directly display the plot
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--')
+    plt.axhline(y=average_time, color='r', linestyle='-')
+    plt.xlabel('Question Number')
+    plt.ylabel('Time Taken (s)')
+    plt.title('Time Taken for Each Question')
+    plt.legend(['Time Taken', 'Average Time'])
+    st.pyplot(plt)
 
     # Reset for the next round
-    st.session_state.question_count = 0
-    st.session_state.total_time = 0.0
-    st.session_state.time_list = []
-    st.session_state.button_label = "Check Question 1"
-    st.session_state.show_plot = False  # Resetting the plot state
+    #st.session_state.question_count = 0
+    #st.session_state.total_time = 0.0
+    #st.session_state.time_list = []
+    #st.session_state.button_label = "Check Question 1"
