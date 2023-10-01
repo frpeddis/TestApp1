@@ -1,3 +1,4 @@
+
 import random
 import calendar
 import streamlit as st
@@ -28,6 +29,9 @@ if 'button_label' not in st.session_state:
 
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
+
+if 'show_summary' not in st.session_state:  # New session state to control the summary display
+    st.session_state.show_summary = False
 
 # Display the random date
 description = "**Random Date:**"
@@ -65,6 +69,10 @@ if check_button:
 
 # Actions after 5 questions
 if st.session_state.question_count >= 5:
+    st.session_state.show_summary = True  # Show the summary
+
+# Display the summary and the plot if show_summary is True
+if st.session_state.show_summary:
     # Calculate and display the statistics
     average_time = st.session_state.total_time / 5
     st.markdown(f"### Summary:")
@@ -90,3 +98,5 @@ if st.session_state.question_count >= 5:
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
         st.session_state.button_label = "Check Question 1"
+        st.session_state.show_summary = False  # Reset the summary display
+        st.experimental_rerun()  # Rerun the app to reset the display
