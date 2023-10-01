@@ -42,7 +42,7 @@ if time_since_display_start <= 3:
     value = st.session_state.random_date.strftime("%d-%b-%Y")
     st.markdown(f"{description} {value}")
 else:
-    st.markdown("**Random Date: (Hidden)**")
+    st.markdown("**Random Date: (Hidden)**")  # Updated this line to display "Hidden"
 
 # Prompt the user to select the day of the week from a dropdown list
 selected_day_of_week = st.selectbox(f"Select the day of the week for question {st.session_state.question_count + 1}:", list(calendar.day_name))
