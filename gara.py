@@ -79,12 +79,14 @@ if st.session_state.question_count >= 5:
     plt.axhline(y=average_time, color='r', linestyle='-')
     plt.xlabel('Question Number')
     plt.ylabel('Time Taken (s)')
+    plt.xticks(range(1, 6))  # Adjusted this line to remove decimal points on the x-axis
     plt.title('Time Taken for Each Question')
     plt.legend(['Time Taken', 'Average Time'])
     st.pyplot(plt)
-
-    # Reset for the next round
-    #st.session_state.question_count = 0
-    #st.session_state.total_time = 0.0
-    #st.session_state.time_list = []
-    #st.session_state.button_label = "Check Question 1"
+    
+    # Add a button to restart a new session
+    if st.button("Restart"):  # New button
+        st.session_state.question_count = 0
+        st.session_state.total_time = 0.0
+        st.session_state.time_list = []
+        st.session_state.button_label = "Check Question 1"
