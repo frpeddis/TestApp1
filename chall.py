@@ -29,13 +29,20 @@ if 'button_label' not in st.session_state:
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
 
-if 'show_summary' not in st.session_state:  # New session state to control the summary display
+if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
-# Display the random date
-description = "**Random Date:**"
-value = st.session_state.random_date.strftime("%d-%b-%Y")
-st.markdown(f"{description} {value}")
+if 'date_display_start_time' not in st.session_state:  # New session state to control the date display timing
+    st.session_state.date_display_start_time = datetime.now()
+
+# Display the random date only for the first 3 seconds
+time_since_display_start = (datetime.now() - st.session_state.date_display_start_time).total_seconds()
+if time_since_display_start <= 3:
+    description = "**Random Date:**"
+    value = st.session_state.random_date.strftime("%d-%b-%Y")
+    st.markdown(f"{description} {value}")
+else:
+    st.markdown("**Random Date: (Hidden)**")
 
 # Prompt the user to select the day of the week from a dropdown list
 selected_day_of_week = st.selectbox(f"Select the day of the week for question {st.session_state.question_count + 1}:", list(calendar.day_name))
@@ -61,6 +68,7 @@ if check_button:
         st.session_state.question_count += 1
         st.session_state.question_start_time = datetime.now()
         st.session_state.random_date = calculate_random_date()
+        st.session_state.date_display_start_time = datetime.now()  # Reset the date display timer
         st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
     
     else:
@@ -87,6 +95,7 @@ if st.session_state.show_summary:
     plt.xlabel('Question Number')
     plt.ylabel('Time Taken (s)')
     plt.xticks(range(1, 6))  # Adjusted this line to remove decimal points on the x-axis
+    plt.ylim(bottom=0)  # Make the y-axis start from 0
     plt.title('Time Taken for Each Question')
     plt.legend(['Time Taken', 'Average Time'])
     st.pyplot(plt)
