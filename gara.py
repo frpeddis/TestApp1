@@ -3,6 +3,7 @@ import calendar
 import streamlit as st
 from datetime import datetime, timedelta
 import time
+import matplotlib.pyplot as plt  # Importing matplotlib for plotting
 
 # Function to calculate a random date
 def calculate_random_date():
@@ -89,6 +90,19 @@ if check_button:
 
 if st.session_state.question_count >= 5:
     st.markdown(f"**Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds**")
-    #st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
     st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
+    
+    # Calculate and display the average time
+    average_time = st.session_state.total_time / 5
+    st.write(f"Average time taken: {round(average_time, 2)} seconds")
+    
+    # Plotting the graph
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--')
+    plt.axhline(y=average_time, color='r', linestyle='-')
+    plt.xlabel('Question Number')
+    plt.ylabel('Time Taken (s)')
+    plt.title('Time Taken for Each Question')
+    plt.legend(['Time Taken', 'Average Time'])
+    st.pyplot(plt)
