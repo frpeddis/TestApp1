@@ -77,7 +77,8 @@ if st.session_state.question_count >= 5:
     st.write(f"Average time taken: {round(average_time, 2)} seconds")
     
     # Add an additional button to show the plot
-    st.session_state.show_plot = st.button("Show Plot")
+    if st.button("Show Plot"):  # Changed this line
+        st.session_state.show_plot = True
     
     if st.session_state.show_plot:
         # Plot the graph
