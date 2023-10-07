@@ -12,7 +12,7 @@ def text_to_speech(text):
     return filename
 
 # Initialize Streamlit
-st.title("App Data Casuale")
+st.title("App Data Casuale ")
 
 # Generate a random date (just as an example)
 random_date = datetime(2023, random.randint(1, 12), random.randint(1, 28))
