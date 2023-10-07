@@ -46,7 +46,7 @@ st.title("App Data Casuale")
 random_date = datetime(2023, random.randint(1, 12), random.randint(1, 28))
 st.session_state.random_date = random_date
 value = st.session_state.random_date.strftime("%d-%b-%Y")
-description = "La data casuale è:"
+description = ""
 
 # Display the date
 st.markdown(f"{description} {value}")
