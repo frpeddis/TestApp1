@@ -1,23 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import random
 import calendar
 import streamlit as st
@@ -104,7 +85,7 @@ description = ""
 # Display the random date
 description = "**Random Date:**"
 value = st.session_state.random_date.strftime("%d-%b-%Y")
-st.markdown(f"{description} {value}")
+#st.markdown(f"{description} {value}")
 
 # Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
@@ -135,8 +116,9 @@ if check_button:
     
     if selected_day_of_week == day_of_week:
         st.balloons()
+        st.markdown(f"{description} {value}")
         st.success(f"{day_of_week} is OK! :thumbsup:")
-        
+
         # Calculate the time taken for this question
         question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
         st.session_state.total_time += question_time_taken
@@ -149,6 +131,7 @@ if check_button:
         st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
     
     else:
+        st.success(f"{day_of_week} is OK! :thumbsup:")
         st.error(f"{day_of_week} is the right day! :coffee:")
 
 # Cleanup
