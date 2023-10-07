@@ -40,7 +40,7 @@ def date_to_italian_words(date):
     return f"{day_words} {month_words} {year_words}"
 
 # Initialize Streamlit
-st.title("App Data Casuale")
+#st.title("App Data Casuale")
 
 # Generate a random date (just as an example)
 random_date = datetime(2023, random.randint(1, 12), random.randint(1, 28))
@@ -49,7 +49,7 @@ value = st.session_state.random_date.strftime("%d-%b-%Y")
 description = ""
 
 # Display the date
-st.markdown(f"{description} {value}")
+#st.markdown(f"{description} {value}")
 
 # Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
