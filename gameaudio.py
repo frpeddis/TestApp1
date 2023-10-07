@@ -7,11 +7,17 @@ from gtts import gTTS
 from num2words import num2words
 from io import BytesIO  # Importing BytesIO
 
+import tempfile
+
 # Function to convert text to speech
 def text_to_speech(text):
     tts = gTTS(text=text, lang='it')
-    audio_io = BytesIO()
-    tts.save(audio_io, format="mp3")
+    with tempfile.NamedTemporaryFile(delete=True) as temp:
+        temp_name = temp.name
+    tts.save(temp_name, format="mp3")
+    with open(temp_name, 'rb') as f:
+        audio_data = f.read()
+    audio_io = BytesIO(audio_data)
     audio_io.seek(0)
     return audio_io
 
