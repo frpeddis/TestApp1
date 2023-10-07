@@ -5,3 +5,5 @@ openai
 matplotlib>=3.0
 gtts
 num2words
+pydub==0.25.1
+
