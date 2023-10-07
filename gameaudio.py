@@ -47,6 +47,20 @@ def calculate_random_date():
     end_date = datetime(2099, 12, 31)
     return start_date + timedelta(seconds=random.randint(0, int((end_date - start_date).total_seconds())))
 
+# Function to generate audio
+def generate_audio():
+    date_words = date_to_italian_words(st.session_state.random_date)
+    audio_file_path = text_to_speech(date_words)
+
+    audio_file = open(audio_file_path, 'rb')
+    audio_bytes = audio_file.read()
+
+    audio_base64 = base64.b64encode(audio_bytes).decode()
+    audio_html = f'<audio controls><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mpeg"></audio>'
+    st.markdown(audio_html, unsafe_allow_html=True)
+
+    os.remove(audio_file_path)
+
 # Initialize session state variables
 if 'question_count' not in st.session_state:
     st.session_state.question_count = 0
@@ -65,24 +79,6 @@ if 'show_summary' not in st.session_state:
 
 st.title(":sunglasses: What day is it? Random date 🎲")
 
-def generate_audio():
-    # Generate new audio for the next question and display it
-    date_words = date_to_italian_words(st.session_state.random_date)
-    audio_file_path = text_to_speech(date_words)
-
-    audio_file = open(audio_file_path, 'rb')
-    audio_bytes = audio_file.read()
-
-    audio_base64 = base64.b64encode(audio_bytes).decode()
-    audio_html = f'<audio controls><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mpeg"></audio>'
-    st.markdown(audio_html, unsafe_allow_html=True)
-
-    # Cleanup
-    os.remove(audio_file_path)
-
-# The placeholder will hold the audio player
-audio_placeholder = st.empty()
-
 # Generate the initial audio
 generate_audio()
 
@@ -94,26 +90,21 @@ check_button = st.button(st.session_state.button_label)
 
 # Logic for checking the answer
 if check_button:
-    # Confirm the day of the week selected by the user
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
     
     if selected_day_of_week == day_of_week:
         st.balloons()
         st.success(f"{day_of_week} is OK! :thumbsup:")
-
-        # Calculate the time taken for this question
         question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
         st.session_state.total_time += question_time_taken
         st.session_state.time_list.append(question_time_taken)
-
-        # Update for the next question
         st.session_state.question_count += 1
         st.session_state.question_start_time = datetime.now()
         st.session_state.random_date = calculate_random_date()
         st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
 
-        # Update the audio player
-        audio_placeholder.empty()
+        # Clear and replace the audio bar
+        st.markdown("", unsafe_allow_html=True)
         generate_audio()
     else:
         st.error(f"{day_of_week} is the right day! :coffee:")
