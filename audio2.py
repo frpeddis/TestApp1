@@ -55,7 +55,7 @@ description = ""
 date_words = date_to_italian_words(st.session_state.random_date)
 
 # Text to speech
-audio_file_path = text_to_speech(f"La data casuale è: {date_words}")
+audio_file_path = text_to_speech(f"{date_words}")
 
 # Streamlit audio player
 audio_file = open(audio_file_path, 'rb')
