@@ -1,3 +1,4 @@
+Copy code
 import random
 import calendar
 import tempfile
@@ -7,8 +8,7 @@ import matplotlib.pyplot as plt
 from gtts import gTTS
 from num2words import num2words
 from io import BytesIO
-
-from pydub import AudioSegment  # You'll need to add 'pydub' to your requirements.txt
+import wave
 
 # Function to convert text to speech
 def text_to_speech(text):
@@ -17,13 +17,17 @@ def text_to_speech(text):
         tts.save(temp.name)
         temp.seek(0)
         audio_data = temp.read()
+
+    audio_io = BytesIO(audio_data)
+    audio_io.seek(0)
     
-    audio = AudioSegment.from_mp3(BytesIO(audio_data))
-    audio_io = BytesIO()
-    audio.export(audio_io, format="ogg")
+    with wave.open(audio_io, 'rb') as wave_file:
+        params = wave_file.getparams()
+        audio_data = wave_file.readframes(params.nframes)
+        
+    audio_io = BytesIO(audio_data)
     audio_io.seek(0)
     return audio_io
-
 
 
 # Function to convert date to Italian words
@@ -86,7 +90,7 @@ audio_io = text_to_speech(f"{date_words}")
 # Streamlit audio player
 audio_io.seek(0)
 audio_bytes = audio_io.read()
-st.audio(audio_bytes, format='audio/mp3')
+st.audio(audio_bytes, format='audio/wav')
 
 # User selection for day of the week
 selected_day_of_week = st.selectbox(
