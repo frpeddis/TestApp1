@@ -3,3 +3,4 @@ pillow
 pytesseract
 openai
 matplotlib>=3.0
+gtts
