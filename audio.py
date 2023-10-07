@@ -6,19 +6,19 @@ import os
 
 # Function to convert text to speech
 def text_to_speech(text):
-    tts = gTTS(text=text, lang='en')
+    tts = gTTS(text=text, lang='it')  # Changed language to Italian
     filename = 'temp_audio.mp3'
     tts.save(filename)
     return filename
 
 # Initialize Streamlit
-st.title("Random Date App")
+st.title("App Data Casuale")
 
 # Generate a random date (just as an example)
 random_date = datetime(2023, random.randint(1, 12), random.randint(1, 28))
 st.session_state.random_date = random_date
 value = st.session_state.random_date.strftime("%d-%b-%Y")
-description = "The random date is:"
+description = ""  # Description in Italian
 
 # Display the date
 st.markdown(f"{description} {value}")
