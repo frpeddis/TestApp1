@@ -85,67 +85,51 @@ selected_day_of_week = st.selectbox(f"Select the day of the week for question {s
 check_button = st.button(st.session_state.button_label)
 
 # Logic for checking the answer
-# Logic for checking the answer
 if check_button:
-    # Confirm the day of the week selected by the user
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
-    
     if selected_day_of_week == day_of_week:
         st.balloons()
-        st.markdown(f"{description} {value}")
         st.success(f"{day_of_week} is OK! :thumbsup:")
 
-        # Calculate the time taken for this question
+        # Time calculation
         question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
         st.session_state.total_time += question_time_taken
         st.session_state.time_list.append(question_time_taken)
 
-        # Update for the next question
+        # Prepare for the next question
         st.session_state.question_count += 1
         st.session_state.question_start_time = datetime.now()
         st.session_state.random_date = calculate_random_date()
         st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
-    
     else:
-        st.markdown(f"{description} {value}")
         st.error(f"{day_of_week} is the right day! :coffee:")
 
-# Cleanup
-os.remove(audio_file_path)
-
-# Actions after 5 questions
+# Show summary after 5 questions
 if st.session_state.question_count >= 5:
-    st.session_state.show_summary = True  # Show the summary
+    st.session_state.show_summary = True
 
-# Display the summary and the plot if show_summary is True
 if st.session_state.show_summary:
-    # Calculate and display the statistics
     average_time = st.session_state.total_time / 5
-    st.markdown(f"### Summary:")
     st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
     st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
-    st.markdown(f'<p style="color:red;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
-    #st.write(f"Average time taken: {round(average_time, 2)} seconds")
+    st.write(f"Average time taken: {round(average_time, 2)} seconds")
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
-    
-    
-    # Directly display the plot
+
     plt.figure(figsize=(10, 6))
     plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--')
     plt.axhline(y=average_time, color='r', linestyle='-')
     plt.xlabel('Question Number')
     plt.ylabel('Time Taken (s)')
-    plt.xticks(range(1, 6))  # Adjusted this line to remove decimal points on the x-axis
-    plt.ylim(bottom=0)  # Make the y-axis start from 0
+    plt.xticks(range(1, 6))
+    plt.ylim(bottom=0)
     plt.title('Time Taken for Each Question')
     plt.legend(['Time Taken', 'Average Time'])
     st.pyplot(plt)
-    
-    # Add a button to restart a new session
-    if st.button("Restart"):  # New button
+
+    if st.button("Restart"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
         st.session_state.button_label = "Check Question 1"
-        st.session_state.show_summary = False  # Reset the summary display
-        st.experimental_rerun()  # Rerun the app to reset the display
+        st.session_state.show_summary = False
+        st.experimental_rerun()
