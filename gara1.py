@@ -131,7 +131,7 @@ if check_button:
         st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
     
     else:
-        st.success(f"{day_of_week} is OK! :thumbsup:")
+        st.markdown(f"{description} {value}")
         st.error(f"{day_of_week} is the right day! :coffee:")
 
 # Cleanup
