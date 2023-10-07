@@ -2,11 +2,10 @@ import random
 import calendar
 import streamlit as st
 from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
 from gtts import gTTS
 from num2words import num2words
 import os
-import base64  # Added for base64 encoding
+import base64
 
 # Function to convert text to speech
 def text_to_speech(text):
@@ -67,25 +66,22 @@ if 'show_summary' not in st.session_state:
 st.title(":sunglasses: What day is it? Random date 🎲")
 
 def generate_audio():
-    # Convert date to Italian words
+    # Generate new audio for the next question and display it
     date_words = date_to_italian_words(st.session_state.random_date)
+    audio_file_path = text_to_speech(date_words)
 
-    # Text to speech
-    audio_file_path = text_to_speech(f"{date_words}")
-
-    # Read audio file to bytes
     audio_file = open(audio_file_path, 'rb')
     audio_bytes = audio_file.read()
 
-    # Encode as base64
     audio_base64 = base64.b64encode(audio_bytes).decode()
-
-    # Embed as HTML audio tag
     audio_html = f'<audio controls><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mpeg"></audio>'
     st.markdown(audio_html, unsafe_allow_html=True)
 
     # Cleanup
     os.remove(audio_file_path)
+
+# The placeholder will hold the audio player
+audio_placeholder = st.empty()
 
 # Generate the initial audio
 generate_audio()
@@ -115,9 +111,9 @@ if check_button:
         st.session_state.question_start_time = datetime.now()
         st.session_state.random_date = calculate_random_date()
         st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
-    
+
+        # Update the audio player
+        audio_placeholder.empty()
+        generate_audio()
     else:
         st.error(f"{day_of_week} is the right day! :coffee:")
-
-    # Generate new audio for the next question
-    generate_audio()
