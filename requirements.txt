@@ -2,8 +2,10 @@ streamlit
 pillow
 pytesseract
 openai
-matplotlib>=3.0
-gtts
 num2words
 pydub==0.25.1
+gtts==2.2.3
+num2words==0.5.10
+matplotlib==3.4.3
+
 
