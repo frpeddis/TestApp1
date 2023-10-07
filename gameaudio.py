@@ -66,25 +66,29 @@ if 'show_summary' not in st.session_state:
 
 st.title(":sunglasses: What day is it? Random date 🎲")
 
-description = "**Random Date:**"
-value = st.session_state.random_date.strftime("%d-%b-%Y")
+def generate_audio():
+    # Convert date to Italian words
+    date_words = date_to_italian_words(st.session_state.random_date)
 
-# Convert date to Italian words
-date_words = date_to_italian_words(st.session_state.random_date)
+    # Text to speech
+    audio_file_path = text_to_speech(f"{date_words}")
 
-# Text to speech
-audio_file_path = text_to_speech(f"{date_words}")
+    # Read audio file to bytes
+    audio_file = open(audio_file_path, 'rb')
+    audio_bytes = audio_file.read()
 
-# Read audio file to bytes
-audio_file = open(audio_file_path, 'rb')
-audio_bytes = audio_file.read()
+    # Encode as base64
+    audio_base64 = base64.b64encode(audio_bytes).decode()
 
-# Encode as base64
-audio_base64 = base64.b64encode(audio_bytes).decode()
+    # Embed as HTML audio tag
+    audio_html = f'<audio controls><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mpeg"></audio>'
+    st.markdown(audio_html, unsafe_allow_html=True)
 
-# Embed as HTML audio tag
-audio_html = f'<audio controls><source src="data:audio/mp3;base64,{audio_base64}" type="audio/mpeg"></audio>'
-st.markdown(audio_html, unsafe_allow_html=True)
+    # Cleanup
+    os.remove(audio_file_path)
+
+# Generate the initial audio
+generate_audio()
 
 # Prompt the user to select the day of the week from a dropdown list
 selected_day_of_week = st.selectbox(f"Select the day of the week for question {st.session_state.question_count + 1}:", list(calendar.day_name))
@@ -99,7 +103,6 @@ if check_button:
     
     if selected_day_of_week == day_of_week:
         st.balloons()
-        st.markdown(f"{description} {value}")
         st.success(f"{day_of_week} is OK! :thumbsup:")
 
         # Calculate the time taken for this question
@@ -114,8 +117,7 @@ if check_button:
         st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
     
     else:
-        st.markdown(f"{description} {value}")
         st.error(f"{day_of_week} is the right day! :coffee:")
 
-# Cleanup
-os.remove(audio_file_path)
+    # Generate new audio for the next question
+    generate_audio()
