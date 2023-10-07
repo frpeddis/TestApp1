@@ -8,6 +8,8 @@ from gtts import gTTS
 from num2words import num2words
 from io import BytesIO
 
+from pydub import AudioSegment  # You'll need to add 'pydub' to your requirements.txt
+
 # Function to convert text to speech
 def text_to_speech(text):
     tts = gTTS(text=text, lang='it')
@@ -15,9 +17,13 @@ def text_to_speech(text):
         tts.save(temp.name)
         temp.seek(0)
         audio_data = temp.read()
-    audio_io = BytesIO(audio_data)
+    
+    audio = AudioSegment.from_mp3(BytesIO(audio_data))
+    audio_io = BytesIO()
+    audio.export(audio_io, format="ogg")
     audio_io.seek(0)
     return audio_io
+
 
 
 # Function to convert date to Italian words
