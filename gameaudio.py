@@ -19,15 +19,7 @@ def text_to_speech(text):
 
     audio_io = BytesIO(audio_data)
     audio_io.seek(0)
-    
-    with wave.open(audio_io, 'rb') as wave_file:
-        params = wave_file.getparams()
-        audio_data = wave_file.readframes(params.nframes)
-        
-    audio_io = BytesIO(audio_data)
-    audio_io.seek(0)
     return audio_io
-
 
 # Function to convert date to Italian words
 def date_to_italian_words(date):
@@ -106,11 +98,13 @@ if check_button:
     if selected_day_of_week == day_of_week:
         st.balloons()
         st.success(f"{day_of_week} is OK! :thumbsup:")
+        
         question_time_taken = (
             datetime.now() - st.session_state.question_start_time
         ).total_seconds()
         st.session_state.total_time += question_time_taken
         st.session_state.time_list.append(question_time_taken)
+        
         st.session_state.question_count += 1
         st.session_state.question_start_time = datetime.now()
         st.session_state.random_date = calculate_random_date()
@@ -139,11 +133,3 @@ if st.session_state.show_summary:
     plt.title('Time Taken for Each Question')
     plt.legend(['Time Taken', 'Average Time'])
     st.pyplot(plt)
-
-    if st.button("Restart"):
-        st.session_state.question_count = 0
-        st.session_state.total_time = 0.0
-        st.session_state.time_list = []
-        st.session_state.button_label = "Check Question 1"
-        st.session_state.show_summary = False
-        st.experimental_rerun()
