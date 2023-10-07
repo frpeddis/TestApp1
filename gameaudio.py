@@ -11,14 +11,14 @@ from io import BytesIO
 # Function to convert text to speech
 def text_to_speech(text):
     tts = gTTS(text=text, lang='it')
-    with tempfile.NamedTemporaryFile(delete=True) as temp:
-        temp_name = temp.name
-    tts.save(temp_name, format="mp3")
-    with open(temp_name, 'rb') as f:
-        audio_data = f.read()
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
+        tts.save(temp.name)
+        temp.seek(0)
+        audio_data = temp.read()
     audio_io = BytesIO(audio_data)
     audio_io.seek(0)
     return audio_io
+
 
 # Function to convert date to Italian words
 def date_to_italian_words(date):
