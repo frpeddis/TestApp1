@@ -1,4 +1,3 @@
-Copy code
 import random
 import calendar
 import tempfile
