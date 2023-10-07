@@ -77,7 +77,7 @@ if 'show_summary' not in st.session_state:  # New session state to control the s
 description = ""
 
 
-
+st.title(":sunglasses: What day is it? Random date 🎲")
 
 
 
