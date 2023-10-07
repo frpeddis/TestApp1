@@ -5,5 +5,5 @@ openai
 matplotlib>=3.0
 gtts
 num2words
-io
+
 
