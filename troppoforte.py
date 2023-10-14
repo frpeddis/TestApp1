@@ -149,4 +149,12 @@ if st.session_state.show_summary:
     st.pyplot(plt)
 
     # Add a button to restart a new session
-    if st.button("
+    if st.button("Restart"):
+        st.session_state.show_summary = False
+        st.session_state.question_count = 0
+        st.session_state.total_time = 0.0
+        st.session_state.time_list = []
+        st.session_state.error_count_list = [0] * 5
+        st.session_state.random_date = calculate_random_date()
+        st.session_state.button_label = "Check Question 1"
+
