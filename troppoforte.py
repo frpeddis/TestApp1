@@ -120,6 +120,7 @@ if st.session_state.show_summary:
     average_time = st.session_state.total_time / 5
     st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
     st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
+    st.markdown(f'<p style="color:red;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
 
     plt.figure(figsize=(10, 6))
