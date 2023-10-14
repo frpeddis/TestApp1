@@ -120,7 +120,7 @@ if st.session_state.show_summary:
     average_time = st.session_state.total_time / 5
     st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
     st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
-    st.markdown(f'<p style="color:red;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
+    st.markdown(f'<p style="color:fuchsia;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
 
     plt.figure(figsize=(10, 6))
@@ -130,7 +130,7 @@ if st.session_state.show_summary:
         color = 'g' if error_count == 0 else 'r'
         plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
     
-    plt.axhline(y=average_time, color='r', linestyle='-', label='Average Time')
+    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Average Time')
     plt.xlabel('Question Number')
     plt.ylabel('Time Taken (s)')
     plt.xticks(range(1, 6))
@@ -144,4 +144,3 @@ if st.session_state.show_summary:
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-    
