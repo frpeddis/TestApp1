@@ -132,16 +132,17 @@ if st.session_state.show_summary:
         st.markdown(f'<span style="color:{color}; font-size:50px;">•</span>', unsafe_allow_html=True)
     
     plt.figure(figsize=(10, 6))
-    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--')
+    color_map = ['green' if x == 0 else 'red' for x in st.session_state.error_list]
+    plt.scatter(range(1, 6), st.session_state.time_list, c=color_map, marker='o')
     plt.axhline(y=average_time, color='r', linestyle='-')
     plt.xlabel('Question Number')
     plt.ylabel('Time Taken (s)')
     plt.xticks(range(1, 6))
     plt.ylim(bottom=0)
     plt.title('Time Taken for Each Question')
-    plt.legend(['Time Taken', 'Average Time'])
+    plt.legend(['Average Time'])
     st.pyplot(plt)
-    
+
     if st.button("Restart"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
