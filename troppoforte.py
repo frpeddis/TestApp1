@@ -127,7 +127,7 @@ if st.session_state.show_summary:
     
     for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
         color = 'g' if error_count == 0 else 'r'
-        plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label='No Error' if color == 'g' else 'Error')
+        plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
     
     plt.axhline(y=average_time, color='r', linestyle='-', label='Average Time')
     plt.xlabel('Question Number')
@@ -143,6 +143,4 @@ if st.session_state.show_summary:
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-        st.session_state.error_count_list = [0] * 5
-        st.session_state.random_date = calculate_random_date()
-        st.session_state.button_label = "Check Question 1"
+    
