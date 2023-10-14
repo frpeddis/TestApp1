@@ -123,19 +123,19 @@ if st.session_state.show_summary:
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
 
     plt.figure(figsize=(10, 6))
-    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--')
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Time Taken')
     
-    for i, error_count in enumerate(st.session_state.error_count_list):
+    for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
         color = 'g' if error_count == 0 else 'r'
-        plt.scatter(i+1, st.session_state.time_list[i], color=color)
-
-    plt.axhline(y=average_time, color='r', linestyle='-')
+        plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label='No Error' if color == 'g' else 'Error')
+    
+    plt.axhline(y=average_time, color='r', linestyle='-', label='Average Time')
     plt.xlabel('Question Number')
     plt.ylabel('Time Taken (s)')
     plt.xticks(range(1, 6))
     plt.ylim(bottom=0)
     plt.title('Time Taken for Each Question')
-    plt.legend(['Time Taken', 'Average Time'])
+    plt.legend()
     st.pyplot(plt)
 
     if st.button("Restart"):
