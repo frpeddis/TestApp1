@@ -10,27 +10,26 @@ def calculate_random_date():
     end_date = datetime(2099, 12, 31)
     return start_date + timedelta(seconds=random.randint(0, int((end_date - start_date).total_seconds())))
 
-# Initialize session state variables if not already initialized
+# Initialize session state variables
 if 'question_count' not in st.session_state:
     st.session_state.question_count = 0
-
+if 'error_count_list' not in st.session_state:
+    st.session_state.error_count_list = [0] * 5
 if 'total_time' not in st.session_state:
     st.session_state.total_time = 0.0
-
 if 'question_start_time' not in st.session_state:
     st.session_state.question_start_time = datetime.now()
-
 if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
-
 if 'button_label' not in st.session_state:
     st.session_state.button_label = "Check Question 1"
-
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
-
-if 'show_summary' not in st.session_state:  # New session state to control the summary display
+if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
+
+# Streamlit app title
+st.title(":sunglasses: What day is it? Random date 🎲")
 
 # Display the random date
 description = "**Random Date:**"
