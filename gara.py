@@ -95,9 +95,12 @@ if st.session_state.show_summary:
     plt.legend()
     st.pyplot(plt)
 
-    if st.button("Restart"):
-        st.session_state.show_summary = False
+        
+    if st.button("Restart"):  # New button
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
+        st.session_state.button_label = "Check Question 1"
+        st.session_state.show_summary = False  # Reset the summary display
+        st.experimental_rerun()  # Rerun the app to reset the display
 
