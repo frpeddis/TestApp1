@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from gtts import gTTS
 from num2words import num2words
 from io import BytesIO
+# New import
+import speech_recognition as sr
 
 # Function to convert text to speech
 def text_to_speech(text):
@@ -42,6 +44,18 @@ def date_to_italian_words(date):
     }
     month_words = month_map.get(month, '')
     return f"{day_words} {month_words} {year_words}"
+
+# New Function to recognize speech from audio
+def recognize_audio(audio_bytes):
+    recognizer = sr.Recognizer()
+    audio_data = sr.AudioData(audio_bytes, sample_rate=16000, sample_width=2)
+    try:
+        text = recognizer.recognize_google(audio_data, language='it-IT')
+        return text.lower()
+    except sr.UnknownValueError:
+        return None
+
+
 
 # Function to calculate a random date
 def calculate_random_date():
@@ -82,6 +96,20 @@ audio_io = text_to_speech(f"{date_words}")
 audio_io.seek(0)
 audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
+
+##############
+# New code to Capture user audio input
+audio_file = st.file_uploader("Record your guess for the day of the week (in Italian) and upload the audio file:", type=['wav', 'mp3'])
+
+if audio_file:
+    audio_bytes = audio_file.read()
+    recognized_text = recognize_audio(audio_bytes)
+    if recognized_text:
+        st.write(f"You said: {recognized_text}")
+        # Your code to compare recognized_text with the correct day of the week
+    else:
+        st.error("Could not understand the audio. Please try again.")
+##############
 
 # User selection for day of the week
 selected_day_of_week = st.selectbox(
