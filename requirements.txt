@@ -7,7 +7,8 @@ pydub==0.25.1
 gtts==2.2.3
 num2words==0.5.10
 matplotlib==3.4.3
-speech_recognition  # New library
+speech_recognition
+
 
 
 
