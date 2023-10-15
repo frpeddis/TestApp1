@@ -36,34 +36,37 @@ description = "**Random Date:**"
 value = st.session_state.random_date.strftime("%d-%b-%Y")
 st.markdown(f"{description} {value}")
 
-# Prompt the user to select the day of the week from a dropdown list
-selected_day_of_week = st.selectbox(f"Select the day of the week for question {st.session_state.question_count + 1}:", list(calendar.day_name))
 
-# Add a button to confirm the selection, label changes based on session state
+######################
+
+# User selection for day of the week
+selected_day_of_week = st.selectbox(
+    f"Select the day of the week for question {st.session_state.question_count + 1}:",
+    list(calendar.day_name),
+)
+
+# Button to confirm the selection
 check_button = st.button(st.session_state.button_label)
 
 # Logic for checking the answer
 if check_button:
-    # Confirm the day of the week selected by the user
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
-    
     if selected_day_of_week == day_of_week:
         st.balloons()
         st.success(f"{day_of_week} is OK! :thumbsup:")
-        
-        # Calculate the time taken for this question
-        question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
-        st.session_state.total_time += question_time_taken
-        st.session_state.time_list.append(question_time_taken)
-
-        # Update for the next question
-        st.session_state.question_count += 1
-        st.session_state.question_start_time = datetime.now()
-        st.session_state.random_date = calculate_random_date()
-        st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
-    
     else:
+        st.session_state.error_count_list[st.session_state.question_count] += 1
         st.error(f"{day_of_week} is the right day! :coffee:")
+
+    question_time_taken = (
+        datetime.now() - st.session_state.question_start_time
+    ).total_seconds()
+    st.session_state.total_time += question_time_taken
+    st.session_state.time_list.append(question_time_taken)
+    st.session_state.question_count += 1
+    st.session_state.question_start_time = datetime.now()
+    st.session_state.random_date = calculate_random_date()
+    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
@@ -97,3 +100,4 @@ if st.session_state.show_summary:
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
+
