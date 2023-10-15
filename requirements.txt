@@ -13,6 +13,6 @@ numpy
 soundfile
 base64
 tempfile
-# Any other dependencies you have
+soundfile
 
 
