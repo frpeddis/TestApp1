@@ -4,7 +4,7 @@ import streamlit as st
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt  # Importing matplotlib for plotting
 
-# Function to calculate a random date
+#  Function to calculate a random date
 def calculate_random_date():
     start_date = datetime(1582, 10, 15)
     end_date = datetime(2099, 12, 31)
