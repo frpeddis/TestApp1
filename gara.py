@@ -32,10 +32,28 @@ if 'show_summary' not in st.session_state:
 st.title(":sunglasses: What day is it? Random date 🎲")
 
 # Display the random date
-description = "**Random Date:**"
+#description = "**Random Date:**"
 #value = st.session_state.random_date.strftime("%d-%b-%Y")
-value = st.session_state.random_date.strftime("%d/%m/%Y") 
+#value = st.session_state.random_date.strftime("%d/%m/%Y") 
+#st.markdown(f"{description} {value}")
+
+# Calcola un numero intero random tra 1 e 9
+numero_random = random.randint(1, 9)
+
+# Inizializza la variabile 'description'
+description = "**Random Date:**"
+
+# Esegue il blocco di codice appropriato in base al numero random
+if numero_random % 2 == 0:
+    # Numero pari: esegue questo blocco
+    value = st.session_state.random_date.strftime("%d-%b-%Y")
+else:
+    # Numero dispari: esegue questo blocco
+    value = st.session_state.random_date.strftime("%d/%m/%Y")
+
+# Mostra il risultato
 st.markdown(f"{description} {value}")
+
 
 
 ######################
