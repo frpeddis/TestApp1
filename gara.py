@@ -33,7 +33,8 @@ st.title(":sunglasses: What day is it? Random date 🎲")
 
 # Display the random date
 description = "**Random Date:**"
-value = st.session_state.random_date.strftime("%d-%b-%Y")
+#value = st.session_state.random_date.strftime("%d-%b-%Y")
+value = st.session_state.random_date.strftime("%d/%m/%Y") 
 st.markdown(f"{description} {value}")
 
 
