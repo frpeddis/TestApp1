@@ -4,7 +4,7 @@ import streamlit as st
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt  # Importing matplotlib for plotting
 
-#  Function to calculate a random date
+# Function to calculate a random date
 def calculate_random_date():
     start_date = datetime(1582, 10, 15)
     end_date = datetime(2099, 12, 31)
@@ -37,10 +37,6 @@ value = st.session_state.random_date.strftime("%d-%b-%Y")
 value = st.session_state.random_date.strftime("%d/%m/%Y") 
 st.markdown(f"{description} {value}")
 
-
-
-######################
-
 # User selection for day of the week
 selected_day_of_week = st.selectbox(
     f"Select the day of the week for question {st.session_state.question_count + 1}:",
@@ -53,12 +49,15 @@ check_button = st.button(st.session_state.button_label)
 # Logic for checking the answer
 if check_button:
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
-    if selected_day_of_week == day_of_week:
+    is_correct = selected_day_of_week == day_of_week
+    if is_correct:
         st.balloons()
         st.success(f"{day_of_week} is OK! :thumbsup:")
+        st.session_state.button_label = "Next"  # Change button label to "Next"
     else:
         st.session_state.error_count_list[st.session_state.question_count] += 1
         st.error(f"{day_of_week} is the right day! :coffee:")
+        st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"  # Keep the label the same
 
     question_time_taken = (
         datetime.now() - st.session_state.question_start_time
@@ -68,7 +67,6 @@ if check_button:
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
@@ -105,4 +103,3 @@ if st.session_state.show_summary:
         st.session_state.button_label = "Check Question 1"
         st.session_state.show_summary = False  # Reset the summary display
         st.experimental_rerun()  # Rerun the app to reset the display
-
