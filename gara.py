@@ -50,14 +50,15 @@ check_button = st.button(st.session_state.button_label)
 if check_button:
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
     is_correct = selected_day_of_week == day_of_week
+
     if is_correct:
         st.balloons()
         st.success(f"{day_of_week} is OK! :thumbsup:")
-        st.session_state.button_label = "Next"  # Change button label to "Next"
+        st.session_state.button_label = "Next"  # Change button label to "Next" if the answer is correct
     else:
         st.session_state.error_count_list[st.session_state.question_count] += 1
         st.error(f"{day_of_week} is the right day! :coffee:")
-        st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"  # Keep the label the same
+        st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"  # Keep the label the same if the answer is incorrect
 
     question_time_taken = (
         datetime.now() - st.session_state.question_start_time
