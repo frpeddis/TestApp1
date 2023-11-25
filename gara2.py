@@ -68,13 +68,23 @@ if check_button:
     st.session_state.random_date = calculate_random_date()
     st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
 
-# Next question button to skip to the next question
+# Next question button to skip to the next question or restart after 5 questions
 if st.button("Next Question"):
-    st.session_state.time_list[st.session_state.question_count] = 0.0  # Update specific index with zero time
-    st.session_state.question_count += 1
+    if st.session_state.question_count < 4:
+        st.session_state.error_count_list[st.session_state.question_count] = 1  # Mark as error
+        st.session_state.time_list[st.session_state.question_count] = 0.0  # Update specific index with zero time
+        st.session_state.question_count += 1
+    else:
+        # Reset for a new round
+        st.session_state.question_count = 0
+        st.session_state.total_time = 0.0
+        st.session_state.time_list = [0.0] * 5
+        st.session_state.error_count_list = [0] * 5
+        st.session_state.button_label = "Check Question 1"
+        st.session_state.show_summary = False
+    
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
@@ -107,6 +117,7 @@ if st.session_state.show_summary:
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = [0.0] * 5  # Reset time list
+        st.session_state.error_count_list = [0] * 5  # Reset error count list
         st.session_state.button_label = "Check Question 1"
         st.session_state.show_summary = False  # Reset the summary display
         st.experimental_rerun()  # Rerun the app to reset the display
