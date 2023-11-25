@@ -24,7 +24,7 @@ if 'random_date' not in st.session_state:
 if 'button_label' not in st.session_state:
     st.session_state.button_label = "Check Question 1"
 if 'time_list' not in st.session_state:
-    st.session_state.time_list = []
+    st.session_state.time_list = [0.0] * 5  # Initialize time list with zeros
 if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
@@ -62,7 +62,7 @@ if check_button:
         datetime.now() - st.session_state.question_start_time
     ).total_seconds()
     st.session_state.total_time += question_time_taken
-    st.session_state.time_list.append(question_time_taken)
+    st.session_state.time_list[st.session_state.question_count] = question_time_taken  # Update specific index
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
@@ -70,6 +70,7 @@ if check_button:
 
 # Next question button to skip to the next question
 if st.button("Next Question"):
+    st.session_state.time_list[st.session_state.question_count] = 0.0  # Update specific index with zero time
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
@@ -105,7 +106,7 @@ if st.session_state.show_summary:
     if st.button("Restart"):  # New button
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
-        st.session_state.time_list = []
+        st.session_state.time_list = [0.0] * 5  # Reset time list
         st.session_state.button_label = "Check Question 1"
         st.session_state.show_summary = False  # Reset the summary display
         st.experimental_rerun()  # Rerun the app to reset the display
