@@ -116,7 +116,7 @@ if check_button:
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}/Next"
+    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / NEXT"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
