@@ -51,7 +51,8 @@ def date_to_italian_words(date):
 
 # Function to calculate a random date
 def calculate_random_date():
-    start_date = datetime(1582, 10, 15)
+    #start_date = datetime(1582, 10, 15)
+    start_date = datetime(2024, 10, 15)
     end_date = datetime(2099, 12, 31)
     return start_date + timedelta(
         seconds=random.randint(0, int((end_date - start_date).total_seconds()))
