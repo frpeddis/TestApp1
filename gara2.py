@@ -2,7 +2,7 @@ import random
 import calendar
 import streamlit as st
 from datetime import datetime, timedelta
-import matplotlib.pyplot as plt  # Importing matplotlib for plotting
+import matplotlib.pyplot as plt
 
 # Function to calculate a random date
 def calculate_random_date():
@@ -24,7 +24,7 @@ if 'random_date' not in st.session_state:
 if 'button_label' not in st.session_state:
     st.session_state.button_label = "Check Question 1"
 if 'time_list' not in st.session_state:
-    st.session_state.time_list = [0.0] * 5  # Initialize time list with zeros
+    st.session_state.time_list = []
 if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
@@ -37,54 +37,37 @@ value = st.session_state.random_date.strftime("%d-%b-%Y")
 value = st.session_state.random_date.strftime("%d/%m/%Y") 
 st.markdown(f"{description} {value}")
 
-######################
-
 # User selection for day of the week
 selected_day_of_week = st.selectbox(
     f"Select the day of the week for question {st.session_state.question_count + 1}:",
     list(calendar.day_name),
 )
 
-# Button to confirm the selection
-check_button = st.button(st.session_state.button_label)
+# Modify here: Only show the button if question_count is less than 5
+if st.session_state.question_count < 5:
+    check_button = st.button(st.session_state.button_label)
 
-# Logic for checking the answer
-if check_button:
-    day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
-    if selected_day_of_week == day_of_week:
-        st.balloons()
-        st.success(f"{day_of_week} is OK! :thumbsup:")
-    else:
-        st.session_state.error_count_list[st.session_state.question_count] += 1
-        st.error(f"{day_of_week} is the right day! :coffee:")
+    if check_button:
+        day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
+        if selected_day_of_week == day_of_week:
+            st.balloons()
+            st.success(f"{day_of_week} is OK! :thumbsup:")
+        else:
+            st.session_state.error_count_list[st.session_state.question_count] += 1
+            st.error(f"{day_of_week} is the right day! :coffee:")
 
-    question_time_taken = (
-        datetime.now() - st.session_state.question_start_time
-    ).total_seconds()
-    st.session_state.total_time += question_time_taken
-    st.session_state.time_list[st.session_state.question_count] = question_time_taken  # Update specific index
-    st.session_state.question_count += 1
-    st.session_state.question_start_time = datetime.now()
-    st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
-
-# Next question button to skip to the next question or restart after 5 questions
-if st.button("Next Question"):
-    if st.session_state.question_count < 4:
-        st.session_state.error_count_list[st.session_state.question_count] = 1  # Mark as error
-        st.session_state.time_list[st.session_state.question_count] = 0.0  # Update specific index with zero time
+        question_time_taken = (
+            datetime.now() - st.session_state.question_start_time
+        ).total_seconds()
+        st.session_state.total_time += question_time_taken
+        st.session_state.time_list.append(question_time_taken)
         st.session_state.question_count += 1
-    else:
-        # Reset for a new round
-        st.session_state.question_count = 0
-        st.session_state.total_time = 0.0
-        st.session_state.time_list = [0.0] * 5
-        st.session_state.error_count_list = [0] * 5
-        st.session_state.button_label = "Check Question 1"
-        st.session_state.show_summary = False
-    
-    st.session_state.question_start_time = datetime.now()
-    st.session_state.random_date = calculate_random_date()
+        st.session_state.question_start_time = datetime.now()
+        st.session_state.random_date = calculate_random_date()
+        if st.session_state.question_count < 5:
+            st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / Next"
+else:
+    check_button = False  # This ensures that the graph is displayed even if the button is not shown
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
@@ -113,11 +96,14 @@ if st.session_state.show_summary:
     plt.legend()
     st.pyplot(plt)
 
-    if st.button("Restart"):  # New button
+    if st.button("Restart"):
         st.session_state.question_count = 0
+        st.session_state.error_count_list = [0] * 5
         st.session_state.total_time = 0.0
-        st.session_state.time_list = [0.0] * 5  # Reset time list
-        st.session_state.error_count_list = [0] * 5  # Reset error count list
+        st.session_state.time_list = []
+        st.session_state.question_start_time = datetime.now()
+        st.session_state.random_date = calculate_random_date()
         st.session_state.button_label = "Check Question 1"
-        st.session_state.show_summary = False  # Reset the summary display
-        st.experimental_rerun()  # Rerun the app to reset the display
+        st.session_state.show_summary = False
+        st.experimental_rerun()
+   
