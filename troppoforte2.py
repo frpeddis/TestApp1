@@ -51,8 +51,7 @@ def date_to_italian_words(date):
 
 # Function to calculate a random date
 def calculate_random_date():
-    #start_date = datetime(1582, 10, 15)
-    start_date = datetime(1924, 10, 15)
+    start_date = datetime(1582, 10, 15)
     end_date = datetime(2099, 12, 31)
     return start_date + timedelta(
         seconds=random.randint(0, int((end_date - start_date).total_seconds()))
@@ -117,7 +116,7 @@ if check_button:
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
+    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}/Next"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
