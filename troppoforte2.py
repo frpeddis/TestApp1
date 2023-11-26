@@ -12,9 +12,9 @@ from io import BytesIO
 def text_to_speech(text, random_date):
     today = datetime.now()
     if random_date < today - timedelta(days=1):
-        prefix = "Che giorno era iiiil "
+        prefix = "Che giorno era il "
     else:
-        prefix = "Che giorno sarà iiiil "
+        prefix = "Che giorno sarà il "
     
     tts = gTTS(text=f"{prefix} {text}", lang='it')
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
