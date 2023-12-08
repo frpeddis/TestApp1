@@ -89,36 +89,14 @@ audio_io.seek(0)
 audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
 
-# Creating a row of buttons for each day of the week
-days = list(calendar.day_name)
-selected_day_of_week = None
-
-col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
-with col1:
-    if st.button(days[0]):
-        selected_day_of_week = days[0]
-with col2:
-    if st.button(days[1]):
-        selected_day_of_week = days[1]
-with col3:
-    if st.button(days[2]):
-        selected_day_of_week = days[2]
-with col4:
-    if st.button(days[3]):
-        selected_day_of_week = days[3]
-with col5:
-    if st.button(days[4]):
-        selected_day_of_week = days[4]
-with col6:
-    if st.button(days[5]):
-        selected_day_of_week = days[5]
-with col7:
-    if st.button(days[6]):
-        selected_day_of_week = days[6]
+# User selection for day of the week
+selected_day_of_week = st.selectbox(
+    f"Select the day of the week for question {st.session_state.question_count + 1}:",
+    list(calendar.day_name),
+)
 
 # Button to confirm the selection
-if selected_day_of_week is not None:
-    check_button = st.button("Check Answer")
+check_button = st.button(st.session_state.button_label)
 
 # Logic for checking the answer
 if check_button:
