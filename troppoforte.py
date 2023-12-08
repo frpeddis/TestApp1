@@ -9,8 +9,14 @@ from num2words import num2words
 from io import BytesIO
 
 # Function to convert text to speech
-def text_to_speech(text):
-    tts = gTTS(text=text, lang='it')
+def text_to_speech(text, random_date):
+    today = datetime.now()
+    if random_date < today - timedelta(days=1):
+        prefix = "Che giorno era il "
+    else:
+        prefix = "Che giorno sarà il "
+    
+    tts = gTTS(text=f"{prefix} {text}", lang='it')
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
         tts.save(temp.name)
         temp.seek(0)
@@ -75,8 +81,8 @@ st.title(":sunglasses: What day is it? Random date 🎲")
 # Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
 
-# Text to speech
-audio_io = text_to_speech(f"{date_words}")
+# Text to speech with the modified function
+audio_io = text_to_speech(date_words, st.session_state.random_date)
 
 # Streamlit audio player
 audio_io.seek(0)
@@ -110,7 +116,7 @@ if check_button:
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1}"
+    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / NEXT"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
