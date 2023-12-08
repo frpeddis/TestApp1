@@ -31,9 +31,9 @@ click_data = get_click_data()
 
 # Rilevamento clic e aggiornamento grafico
 clicked = pie_chart.clicked_points
-if clicked:
+if clicked and isinstance(clicked, list):
     # Assicurati che ci sia almeno un elemento in 'clicked' e che contenga 'label'
-    if len(clicked) > 0 and 'label' in clicked[0]:
+    if len(clicked) > 0 and isinstance(clicked[0], dict) and 'label' in clicked[0]:
         selected_day = clicked[0]['label']
         click_data['day'] = selected_day
         fig = create_pie_chart(selected_day)
