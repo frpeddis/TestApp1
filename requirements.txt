@@ -1,4 +1,5 @@
 streamlit
+plotly
 pillow
 pytesseract
 openai
