@@ -1,34 +1,42 @@
 import streamlit as st
-import matplotlib.pyplot as plt
-import numpy as np
+import plotly.graph_objects as go
 
-def draw_circle_sector(ax, center, radius, angle_start, angle_end, color='lightgray', label=''):
-    angles = np.linspace(angle_start, angle_end, 100)
-    x_full = np.concatenate([[center[0]], center[0] + radius * np.cos(np.radians(angles)), [center[0]]])
-    y_full = np.concatenate([[center[1]], center[1] + radius * np.sin(np.radians(angles)), [center[1]]])
-    ax.fill(x_full, y_full, color=color)
-    ax.plot(x_full, y_full, color='black')
-    ax.text(center[0] + (radius / 2) * np.cos(np.radians((angle_start + angle_end) / 2)),
-            center[1] + (radius / 2) * np.sin(np.radians((angle_start + angle_end) / 2)),
-            label, ha='center', va='center')
-
-def draw_week_circle(ax, center, radius, selected_day=None):
+# Funzione per creare il grafico a torta
+def create_pie_chart(selected_day):
     days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    angle_per_day = 360 / len(days)
+    colors = ['blue' if day == selected_day else 'lightgray' for day in days]
 
-    for i, day in enumerate(days):
-        start_angle = 360 - (i + 1) * angle_per_day
-        end_angle = 360 - i * angle_per_day
-        color = 'blue' if day == selected_day else 'lightgray'
-        draw_circle_sector(ax, center, radius, start_angle, end_angle, color=color, label=day)
+    fig = go.Figure(data=[go.Pie(labels=days, values=[1]*7, marker=dict(colors=colors), hole=.3)])
+    fig.update_traces(textinfo='label', textfont_size=20)
+    fig.update_layout(showlegend=False)
+
+    return fig
+
+# Inizializzazione della variabile selezionata
+selected_day = None
 
 # Streamlit UI
 st.title('Weekday Selector')
-selected_day = st.selectbox('Select a day', ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
 
-# Plotting the circle with the selected day highlighted
-fig, ax = plt.subplots()
-ax.set_aspect('equal')
-ax.axis('off')
-draw_week_circle(ax, center=(0, 0), radius=5, selected_day=selected_day)
-st.pyplot(fig)
+# Visualizzazione del grafico a torta
+fig = create_pie_chart(selected_day)
+pie_chart = st.plotly_chart(fig, use_container_width=True)
+
+# Gestione del clic sul grafico
+@st.cache(allow_output_mutation=True)
+def get_click_data():
+    return {'day': None}
+
+click_data = get_click_data()
+
+# Rilevamento clic e aggiornamento grafico
+clicked = pie_chart.clicked_points
+if clicked:
+    selected_day = clicked[0]['label']
+    click_data['day'] = selected_day
+    fig = create_pie_chart(selected_day)
+    pie_chart.plotly_chart(fig, use_container_width=True)
+
+# Visualizzazione del giorno selezionato
+if click_data['day']:
+    st.write(f"You selected: {click_data['day']}")
