@@ -32,10 +32,12 @@ click_data = get_click_data()
 # Rilevamento clic e aggiornamento grafico
 clicked = pie_chart.clicked_points
 if clicked:
-    selected_day = clicked[0]['label']
-    click_data['day'] = selected_day
-    fig = create_pie_chart(selected_day)
-    pie_chart.plotly_chart(fig, use_container_width=True)
+    # Assicurati che ci sia almeno un elemento in 'clicked' e che contenga 'label'
+    if len(clicked) > 0 and 'label' in clicked[0]:
+        selected_day = clicked[0]['label']
+        click_data['day'] = selected_day
+        fig = create_pie_chart(selected_day)
+        pie_chart.plotly_chart(fig, use_container_width=True)
 
 # Visualizzazione del giorno selezionato
 if click_data['day']:
