@@ -58,10 +58,24 @@ def calculate_random_date():
     )
 
 # Initialize session state variables
-if 'selected_day_of_week' not in st.session_state:
-    st.session_state.selected_day_of_week = None
+if 'question_count' not in st.session_state:
+    st.session_state.question_count = 0
+if 'error_count_list' not in st.session_state:
+    st.session_state.error_count_list = [0] * 5
+if 'total_time' not in st.session_state:
+    st.session_state.total_time = 0.0
+if 'question_start_time' not in st.session_state:
+    st.session_state.question_start_time = datetime.now()
 if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
+if 'selected_day_of_week' not in st.session_state:
+    st.session_state.selected_day_of_week = None
+if 'button_label' not in st.session_state:
+    st.session_state.button_label = "Check Question 1"
+if 'time_list' not in st.session_state:
+    st.session_state.time_list = []
+if 'show_summary' not in st.session_state:
+    st.session_state.show_summary = False
 
 # Streamlit app title
 st.title(":sunglasses: What day is it? Random date 🎲")
@@ -77,65 +91,85 @@ audio_io.seek(0)
 audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
 
-# Creating a row of buttons for each day of the week
-days = list(calendar.day_name)
-for day in days:
-    if st.button(day):
-        st.session_state.selected_day_of_week = day
+# User selection for day of the week (with buttons instead of selectbox)
+col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+with col1:
+    if st.button("Mon"):
+        st.session_state.selected_day_of_week = "Monday"
+with col2:
+    if st.button("Tue"):
+        st.session_state.selected_day_of_week = "Tuesday"
+with col3:
+    if st.button("Wed"):
+        st.session_state.selected_day_of_week = "Wednesday"
+with col4:
+    if st.button("Thu"):
+        st.session_state.selected_day_of_week = "Thursday"
+with col5:
+    if st.button("Fri"):
+        st.session_state.selected_day_of_week = "Friday"
+with col6:
+    if st.button("Sat"):
+        st.session_state.selected_day_of_week = "Saturday"
+with col7:
+    if st.button("Sun"):
+        st.session_state.selected_day_of_week = "Sunday"
 
 # Button to confirm the selection
-if st.session_state.selected_day_of_week is not None:
+check_button = st.button(st.session_state.button_label)
+
+# Logic for checking the answer
+if check_button and st.session_state.selected_day_of_week is not None:
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
     if st.session_state.selected_day_of_week == day_of_week:
         st.balloons()
         st.success(f"{day_of_week} is OK! :thumbsup:")
     else:
+        st.session_state.error_count_list[st.session_state.question_count] += 1
         st.error(f"{day_of_week} is the right day! :coffee:")
 
-    # Prepare for next question
-    st.session_state.selected_day_of_week = None
-    st.session_state.random_date = calculate_random_date()
-# Initialize other session state variables for summary and restart
-if 'question_count' not in st.session_state:
-    st.session_state.question_count = 0
-if 'error_count_list' not in st.session_state:
-    st.session_state.error_count_list = [0] * 7
-if 'total_time' not in st.session_state:
-    st.session_state.total_time = 0.0
-if 'time_list' not in st.session_state:
-    st.session_state.time_list = []
-if 'show_summary' not in st.session_state:
-    st.session_state.show_summary = False
-
-# Update counters and timings after each question
-if st.session_state.selected_day_of_week is not None:
-    st.session_state.question_count += 1
-    question_time_taken = (datetime.now() - st.session_state.random_date).total_seconds()
+    question_time_taken = (
+        datetime.now() - st.session_state.question_start_time
+    ).total_seconds()
     st.session_state.total_time += question_time_taken
     st.session_state.time_list.append(question_time_taken)
+    st.session_state.question_count += 1
+    st.session_state.question_start_time = datetime.now()
+    st.session_state.random_date = calculate_random_date()
+    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / NEXT"
 
-    if st.session_state.question_count >= 7:
-        st.session_state.show_summary = True
-        st.session_state.selected_day_of_week = None
+# Show summary after 5 questions
+if st.session_state.question_count >= 5:
+    st.session_state.show_summary = True
 
-# Display summary after 7 questions
 if st.session_state.show_summary:
-    average_time = st.session_state.total_time / 7
-    st.write(f"Total time taken for all 7 questions: {round(st.session_state.total_time, 2)} seconds")
-    st.write(f"Average time taken: {round(average_time, 2)} seconds")
+    average_time = st.session_state.total_time / 5
+    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
+    st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
+    st.markdown(f'<p style="color:fuchsia;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
+    st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
 
     plt.figure(figsize=(10, 6))
-    plt.plot(range(1, 8), st.session_state.time_list, marker='o', linestyle='--', color='blue')
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Time Taken')
+    
+    for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
+        color = 'g' if error_count == 0 else 'r'
+        plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
+    
+    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Average Time')
     plt.xlabel('Question Number')
-    plt.ylabel('Time Taken (seconds)')
-    plt.title('Performance Overview')
-    plt.grid(True)
+    plt.ylabel('Time Taken (s)')
+    plt.xticks(range(1, 6))
+    plt.ylim(bottom=0)
+    plt.title('Time Taken for Each Question')
+    plt.legend()
     st.pyplot(plt)
 
-    if st.button("Restart"):
+    
+    if st.button("Restart"):  # New button
         st.session_state.question_count = 0
-        st.session_state.error_count_list = [0] * 7
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-        st.session_state.show_summary = False
-        st.session_state.random_date = calculate_random_date()
+        st.session_state.button_label = "Check Question 1"
+        st.session_state.show_summary = False  # Reset the summary display
+        st.experimental_rerun()  # Rerun the app to reset the display
