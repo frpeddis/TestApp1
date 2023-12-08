@@ -8,7 +8,7 @@ from gtts import gTTS
 from num2words import num2words
 from io import BytesIO
 
-# Function to convert text to speech
+# Funzione per convertire testo in audio
 def text_to_speech(text, random_date):
     today = datetime.now()
     if random_date < today - timedelta(days=1):
@@ -25,7 +25,7 @@ def text_to_speech(text, random_date):
     audio_io.seek(0)
     return audio_io
 
-# Function to convert date to Italian words
+# Funzione per convertire la data in parole italiane
 def date_to_italian_words(date):
     day = int(date.strftime("%d"))
     month = date.strftime("%B")
@@ -49,7 +49,7 @@ def date_to_italian_words(date):
     month_words = month_map.get(month, '')
     return f"{day_words} {month_words} {year_words}"
 
-# Function to calculate a random date
+# Funzione per calcolare una data casuale
 def calculate_random_date():
     start_date = datetime(1582, 10, 15)
     end_date = datetime(2099, 12, 31)
@@ -57,7 +57,7 @@ def calculate_random_date():
         seconds=random.randint(0, int((end_date - start_date).total_seconds()))
     )
 
-# Initialize session state variables
+# Inizializzazione variabili di stato della sessione
 if 'question_count' not in st.session_state:
     st.session_state.question_count = 0
 if 'error_count_list' not in st.session_state:
@@ -68,77 +68,61 @@ if 'question_start_time' not in st.session_state:
     st.session_state.question_start_time = datetime.now()
 if 'random_date' not in st.session_state:
     st.session_state.random_date = calculate_random_date()
-if 'selected_day_of_week' not in st.session_state:
-    st.session_state.selected_day_of_week = None
-if 'button_label' not in st.session_state:
-    st.session_state.button_label = "Check Question 1/NEXT"
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
 if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
-# Streamlit app title
+# Titolo dell'app Streamlit
 st.title(":sunglasses: What day is it? Random date 🎲")
 
-# Convert the date to Italian words
+# Conversione della data in parole italiane
 date_words = date_to_italian_words(st.session_state.random_date)
 
-# Text to speech with the modified function
+# Testo in audio con la funzione modificata
 audio_io = text_to_speech(date_words, st.session_state.random_date)
 
-# Streamlit audio player
+# Lettore audio di Streamlit
 audio_io.seek(0)
 audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
 
-# User selection for day of the week (with buttons instead of selectbox)
-col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
-with col1:
-    if st.button("Mon"):
-        st.session_state.selected_day_of_week = "Monday"
-with col2:
-    if st.button("Tue"):
-        st.session_state.selected_day_of_week = "Tuesday"
-with col3:
-    if st.button("Wed"):
-        st.session_state.selected_day_of_week = "Wednesday"
-with col4:
-    if st.button("Thu"):
-        st.session_state.selected_day_of_week = "Thursday"
-with col5:
-    if st.button("Fri"):
-        st.session_state.selected_day_of_week = "Friday"
-with col6:
-    if st.button("Sat"):
-        st.session_state.selected_day_of_week = "Saturday"
-with col7:
-    if st.button("Sun"):
-        st.session_state.selected_day_of_week = "Sunday"
+# Selezione dell'utente per il giorno della settimana (con pulsanti anziché selectbox)
+days_of_week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+day_mapping = {
+    "Mon": "Monday",
+    "Tue": "Tuesday",
+    "Wed": "Wednesday",
+    "Thu": "Thursday",
+    "Fri": "Friday",
+    "Sat": "Saturday",
+    "Sun": "Sunday"
+}
 
-# Button to confirm the selection
-check_button = st.button(st.session_state.button_label)
+for i, day in enumerate(days_of_week, start=1):
+    with st.container():
+        if st.button(day):
+            selected_day_of_week = day_mapping[day]
+            day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
+            if selected_day_of_week == day_of_week:
+                st.balloons()
+                st.success(f"{day_of_week} is OK! :thumbsup:")
+            else:
+                st.session_state.error_count_list[st.session_state.question_count] += 1
+                st.error(f"{day_of_week} is the right day! :coffee:")
 
-# Logic for checking the answer
-if check_button and st.session_state.selected_day_of_week is not None:
-    day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
-    if st.session_state.selected_day_of_week == day_of_week:
-        st.balloons()
-        st.success(f"{day_of_week} is OK! :thumbsup:")
-    else:
-        st.session_state.error_count_list[st.session_state.question_count] += 1
-        st.error(f"{day_of_week} is the right day! :coffee:")
+            # Registrazione del tempo impiegato per la domanda
+            question_time_taken = (
+                datetime.now() - st.session_state.question_start_time
+            ).total_seconds()
+            st.session_state.total_time += question_time_taken
+            st.session_state.time_list.append(question_time_taken)
+            st.session_state.question_count += 1
+            st.session_state.question_start_time = datetime.now()
+            st.session_state.random_date = calculate_random_date()
+            break
 
-    question_time_taken = (
-        datetime.now() - st.session_state.question_start_time
-    ).total_seconds()
-    st.session_state.total_time += question_time_taken
-    st.session_state.time_list.append(question_time_taken)
-    st.session_state.question_count += 1
-    st.session_state.question_start_time = datetime.now()
-    st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / NEXT"
-
-# Show summary after 5 questions
+# Visualizzazione del riepilogo dopo 5 domande
 if st.session_state.question_count >= 5:
     st.session_state.show_summary = True
 
@@ -165,11 +149,9 @@ if st.session_state.show_summary:
     plt.legend()
     st.pyplot(plt)
 
-    
-    if st.button("Restart"):  # New button
+    if st.button("Restart"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-        st.session_state.button_label = "Check Question 1"
-        st.session_state.show_summary = False  # Reset the summary display
-        st.experimental_rerun()  # Rerun the app to reset the display
+        st.session_state.show_summary = False
+        st.experimental_rerun()
