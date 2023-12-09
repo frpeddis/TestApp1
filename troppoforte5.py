@@ -113,7 +113,7 @@ def create_pie_chart(selected_day, correct_day=None):
     colors = ['lightgray'] * 7
 
     selected_day_index = full_days.index(selected_day)
-    colors[selected_day_index] = 'blue'
+    colors[selected_day_index] = 'violet'
 
     if correct_day is not None:
         colors[selected_day_index] = 'lightgreen' if correct_day == selected_day else 'pink'
