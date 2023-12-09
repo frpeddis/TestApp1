@@ -13,18 +13,14 @@ def text_to_speech(text, random_date):
     today = datetime.now()
     prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
     
-    # Variare il pitch della voce
-    pitch = random.uniform(0.5, 2.0)  # Puoi regolare il range a tuo piacimento
+    # Seleziona una lingua diversa casualmente
+    languages = ['it', 'fr', 'es', 'de']  # Puoi aggiungere altre lingue se lo desideri
+    selected_lang = random.choice(languages)
     
-    # Inizializza il motore di sintesi vocale di pyttsx3
-    engine = pyttsx3.init()
+    tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
     
-    # Imposta il pitch desiderato
-    engine.setProperty('pitch', pitch)
-    
-    # Salva il parlato in un file temporaneo
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
-        engine.save_to_file(f"{prefix} {text}", temp.name)
+        tts.save(temp.name)
         temp.seek(0)
         audio_data = temp.read()
     
