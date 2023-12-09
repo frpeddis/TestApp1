@@ -15,7 +15,7 @@ def text_to_speech(text, random_date):
     prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
     
     # Randomly select a different language
-    languages = ['it', 'fr', 'es', 'pt']  # You can add more languages if you wish
+    languages = ['it', 'fr', 'es', 'pt']
     selected_lang = random.choice(languages)
     
     tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
@@ -106,33 +106,36 @@ with left_column:
     # Button to confirm the selection and check the answer
     check_button = st.button(st.session_state.button_label)
 
+# Function to create the pie chart
 def create_pie_chart(selected_day, correct_day=None):
     days_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     full_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     colors = ['lightgray'] * 7
 
+    selected_day_index = full_days.index(selected_day)
+    colors[selected_day_index] = 'blue'
+
     if correct_day is not None:
-        day_index = full_days.index(correct_day)
-        colors[day_index] = 'lightgreen' if correct_day == selected_day else 'pink'
+        colors[selected_day_index] = 'lightgreen' if correct_day == selected_day else 'pink'
 
     fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.2, direction='clockwise')])
     fig.update_traces(textinfo='label', textfont_size=15)
     fig.update_layout(
         showlegend=False,
-        height=130,  # Adjust the height as needed
-        width=130,   # Adjust the width as needed
-        margin=dict(l=8, r=8, t=8, b=8)  # Reducing the margin around the plot
+        height=130,
+        width=130,
+        margin=dict(l=8, r=8, t=8, b=8)
     )
 
     return fig
 
 # In the right column, display the pie chart
 with right_column:
-    if check_button and selected_day:
-        day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
-        fig = create_pie_chart(selected_day, day_of_week)
-        st.plotly_chart(fig, use_container_width=True)
+    day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
+    fig = create_pie_chart(selected_day, day_of_week if check_button else None)
+    st.plotly_chart(fig, use_container_width=True)
 
+    if check_button:
         if selected_day == day_of_week:
             st.balloons()
             st.success(f"{day_of_week} is right! :thumbsup:")
