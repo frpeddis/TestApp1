@@ -115,7 +115,7 @@ def create_pie_chart(selected_day, correct_day=None):
         day_index = full_days.index(correct_day)
         colors[day_index] = 'lightgreen' if correct_day == selected_day else 'pink'
 
-    fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.8, direction='clockwise')])
+    fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.2, direction='clockwise')])
     fig.update_traces(textinfo='label', textfont_size=15)
     fig.update_layout(
         showlegend=False,
