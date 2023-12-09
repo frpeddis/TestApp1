@@ -106,7 +106,6 @@ with left_column:
     # Button to confirm the selection and check the answer
     check_button = st.button(st.session_state.button_label)
 
-# Function to create the pie chart
 def create_pie_chart(selected_day, correct_day=None):
     days_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     full_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -118,7 +117,12 @@ def create_pie_chart(selected_day, correct_day=None):
 
     fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.3, direction='clockwise')])
     fig.update_traces(textinfo='label', textfont_size=20)
-    fig.update_layout(showlegend=False)
+    fig.update_layout(
+        showlegend=False,
+        height=300,  # Adjust the height as needed
+        width=300,   # Adjust the width as needed
+        margin=dict(l=10, r=10, t=10, b=10)  # Reducing the margin around the plot
+    )
 
     return fig
 
