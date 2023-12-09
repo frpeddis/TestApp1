@@ -119,8 +119,8 @@ def create_pie_chart(selected_day, correct_day=None):
     fig.update_traces(textinfo='label', textfont_size=20)
     fig.update_layout(
         showlegend=False,
-        height=100,  # Adjust the height as needed
-        width=100,   # Adjust the width as needed
+        height=150,  # Adjust the height as needed
+        width=150,   # Adjust the width as needed
         margin=dict(l=10, r=10, t=10, b=10)  # Reducing the margin around the plot
     )
 
