@@ -135,10 +135,10 @@ with right_column:
 
         if selected_day == day_of_week:
             st.balloons()
-            st.success(f"{day_of_week} è corretto! :thumbsup:")
+            st.success(f"{day_of_week} is right! :thumbsup:")
         else:
             st.session_state.error_count_list[st.session_state.question_count] += 1
-            st.error(f"{day_of_week} è il giorno giusto! :coffee:")
+            st.error(f"{day_of_week} was right! :coffee:")
 
         question_time_taken = (
             datetime.now() - st.session_state.question_start_time
