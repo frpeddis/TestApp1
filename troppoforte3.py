@@ -99,21 +99,27 @@ def create_day_button(column, day_name, day_label):
 
 # User selection for day of the week (with buttons)
 days = [
-    ("Monday", "Mon"), ("Tuesday", "Tue"), ("Wednesday", "Wed"),
-    ("Thursday", "Thu"), ("Friday", "Fri"), ("Saturday", "Sat"), ("Sunday", "Sun")
+    ("Monday", "Mon"), ("Tuesday", "Tue"), 
+    ("Wednesday", "Wed"), ("Thursday", "Thu"),
+    ("Friday", "Fri"), ("Saturday", "Sat"), 
+    ("Sunday", "Sun")
 ]
 
 # Creating buttons in rows
-row1_cols = st.columns(3)
-for i in range(3):
+row1_cols = st.columns(2)
+for i in range(2):
     create_day_button(row1_cols[i], days[i][0], days[i][1])
 
-row2_cols = st.columns(4)
-for i in range(3, 6):
-    create_day_button(row2_cols[i - 3], days[i][0], days[i][1])
+row2_cols = st.columns(2)
+for i in range(2, 4):
+    create_day_button(row2_cols[i - 2], days[i][0], days[i][1])
 
-row3_cols = st.columns(1)
-create_day_button(row3_cols[0], days[6][0], days[6][1])
+row3_cols = st.columns(2)
+for i in range(4, 6):
+    create_day_button(row3_cols[i - 4], days[i][0], days[i][1])
+
+row4_cols = st.columns(1)
+create_day_button(row4_cols[0], days[6][0], days[6][1])
 
 # Display selected day
 if st.session_state.selected_day_of_week:
