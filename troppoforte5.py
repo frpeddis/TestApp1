@@ -107,29 +107,16 @@ with left_column:
     check_button = st.button(st.session_state.button_label)
 
 # Function to create the pie chart
-# Funzione modificata per creare il grafico a torta
 def create_pie_chart(selected_day, correct_day=None):
     days_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     full_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     colors = ['lightgray'] * 7
 
     selected_day_index = full_days.index(selected_day)
-    
     colors[selected_day_index] = 'violet'
 
-    
-    correct_day_index = full_days.index(correct_day) if correct_day else None
-
-    # Imposta il colore in base alla correttezza della risposta
-    if selected_day == correct_day:
-        # Giorno corretto: verde chiaro
-        colors[selected_day_index] = 'lightgreen'
-    else:
-        # Giorno selezionato errato: rosa
-        colors[selected_day_index] = 'pink'
-        # Giorno corretto: verde
-        if correct_day_index is not None:
-            colors[correct_day_index] = 'lightgreen'
+    if correct_day is not None:
+        colors[selected_day_index] = 'lightgreen' if correct_day == selected_day else 'pink'
 
     fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.2, direction='clockwise')])
     fig.update_traces(textinfo='label', textfont_size=15)
