@@ -15,7 +15,7 @@ def text_to_speech(text, random_date):
     prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
     
     # Randomly select a different language
-    languages = ['it', 'fr', 'es', 'en']  # You can add more languages if you wish
+    languages = ['it', 'fr', 'es', 'pt, 'ro']  # You can add more languages if you wish
     selected_lang = random.choice(languages)
     
     tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
