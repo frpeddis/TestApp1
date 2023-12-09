@@ -78,7 +78,7 @@ if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
 # Streamlit app title
-st.title(":sunglasses: What day is it? 🎲")
+st.title(":sunglasses: What day is it? Random date 🎲")
 
 # Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
@@ -93,13 +93,8 @@ st.audio(audio_bytes, format='audio/wav')
 
 # Function to create a day button
 def create_day_button(column, day_name, day_label):
-    if st.session_state.selected_day_of_week == day_name:
-        button_style = "color: white; background-color: lightblue;"
-    else:
-        button_style = ""
-
     with column:
-        if st.button(day_label, key=day_name, style=button_style):
+        if st.button(day_label, key=day_name):
             st.session_state.selected_day_of_week = day_name
 
 # User selection for day of the week (with buttons)
@@ -119,6 +114,10 @@ for i in range(3, 6):
 
 row3_cols = st.columns(1)
 create_day_button(row3_cols[0], days[6][0], days[6][1])
+
+# Display selected day
+if st.session_state.selected_day_of_week:
+    st.write(f"You selected: {st.session_state.selected_day_of_week}")
 
 # Button to confirm the selection
 check_button = st.button(st.session_state.button_label)
@@ -171,10 +170,10 @@ if st.session_state.show_summary:
     st.pyplot(plt)
 
     
-    if st.button("Restart"):  # New button
+    if st.button("Restart"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
         st.session_state.button_label = "Check Question 1"
-        st.session_state.show_summary = False  # Reset the summary display
-        st.experimental_rerun()  # Rerun the app to reset the display
+        st.session_state.show_summary = False
+        st.experimental_rerun()
