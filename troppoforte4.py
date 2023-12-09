@@ -8,23 +8,25 @@ from num2words import num2words
 from io import BytesIO
 import plotly.graph_objects as go
 
-# Function to convert text to speech
+# Funzione per convertire il testo in parlato usando gTTS
 def text_to_speech(text, random_date):
     today = datetime.now()
-    if random_date < today - timedelta(days=1):
-        prefix = "Che giorno era il "
-    else:
-        prefix = "Che giorno sarà il "
+    prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
     
-    tts = gTTS(text=f"{prefix} {text}", lang='it')
+    # Seleziona una lingua diversa casualmente
+    languages = ['it', 'fr', 'es', 'en']  # Puoi aggiungere altre lingue se lo desideri
+    selected_lang = random.choice(languages)
+    
+    tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
+    
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
         tts.save(temp.name)
         temp.seek(0)
         audio_data = temp.read()
+    
     audio_io = BytesIO(audio_data)
     audio_io.seek(0)
     return audio_io
-
 # Function to convert date to Italian words
 def date_to_italian_words(date):
     day = int(date.strftime("%d"))
