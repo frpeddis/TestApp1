@@ -101,7 +101,7 @@ def create_pie_chart(selected_day, correct_day=None):
 
     if correct_day is not None:
         day_index = full_days.index(correct_day)
-        colors[day_index] = 'green' if correct_day == selected_day else 'red'
+        colors[day_index] = 'lightgreen' if correct_day == selected_day else 'red'
 
     fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.3, direction='clockwise')])
     fig.update_traces(textinfo='label', textfont_size=20)
@@ -137,7 +137,7 @@ if check_button and selected_day:
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Controlla Domanda {st.session_state.question_count + 1} / NEXT"
+    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / NEXT"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
