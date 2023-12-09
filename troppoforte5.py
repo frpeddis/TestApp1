@@ -145,31 +145,32 @@ if st.session_state.question_count >= 5:
 
 if st.session_state.show_summary:
     average_time = st.session_state.total_time / 5
-    st.write(f"Tempo totale impiegato per tutte le 5 domande: {round(st.session_state.total_time, 2)} secondi")
-    st.write(f"Tempo più breve impiegato: {round(min(st.session_state.time_list), 2)} secondi")
-    st.markdown(f'<p style="color:fuchsia;">Tempo medio impiegato: {round(average_time, 2)} secondi</p>', unsafe_allow_html=True)
-    st.write(f"Tempo più lungo impiegato: {round(max(st.session_state.time_list), 2)} secondi")
+    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
+    st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
+    st.markdown(f'<p style="color:fuchsia;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
+    st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
 
     plt.figure(figsize=(10, 6))
-    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Tempo Impiegato')
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Time Taken')
     
     for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
         color = 'g' if error_count == 0 else 'r'
         plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
     
-    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Tempo Medio')
-    plt.xlabel('Numero Domanda')
-    plt.ylabel('Tempo Impiegato (s)')
+    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Average Time')
+    plt.xlabel('Question Number')
+    plt.ylabel('Time Taken (s)')
     plt.xticks(range(1, 6))
     plt.ylim(bottom=0)
-    plt.title('Tempo Impiegato per Ogni Domanda')
+    plt.title('Time Taken for Each Question')
     plt.legend()
     st.pyplot(plt)
 
-    if st.button("Ricomincia"):
+    
+    if st.button("Restart"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-        st.session_state.button_label = "Check Question 1/NEXT"
+        st.session_state.button_label = "Check Question 1"
         st.session_state.show_summary = False
         st.experimental_rerun()
