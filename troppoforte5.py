@@ -137,7 +137,7 @@ if check_button and selected_day:
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Controlla Domanda {st.session_state.question_count + 1} / AVANTI"
+    st.session_state.button_label = f"Controlla Domanda {st.session_state.question_count + 1} / NEXT"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
@@ -170,7 +170,7 @@ if st.session_state.show_summary:
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-        st.session_state.button_label = "Controlla Domanda 1"
+        st.session_state.button_label = "Controlla Domanda 1/NEXT"
         st.session_state.show_summary = False
         st.experimental_rerun()
 
