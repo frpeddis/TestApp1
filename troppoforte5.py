@@ -115,13 +115,13 @@ def create_pie_chart(selected_day, correct_day=None):
         day_index = full_days.index(correct_day)
         colors[day_index] = 'lightgreen' if correct_day == selected_day else 'pink'
 
-    fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.4, direction='clockwise')])
+    fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.8, direction='clockwise')])
     fig.update_traces(textinfo='label', textfont_size=15)
     fig.update_layout(
         showlegend=False,
-        height=150,  # Adjust the height as needed
-        width=150,   # Adjust the width as needed
-        margin=dict(l=10, r=10, t=10, b=10)  # Reducing the margin around the plot
+        height=130,  # Adjust the height as needed
+        width=130,   # Adjust the width as needed
+        margin=dict(l=8, r=8, t=8, b=8)  # Reducing the margin around the plot
     )
 
     return fig
