@@ -3,7 +3,6 @@ import calendar
 import tempfile
 import streamlit as st
 from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
 from gtts import gTTS
 from num2words import num2words
 from io import BytesIO
@@ -79,7 +78,7 @@ if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
 # Streamlit app title
-st.title(":sunglasses: What day is it? Random date 🎲")
+st.title(":sunglasses: Che giorno è? Data casuale 🎲")
 
 # Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
@@ -102,7 +101,7 @@ def create_pie_chart(selected_day, correct_day=None):
         day_index = full_days.index(correct_day)
         colors[day_index] = 'green' if correct_day == selected_day else 'red'
 
-    fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.3)])
+    fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.3, direction='clockwise')])
     fig.update_traces(textinfo='label', textfont_size=20)
     fig.update_layout(showlegend=False)
 
@@ -110,7 +109,7 @@ def create_pie_chart(selected_day, correct_day=None):
 
 # User selection for day of the week (with radio buttons)
 day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-selected_day = st.radio("Select a day of the week:", day_options)
+selected_day = st.radio("Seleziona un giorno della settimana:", day_options)
 
 # Button to confirm the selection and check the answer
 check_button = st.button(st.session_state.button_label)
@@ -123,10 +122,10 @@ if check_button and selected_day:
 
     if selected_day == day_of_week:
         st.balloons()
-        st.success(f"{day_of_week} is OK! :thumbsup:")
+        st.success(f"{day_of_week} è corretto! :thumbsup:")
     else:
         st.session_state.error_count_list[st.session_state.question_count] += 1
-        st.error(f"{day_of_week} is the right day! :coffee:")
+        st.error(f"{day_of_week} è il giorno giusto! :coffee:")
 
     question_time_taken = (
         datetime.now() - st.session_state.question_start_time
@@ -136,7 +135,7 @@ if check_button and selected_day:
     st.session_state.question_count += 1
     st.session_state.question_start_time = datetime.now()
     st.session_state.random_date = calculate_random_date()
-    st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / NEXT"
+    st.session_state.button_label = f"Controlla Domanda {st.session_state.question_count + 1} / AVANTI"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
@@ -144,31 +143,31 @@ if st.session_state.question_count >= 5:
 
 if st.session_state.show_summary:
     average_time = st.session_state.total_time / 5
-    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
-    st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
-    st.markdown(f'<p style="color:fuchsia;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
-    st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
+    st.write(f"Tempo totale impiegato per tutte le 5 domande: {round(st.session_state.total_time, 2)} secondi")
+    st.write(f"Tempo più breve impiegato: {round(min(st.session_state.time_list), 2)} secondi")
+    st.markdown(f'<p style="color:fuchsia;">Tempo medio impiegato: {round(average_time, 2)} secondi</p>', unsafe_allow_html=True)
+    st.write(f"Tempo più lungo impiegato: {round(max(st.session_state.time_list), 2)} secondi")
 
     plt.figure(figsize=(10, 6))
-    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Time Taken')
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Tempo Impiegato')
     
     for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
         color = 'g' if error_count == 0 else 'r'
         plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
     
-    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Average Time')
-    plt.xlabel('Question Number')
-    plt.ylabel('Time Taken (s)')
+    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Tempo Medio')
+    plt.xlabel('Numero Domanda')
+    plt.ylabel('Tempo Impiegato (s)')
     plt.xticks(range(1, 6))
     plt.ylim(bottom=0)
-    plt.title('Time Taken for Each Question')
+    plt.title('Tempo Impiegato per Ogni Domanda')
     plt.legend()
     st.pyplot(plt)
 
-    if st.button("Restart"):
+    if st.button("Ricomincia"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-        st.session_state.button_label = "Check Question 1"
+        st.session_state.button_label = "Controlla Domanda 1"
         st.session_state.show_summary = False
         st.experimental_rerun()
