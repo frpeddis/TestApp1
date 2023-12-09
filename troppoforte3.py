@@ -91,39 +91,9 @@ audio_io.seek(0)
 audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
 
-# Function to create a day button
-def create_day_button(column, day_name, day_label):
-    with column:
-        if st.button(day_label, key=day_name):
-            st.session_state.selected_day_of_week = day_name
-
-# User selection for day of the week (with buttons)
-days = [
-    ("Monday", "Mon"), ("Tuesday", "Tue"), 
-    ("Wednesday", "Wed"), ("Thursday", "Thu"),
-    ("Friday", "Fri"), ("Saturday", "Sat"), 
-    ("Sunday", "Sun")
-]
-
-# Creating buttons in rows
-row1_cols = st.columns(2)
-for i in range(2):
-    create_day_button(row1_cols[i], days[i][0], days[i][1])
-
-row2_cols = st.columns(2)
-for i in range(2, 4):
-    create_day_button(row2_cols[i - 2], days[i][0], days[i][1])
-
-row3_cols = st.columns(2)
-for i in range(4, 6):
-    create_day_button(row3_cols[i - 4], days[i][0], days[i][1])
-
-row4_cols = st.columns(1)
-create_day_button(row4_cols[0], days[6][0], days[6][1])
-
-# Display selected day
-if st.session_state.selected_day_of_week:
-    st.write(f"You selected: {st.session_state.selected_day_of_week}")
+# User selection for day of the week (with radio buttons)
+day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+st.session_state.selected_day_of_week = st.radio("Select a day of the week:", day_options)
 
 # Button to confirm the selection
 check_button = st.button(st.session_state.button_label)
