@@ -9,13 +9,13 @@ from num2words import num2words
 from io import BytesIO
 import plotly.graph_objects as go
 
-# Funzione per convertire il testo in parlato usando gTTS
+# Function to convert text to speech using gTTS
 def text_to_speech(text, random_date):
     today = datetime.now()
     prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
     
-    # Seleziona una lingua diversa casualmente
-    languages = ['it', 'fr', 'es', 'en']  # Puoi aggiungere altre lingue se lo desideri
+    # Randomly select a different language
+    languages = ['it', 'fr', 'es', 'en']  # You can add more languages if you wish
     selected_lang = random.choice(languages)
     
     tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
@@ -29,7 +29,7 @@ def text_to_speech(text, random_date):
     audio_io.seek(0)
     return audio_io
 
-# Funzione per convertire la data in parole italiane
+# Function to convert the date to Italian words
 def date_to_italian_words(date):
     day = int(date.strftime("%d"))
     month = date.strftime("%B")
@@ -53,7 +53,7 @@ def date_to_italian_words(date):
     month_words = month_map.get(month, '')
     return f"{day_words} {month_words} {year_words}"
 
-# Funzione per calcolare una data casuale
+# Function to calculate a random date
 def calculate_random_date():
     start_date = datetime(1582, 10, 15)
     end_date = datetime(2099, 12, 31)
@@ -61,7 +61,7 @@ def calculate_random_date():
         seconds=random.randint(0, int((end_date - start_date).total_seconds()))
     )
 
-# Inizializza le variabili di stato della sessione
+# Initialize session state variables
 if 'question_count' not in st.session_state:
     st.session_state.question_count = 0
 if 'error_count_list' not in st.session_state:
@@ -96,7 +96,7 @@ audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
 
 # Creating two columns for the layout
-left_column, right_column = st.beta_columns(2)
+left_column, right_column = st.columns(2)
 
 # In the left column, place the day selection radio buttons
 with left_column:
@@ -121,8 +121,6 @@ def create_pie_chart(selected_day, correct_day=None):
     fig.update_layout(showlegend=False)
 
     return fig
-
-# ... [previous code]
 
 # In the right column, display the pie chart
 with right_column:
@@ -175,7 +173,6 @@ if st.session_state.show_summary:
     plt.legend()
     st.pyplot(plt)
 
-    
     if st.button("Restart"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
