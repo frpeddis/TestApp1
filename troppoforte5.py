@@ -12,23 +12,18 @@ def text_to_speech(text, random_date):
     today = datetime.now()
     prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
     
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')  # Ottieni una lista di voci disponibili
-    selected_voice = random.choice(voices)  # Scegli una voce casualmente
-    engine.setProperty('voice', selected_voice.id)  # Imposta la voce selezionata
-
-    audio_io = BytesIO()
-    engine.save_to_file(f"{prefix} {text}", 'speech.mp3')
-    engine.runAndWait()
-
-    # Leggi il file audio generato e ritorna un oggetto BytesIO
-    with open('speech.mp3', 'rb') as f:
-        audio_data = f.read()
-    audio_io.write(audio_data)
+    # Variare la velocità della voce
+    slow = random.choice([True, False])
+    
+    tts = gTTS(text=f"{prefix} {text}", lang='it', slow=slow)
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
+        tts.save(temp.name)
+        temp.seek(0)
+        audio_data = temp.read()
+    audio_io = BytesIO(audio_data)
     audio_io.seek(0)
-
     return audio_io
-
+    
 # Funzione per convertire la data in parole italiane
 def date_to_italian_words(date):
     day = int(date.strftime("%d"))
