@@ -22,8 +22,7 @@ def text_to_speech(text, random_date):
         audio_data = temp.read()
     audio_io = BytesIO(audio_data)
     audio_io.seek(0)
-    return audio_io
-    
+    return audio_io    
 # Funzione per convertire la data in parole italiane
 def date_to_italian_words(date):
     day = int(date.strftime("%d"))
