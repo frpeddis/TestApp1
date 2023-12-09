@@ -170,7 +170,6 @@ if st.session_state.show_summary:
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-        st.session_state.button_label = "Controlla Domanda 1/NEXT"
+        st.session_state.button_label = "Check Question 1/NEXT"
         st.session_state.show_summary = False
         st.experimental_rerun()
-
