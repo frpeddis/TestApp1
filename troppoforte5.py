@@ -80,7 +80,7 @@ if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
 # Streamlit app title
-st.title(":sunglasses: Che giorno è? Data casuale 🎲")
+st.title(":sunglasses: What's the day? 🎲")
 
 # Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
