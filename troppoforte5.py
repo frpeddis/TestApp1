@@ -1,4 +1,4 @@
-XTimport random
+import random
 import calendar
 import tempfile
 import streamlit as st
