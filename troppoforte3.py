@@ -78,7 +78,7 @@ if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
 # Streamlit app title
-st.title(":sunglasses: What day is it? Random date 🎲")
+st.title(":sunglasses: What day is it? 🎲")
 
 # Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
@@ -91,31 +91,34 @@ audio_io.seek(0)
 audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
 
-# User selection for day of the week (with buttons instead of selectbox)
-row1_cols = st.columns(4)  # Row for Mon-Thu
-with row1_cols[0]:
-    if st.button("Mon"):
-        st.session_state.selected_day_of_week = "Monday"
-with row1_cols[1]:
-    if st.button("Tue"):
-        st.session_state.selected_day_of_week = "Tuesday"
-with row1_cols[2]:
-    if st.button("Wed"):
-        st.session_state.selected_day_of_week = "Wednesday"
-with row1_cols[3]:
-    if st.button("Thu"):
-        st.session_state.selected_day_of_week = "Thursday"
+# Function to create a day button
+def create_day_button(column, day_name, day_label):
+    if st.session_state.selected_day_of_week == day_name:
+        button_style = "color: white; background-color: lightblue;"
+    else:
+        button_style = ""
 
-row2_cols = st.columns([0.25, 1, 1, 1, 0.25])  # Centered row for Fri-Sun
-with row2_cols[1]:
-    if st.button("Fri"):
-        st.session_state.selected_day_of_week = "Friday"
-with row2_cols[2]:
-    if st.button("Sat"):
-        st.session_state.selected_day_of_week = "Saturday"
-with row2_cols[3]:
-    if st.button("Sun"):
-        st.session_state.selected_day_of_week = "Sunday"
+    with column:
+        if st.button(day_label, key=day_name, style=button_style):
+            st.session_state.selected_day_of_week = day_name
+
+# User selection for day of the week (with buttons)
+days = [
+    ("Monday", "Mon"), ("Tuesday", "Tue"), ("Wednesday", "Wed"),
+    ("Thursday", "Thu"), ("Friday", "Fri"), ("Saturday", "Sat"), ("Sunday", "Sun")
+]
+
+# Creating buttons in rows
+row1_cols = st.columns(3)
+for i in range(3):
+    create_day_button(row1_cols[i], days[i][0], days[i][1])
+
+row2_cols = st.columns(4)
+for i in range(3, 6):
+    create_day_button(row2_cols[i - 3], days[i][0], days[i][1])
+
+row3_cols = st.columns(1)
+create_day_button(row3_cols[0], days[6][0], days[6][1])
 
 # Button to confirm the selection
 check_button = st.button(st.session_state.button_label)
