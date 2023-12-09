@@ -94,16 +94,15 @@ st.audio(audio_bytes, format='audio/wav')
 
 # Function to create the pie chart
 def create_pie_chart(selected_day, correct_day=None):
-    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    colors = ['lightblue' if day == selected_day else 'lightgray' for day in days]
-    
-    if correct_day is not None:
-        if selected_day == correct_day:
-            colors = ['green' if day == selected_day else color for day, color in zip(days, colors)]
-        else:
-            colors = ['red' if day == selected_day else color for day, color in zip(days, colors)]
+    days_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    full_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    colors = ['lightgray'] * 7
 
-    fig = go.Figure(data=[go.Pie(labels=days, values=[1]*7, marker=dict(colors=colors), hole=.3)])
+    if correct_day is not None:
+        day_index = full_days.index(correct_day)
+        colors[day_index] = 'green' if correct_day == selected_day else 'red'
+
+    fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.3)])
     fig.update_traces(textinfo='label', textfont_size=20)
     fig.update_layout(showlegend=False)
 
@@ -117,15 +116,13 @@ selected_day = st.radio("Select a day of the week:", day_options)
 fig = create_pie_chart(selected_day)
 st.plotly_chart(fig, use_container_width=True)
 
-# Button to confirm the selection
+# Button to confirm the selection and check the answer
 check_button = st.button(st.session_state.button_label)
 
-# Logic for checking the answer
+# Logic for checking the answer and updating the pie chart
 if check_button:
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
-    correct_day = day_of_week if selected_day == day_of_week else None
-
-    fig = create_pie_chart(selected_day, correct_day)
+    fig = create_pie_chart(selected_day, day_of_week)
     st.plotly_chart(fig, use_container_width=True)
 
     if selected_day == day_of_week:
