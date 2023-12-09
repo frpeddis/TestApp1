@@ -112,15 +112,11 @@ def create_pie_chart(selected_day, correct_day=None):
 day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 selected_day = st.radio("Select a day of the week:", day_options)
 
-# Display the initial pie chart
-fig = create_pie_chart(selected_day)
-st.plotly_chart(fig, use_container_width=True)
-
 # Button to confirm the selection and check the answer
 check_button = st.button(st.session_state.button_label)
 
 # Logic for checking the answer and updating the pie chart
-if check_button:
+if check_button and selected_day:
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
     fig = create_pie_chart(selected_day, day_of_week)
     st.plotly_chart(fig, use_container_width=True)
