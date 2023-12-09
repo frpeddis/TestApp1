@@ -71,14 +71,14 @@ if 'random_date' not in st.session_state:
 if 'selected_day_of_week' not in st.session_state:
     st.session_state.selected_day_of_week = None
 if 'button_label' not in st.session_state:
-    st.session_state.button_label = "Check Question 1/NEXT"
+    st.session_state.button_label = "Check Question 1"
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
 if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
 # Streamlit app title
-st.title(":sunglasses: What day is it? 🎲")
+st.title(":sunglasses: What day is it? Random date 🎲")
 
 # Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
@@ -92,26 +92,28 @@ audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
 
 # User selection for day of the week (with buttons instead of selectbox)
-col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
-with col1:
+row1_cols = st.columns(4)  # Row for Mon-Thu
+with row1_cols[0]:
     if st.button("Mon"):
         st.session_state.selected_day_of_week = "Monday"
-with col2:
+with row1_cols[1]:
     if st.button("Tue"):
         st.session_state.selected_day_of_week = "Tuesday"
-with col3:
+with row1_cols[2]:
     if st.button("Wed"):
         st.session_state.selected_day_of_week = "Wednesday"
-with col4:
+with row1_cols[3]:
     if st.button("Thu"):
         st.session_state.selected_day_of_week = "Thursday"
-with col5:
+
+row2_cols = st.columns([0.25, 1, 1, 1, 0.25])  # Centered row for Fri-Sun
+with row2_cols[1]:
     if st.button("Fri"):
         st.session_state.selected_day_of_week = "Friday"
-with col6:
+with row2_cols[2]:
     if st.button("Sat"):
         st.session_state.selected_day_of_week = "Saturday"
-with col7:
+with row2_cols[3]:
     if st.button("Sun"):
         st.session_state.selected_day_of_week = "Sunday"
 
