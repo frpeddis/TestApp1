@@ -1,13 +1,14 @@
 import random
 import calendar
+import tempfile
 import streamlit as st
 from datetime import datetime, timedelta
+from gtts import gTTS
 from num2words import num2words
 from io import BytesIO
 import plotly.graph_objects as go
-import pyttsx3  # Importazione di pyttsx3
 
-# Funzione per convertire il testo in parlato usando pyttsx3
+# Funzione per convertire il testo in parlato usando gTTS
 def text_to_speech(text, random_date):
     today = datetime.now()
     prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
@@ -22,7 +23,8 @@ def text_to_speech(text, random_date):
         audio_data = temp.read()
     audio_io = BytesIO(audio_data)
     audio_io.seek(0)
-    return audio_io    
+    return audio_io
+
 # Funzione per convertire la data in parole italiane
 def date_to_italian_words(date):
     day = int(date.strftime("%d"))
@@ -55,7 +57,7 @@ def calculate_random_date():
         seconds=random.randint(0, int((end_date - start_date).total_seconds()))
     )
 
-# Inizializzazione delle variabili di stato della sessione
+# Inizializza le variabili di stato della sessione
 if 'question_count' not in st.session_state:
     st.session_state.question_count = 0
 if 'error_count_list' not in st.session_state:
@@ -75,21 +77,21 @@ if 'time_list' not in st.session_state:
 if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
-# Titolo dell'app Streamlit
+# Streamlit app title
 st.title(":sunglasses: Che giorno è? Data casuale 🎲")
 
-# Convertire la data in parole italiane
+# Convert the date to Italian words
 date_words = date_to_italian_words(st.session_state.random_date)
 
-# Testo in parlato con la funzione modificata
+# Text to speech with the modified function
 audio_io = text_to_speech(date_words, st.session_state.random_date)
 
-# Lettore audio Streamlit
+# Streamlit audio player
 audio_io.seek(0)
 audio_bytes = audio_io.read()
 st.audio(audio_bytes, format='audio/wav')
 
-# Funzione per creare il grafico a torta
+# Function to create the pie chart
 def create_pie_chart(selected_day, correct_day=None):
     days_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     full_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -105,14 +107,14 @@ def create_pie_chart(selected_day, correct_day=None):
 
     return fig
 
-# Selezione dell'utente per il giorno della settimana (con pulsanti radio)
+# User selection for day of the week (with radio buttons)
 day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 selected_day = st.radio("Seleziona un giorno della settimana:", day_options)
 
-# Pulsante per confermare la selezione e verificare la risposta
+# Button to confirm the selection and check the answer
 check_button = st.button(st.session_state.button_label)
 
-# Logica per verificare la risposta e aggiornare il grafico a torta
+# Logic for checking the answer and updating the pie chart
 if check_button and selected_day:
     day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
     fig = create_pie_chart(selected_day, day_of_week)
@@ -135,7 +137,7 @@ if check_button and selected_day:
     st.session_state.random_date = calculate_random_date()
     st.session_state.button_label = f"Controlla Domanda {st.session_state.question_count + 1} / AVANTI"
 
-# Mostra il riassunto dopo 5 domande
+# Show summary after 5 questions
 if st.session_state.question_count >= 5:
     st.session_state.show_summary = True
 
@@ -146,6 +148,22 @@ if st.session_state.show_summary:
     st.markdown(f'<p style="color:fuchsia;">Tempo medio impiegato: {round(average_time, 2)} secondi</p>', unsafe_allow_html=True)
     st.write(f"Tempo più lungo impiegato: {round(max(st.session_state.time_list), 2)} secondi")
 
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Tempo Impiegato')
+    
+    for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
+        color = 'g' if error_count == 0 else 'r'
+        plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
+    
+    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Tempo Medio')
+    plt.xlabel('Numero Domanda')
+    plt.ylabel('Tempo Impiegato (s)')
+    plt.xticks(range(1, 6))
+    plt.ylim(bottom=0)
+    plt.title('Tempo Impiegato per Ogni Domanda')
+    plt.legend()
+    st.pyplot(plt)
+
     if st.button("Ricomincia"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
@@ -153,3 +171,6 @@ if st.session_state.show_summary:
         st.session_state.button_label = "Controlla Domanda 1"
         st.session_state.show_summary = False
         st.experimental_rerun()
+
+if __name__ == "__main__":
+    st.write("Benvenuto a Che giorno è? 🎲")
