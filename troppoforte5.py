@@ -101,7 +101,7 @@ left_column, right_column = st.columns(2)
 # In the left column, place the day selection radio buttons
 with left_column:
     day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    selected_day = st.radio("Seleziona un giorno della settimana:", day_options)
+    selected_day = st.radio("Seleziona:", day_options)
 
     # Button to confirm the selection and check the answer
     check_button = st.button(st.session_state.button_label)
