@@ -16,7 +16,14 @@ def text_to_speech(text, random_date):
     # Variare la velocità della voce
     slow = random.choice([True, False])
     
+    # Variare il pitch della voce
+    pitch = random.uniform(0.5, 2.0)  # Puoi regolare il range a tuo piacimento
+    
     tts = gTTS(text=f"{prefix} {text}", lang='it', slow=slow)
+    
+    # Applica la variazione nel pitch
+    tts.speed(pitch)
+    
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
         tts.save(temp.name)
         temp.seek(0)
@@ -24,7 +31,6 @@ def text_to_speech(text, random_date):
     audio_io = BytesIO(audio_data)
     audio_io.seek(0)
     return audio_io
-
 # Funzione per convertire la data in parole italiane
 def date_to_italian_words(date):
     day = int(date.strftime("%d"))
