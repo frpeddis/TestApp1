@@ -47,43 +47,39 @@ if 'show_summary' not in st.session_state:
 # Streamlit app title
 st.title(":sunglasses: What's the day? 🎲")
 
-# Adding an option for "Silent mode"
-silent_mode = st.checkbox("Silent mode")
-if not silent_mode:
-    # Function to convert text to speech using gTTS
-    def text_to_speech(text, random_date):
-        today = datetime.now()
-        prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
-        
-        # Always select Italian as the language
-        selected_lang = 'it'
-        
-        tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
-        
-        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
-            tts.save(temp.name)
-            temp.seek(0)
-            audio_data = temp.read()
-        
-        audio_io = BytesIO(audio_data)
-        audio_io.seek(0)
-        return audio_io
+# Adding an option for selecting the language of the reader
+language_options = ['it', 'es', 'fr', 'ro']  # Add more languages if needed
+selected_language = random.choice(language_options)
 
-    # Convert the date to Italian words
-    date_words = date_to_italian_words(st.session_state.random_date)
-
-    # Text to speech with the modified function
-    audio_io = text_to_speech(date_words, st.session_state.random_date)
-
-    # Streamlit audio player
+# Function to convert text to speech using gTTS
+def text_to_speech(text, random_date, language):
+    today = datetime.now()
+    prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
+    
+    # Always select Italian as the language for speech
+    selected_lang = 'it'
+    
+    tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
+    
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
+        tts.save(temp.name)
+        temp.seek(0)
+        audio_data = temp.read()
+    
+    audio_io = BytesIO(audio_data)
     audio_io.seek(0)
-    audio_bytes = audio_io.read()
-    st.audio(audio_bytes, format='audio/wav')
+    return audio_io
 
-# Display the random date only in "Silent mode" and in the format "dd/mm/yyyy"
-if silent_mode:
-    date_displayed = date_to_italian_words(st.session_state.random_date)
-    st.write(f"Random date: {date_displayed}")
+# Convert the date to Italian words
+date_words = date_to_italian_words(st.session_state.random_date)
+
+# Text to speech with the modified function
+audio_io = text_to_speech(date_words, st.session_state.random_date, selected_language)
+
+# Streamlit audio player
+audio_io.seek(0)
+audio_bytes = audio_io.read()
+st.audio(audio_bytes, format='audio/wav')
 
 # Creating two columns for the layout
 left_column, right_column = st.columns(2)
