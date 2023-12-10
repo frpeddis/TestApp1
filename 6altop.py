@@ -129,7 +129,7 @@ def create_pie_chart(selected_day, correct_day=None, is_checked=False):
                 colors[correct_day_index] = 'lightgreen'
 
     fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.4, direction='clockwise')])
-    fig.update_traces(textinfo='label', textfont_size=15)
+    fig.update_traces(textinfo='label', textfont_size=15, hoverinfo='none')
     fig.update_layout(
         showlegend=False,
         height=160,
