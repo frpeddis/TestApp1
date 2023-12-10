@@ -98,20 +98,10 @@ st.audio(audio_bytes, format='audio/wav')
 # Creating two columns for the layout
 left_column, right_column = st.columns(2)
 
-# In the left column, place the day selection slider with labels
+# In the left column, place the day selection radio buttons
 with left_column:
-    day_mapping = {
-        "MON": "Monday", 
-        "TUE": "Tuesday", 
-        "WED": "Wednesday", 
-        "THU": "Thursday", 
-        "FRI": "Friday", 
-        "SAT": "Saturday", 
-        "SUN": "Sunday"
-    }
-    # Set default value to the current day to make selection faster
-    default_day = calendar.day_name[datetime.now().weekday()]
-    st.session_state.selected_day_of_week = day_mapping[st.select_slider("Seleziona:", options=list(day_mapping.keys()), value=list(day_mapping.keys())[list(day_mapping.values()).index(default_day)], key="day_slider")]
+    day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    st.session_state.selected_day_of_week = st.radio("Seleziona:", day_options, key="day_radio")
 
     # Button to confirm the selection and check the answer
     check_button = st.button(st.session_state.button_label)
