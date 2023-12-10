@@ -98,6 +98,10 @@ if not silent_mode:
     audio_bytes = audio_io.read()
     st.audio(audio_bytes, format='audio/wav')
 
+# Display the random date even in "Silent mode"
+date_displayed = date_to_italian_words(st.session_state.random_date)
+st.write(f"Random date: {date_displayed}")
+
 # Creating two columns for the layout
 left_column, right_column = st.columns(2)
 
