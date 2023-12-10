@@ -156,14 +156,12 @@ with right_column:
 # Calculate success percentage
 success_percentage = (5 - sum(st.session_state.error_count_list)) / 5 * 100 if st.session_state.question_count >= 5 else 0
 
-# Show success percentage in the recap
-st.write(f"Success percentage: {success_percentage:.2f}%")
+# Show success percentage in the recap only after the 5th question
+if st.session_state.question_count >= 5:
+    st.write(f"Success percentage: {success_percentage:.2f}%")
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
-    st.session_state.show_summary = True
-
-if st.session_state.show_summary:
     
     average_time = st.session_state.total_time / 5
     st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
