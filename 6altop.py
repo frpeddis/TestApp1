@@ -124,7 +124,7 @@ def create_pie_chart(selected_day, correct_day=None, is_checked=False):
 
     if selected_day:
         selected_day_index = full_days.index(selected_day)
-        colors[selected_day_index] = 'light violet'
+        colors[selected_day_index] = 'purple'
 
         if is_checked:
             if correct_day == selected_day:
