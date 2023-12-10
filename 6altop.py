@@ -81,24 +81,6 @@ if 'time_list' not in st.session_state:
 if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
-# Custom CSS to increase slider thumb size
-slider_style = """
-<style>
-div[role="slider"] {
-  height: 36px;
-}
-
-div[role="slider"] > div:nth-child(1) {
-  width: 16px !important;
-  height: 16px !important;
-  border-radius: 50% !important;
-  background: #FF4B4B !important;
-}
-</style>
-"""
-
-st.markdown(slider_style, unsafe_allow_html=True)
-
 # Streamlit app title
 st.title(":sunglasses: What's the day? 🎲")
 
@@ -142,13 +124,13 @@ def create_pie_chart(selected_day, correct_day=None, is_checked=False):
 
     if selected_day:
         selected_day_index = full_days.index(selected_day)
-        colors[selected_day_index] = 'violet'
+        colors[selected_day_index] = 'purple'
 
         if is_checked:
             if correct_day == selected_day:
                 colors[selected_day_index] = 'lightgreen'
             else:
-                colors[selected_day_index] = 'red'
+                colors[selected_day_index] = 'pink'
                 correct_day_index = full_days.index(correct_day)
                 colors[correct_day_index] = 'lightgreen'
 
@@ -214,7 +196,6 @@ if st.session_state.show_summary:
     plt.legend()
     st.pyplot(plt)
 
-    
     if st.button("Restart"):
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
