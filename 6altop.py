@@ -75,7 +75,7 @@ if 'random_date' not in st.session_state:
 if 'selected_day_of_week' not in st.session_state:
     st.session_state.selected_day_of_week = None
 if 'button_label' not in st.session_state:
-    st.session_state.button_label = "Check 1/NEXT"
+    st.session_state.button_label = "Check number 1/NEXT"
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
 if 'show_summary' not in st.session_state:
