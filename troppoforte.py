@@ -11,27 +11,10 @@ import plotly.graph_objects as go
 
 # Function to convert the date to Italian words
 def date_to_italian_words(date):
-    day = int(date.strftime("%d"))
-    month = date.strftime("%B")
-    year = int(date.strftime("%Y"))
-    day_words = num2words(day, lang='it')
-    year_words = num2words(year, lang='it')
-    month_map = {
-        'January': 'gennaio',
-        'February': 'febbraio',
-        'March': 'marzo',
-        'April': 'aprile',
-        'May': 'maggio',
-        'June': 'giugno',
-        'July': 'luglio',
-        'August': 'agosto',
-        'September': 'settembre',
-        'October': 'ottobre',
-        'November': 'novembre',
-        'December': 'dicembre'
-    }
-    month_words = month_map.get(month, '')
-    return f"{day_words} {month_words} {year_words}"
+    day = date.strftime("%d")
+    month = date.strftime("%m")
+    year = date.strftime("%Y")
+    return f"{day}/{month}/{year}"
 
 # Function to calculate a random date
 def calculate_random_date():
@@ -98,9 +81,10 @@ if not silent_mode:
     audio_bytes = audio_io.read()
     st.audio(audio_bytes, format='audio/wav')
 
-# Display the random date even in "Silent mode"
-date_displayed = date_to_italian_words(st.session_state.random_date)
-st.write(f"Random date: {date_displayed}")
+# Display the random date only in "Silent mode" and in the format "dd/mm/yyyy"
+if silent_mode:
+    date_displayed = date_to_italian_words(st.session_state.random_date)
+    st.write(f"Random date: {date_displayed}")
 
 # Creating two columns for the layout
 left_column, right_column = st.columns(2)
@@ -168,40 +152,4 @@ with right_column:
         st.session_state.question_count += 1
         st.session_state.question_start_time = datetime.now()
         st.session_state.random_date = calculate_random_date()
-        st.session_state.button_label = f"Check number {st.session_state.question_count + 1} / NEXT"
-
-# Show summary after 5 questions
-if st.session_state.question_count >= 5:
-    st.session_state.show_summary = True
-
-if st.session_state.show_summary:
-    
-    average_time = st.session_state.total_time / 5
-    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
-    st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
-    st.markdown(f'<p style="color:fuchsia;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
-    st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
-
-    plt.figure(figsize=(10, 6))
-    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Time Taken')
-    
-    for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
-        color = 'g' if error_count == 0 else 'r'
-        plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
-    
-    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Average Time')
-    plt.xlabel('Question Number')
-    plt.ylabel('Time Taken (s)')
-    plt.xticks(range(1, 6))
-    plt.ylim(bottom=0)
-    plt.title('Time Taken for Each Question')
-    plt.legend()
-    st.pyplot(plt)
-
-    if st.button("Restart"):
-        st.session_state.question_count = 0
-        st.session_state.total_time = 0.0
-        st.session_state.time_list = []
-        st.session_state.button_label = "Check Question 1"
-        st.session_state.show_summary = False
-        st.experimental_rerun()
+        st.session_state.button_label = f"Check number {st.session_state.question_count +
