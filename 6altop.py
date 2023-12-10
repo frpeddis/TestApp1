@@ -118,7 +118,7 @@ def create_pie_chart(selected_day, correct_day=None, is_checked=False):
 
     if selected_day:
         selected_day_index = full_days.index(selected_day)
-        colors[selected_day_index] = 'violet'
+        colors[selected_day_index] = 'azure'
 
         if is_checked:
             if correct_day == selected_day:
