@@ -45,7 +45,7 @@ if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
 
 # Streamlit app title
-st.title(":sunglasses: What's the day?")
+st.title("What's the day? :sunglasses: ")
 
 # Adding an option for "Silent mode"
 silent_mode = st.checkbox("Silent mode")
