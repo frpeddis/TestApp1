@@ -132,8 +132,8 @@ def create_pie_chart(selected_day, correct_day=None, is_checked=False):
     fig.update_traces(textinfo='label', textfont_size=15)
     fig.update_layout(
         showlegend=False,
-        height=130,
-        width=130,
+        height=160,
+        width=160,
         margin=dict(l=8, r=8, t=8, b=8)
     )
 
@@ -161,7 +161,7 @@ with right_column:
         st.session_state.question_count += 1
         st.session_state.question_start_time = datetime.now()
         st.session_state.random_date = calculate_random_date()
-        st.session_state.button_label = f"Check {st.session_state.question_count + 1} / NEXT"
+        st.session_state.button_label = f"Check number {st.session_state.question_count + 1} / NEXT"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
