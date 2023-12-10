@@ -164,8 +164,7 @@ if st.session_state.question_count >= 5:
     st.session_state.show_summary = True
 
 if st.session_state.show_summary:
-    st.experimental_rerun()  # Add this line to refresh the page
-
+    
     average_time = st.session_state.total_time / 5
     st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
     st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
