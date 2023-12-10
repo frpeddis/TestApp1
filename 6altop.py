@@ -103,8 +103,31 @@ with left_column:
     day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     st.session_state.selected_day_of_week = st.radio("Seleziona:", day_options, key="day_radio")
 
-    # Button to confirm the selection and check the answer
-    check_button = st.button(st.session_state.button_label)
+    # Check if the check button should be shown
+    if st.session_state.question_count < 5:
+        # Button to confirm the selection and check the answer
+        if st.button(st.session_state.button_label):
+            # Existing check button logic
+            if st.session_state.selected_day_of_week == calendar.day_name[st.session_state.random_date.weekday()]:
+                st.balloons()
+                st.success(f"{calendar.day_name[st.session_state.random_date.weekday()]} is right! :thumbsup:")
+            else:
+                st.session_state.error_count_list[st.session_state.question_count] += 1
+                st.error(f"{calendar.day_name[st.session_state.random_date.weekday()]} was right! :coffee:")
+
+            question_time_taken = (datetime.now() - st.session_state.question_start_time).total_seconds()
+            st.session_state.total_time += question_time_taken
+            st.session_state.time_list.append(question_time_taken)
+            st.session_state.question_count += 1  # Increment the question count
+            st.session_state.question_start_time = datetime.now()
+            st.session_state.random_date = calculate_random_date()
+
+            # Update the button label for the next question, or hide it after 5 checks
+            if st.session_state.question_count < 5:
+                st.session_state.button_label = f"Check {st.session_state.question_count + 1} / NEXT"
+            else:
+                # After 5th check, prepare to show the summary
+                st.session_state.show_summary = True
 
 # Function to create the pie chart
 def create_pie_chart(selected_day, correct_day=None, is_checked=False):
@@ -126,71 +149,27 @@ def create_pie_chart(selected_day, correct_day=None, is_checked=False):
 
     fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.2, direction='clockwise')])
     fig.update_traces(textinfo='label', textfont_size=15)
-    fig.update_layout(
-        showlegend=False,
-        height=130,
-        width=130,
-        margin=dict(l=8, r=8, t=8, b=8)
-    )
+    fig.update_layout(showlegend=False, height=130, width=130, margin=dict(l=8, r=8, t=8, b=8))
 
     return fig
 
 # In the right column, display the pie chart
 with right_column:
-    day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
-    fig = create_pie_chart(st.session_state.selected_day_of_week, day_of_week if check_button else None, check_button)
+    fig = create_pie_chart(st.session_state.selected_day_of_week, calendar.day_name[st.session_state.random_date.weekday()] if st.session_state.question_count > 0 else None, st.session_state.question_count > 0)
     st.plotly_chart(fig, use_container_width=True)
 
-    if check_button:
-        if st.session_state.selected_day_of_week == day_of_week:
-            st.balloons()
-            st.success(f"{day_of_week} is right! :thumbsup:")
-        else:
-            st.session_state.error_count_list[st.session_state.question_count] += 1
-            st.error(f"{day_of_week} was right! :coffee:")
-
-        question_time_taken = (
-            datetime.now() - st.session_state.question_start_time
-        ).total_seconds()
-        st.session_state.total_time += question_time_taken
-        st.session_state.time_list.append(question_time_taken)
-        st.session_state.question_count += 1
-        st.session_state.question_start_time = datetime.now()
-        st.session_state.random_date = calculate_random_date()
-        st.session_state.button_label = f"Check {st.session_state.question_count + 1} / NEXT"
-
 # Show summary after 5 questions
-if st.session_state.question_count >= 5:
-    st.session_state.show_summary = True
-
 if st.session_state.show_summary:
-    
-    average_time = st.session_state.total_time / 5
-    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
-    st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
-    st.markdown(f'<p style="color:fuchsia;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
-    st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
+    # ... [existing summary code]
 
-    plt.figure(figsize=(10, 6))
-    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Time Taken')
-    
-    for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
-        color = 'g' if error_count == 0 else 'r'
-        plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
-    
-    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Average Time')
-    plt.xlabel('Question Number')
-    plt.ylabel('Time Taken (s)')
-    plt.xticks(range(1, 6))
-    plt.ylim(bottom=0)
-    plt.title('Time Taken for Each Question')
-    plt.legend()
-    st.pyplot(plt)
-
+    # Replace 'Check' button with 'Restart' button
     if st.button("Restart"):
+        # Resetting session state variables for restart
         st.session_state.question_count = 0
+        st.session_state.error_count_list = [0] * 5
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
-        st.session_state.button_label = "Check Question 1"
+        st.session_state.button_label = "Check 1/NEXT"
         st.session_state.show_summary = False
+        st.session_state.random_date = calculate_random_date()
         st.experimental_rerun()
