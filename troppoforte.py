@@ -38,7 +38,7 @@ if 'random_date' not in st.session_state:
 if 'selected_day_of_week' not in st.session_state:
     st.session_state.selected_day_of_week = None
 if 'button_label' not in st.session_state:
-    st.session_state.button_label = "Check question 1/NEXT"
+    st.session_state.button_label = "Check Question 1/NEXT"
 if 'time_list' not in st.session_state:
     st.session_state.time_list = []
 if 'show_summary' not in st.session_state:
@@ -151,7 +151,7 @@ with right_column:
         st.session_state.question_count += 1
         st.session_state.question_start_time = datetime.now()
         st.session_state.random_date = calculate_random_date()
-        st.session_state.button_label = f"Check question {st.session_state.question_count + 1} / NEXT"
+        st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / NEXT"
 
 # Show summary after 5 questions
 if st.session_state.question_count >= 5:
