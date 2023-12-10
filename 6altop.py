@@ -103,11 +103,13 @@ with left_column:
     day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     st.session_state.selected_day_of_week = st.radio("Seleziona:", day_options, key="day_radio")
 
-    if st.session_state.question_count < 6:
+    # Button to confirm the selection and check the answer
+    # Display the button only if question_count is less than 5
+    if st.session_state.question_count < 5:
         check_button = st.button(st.session_state.button_label)
     else:
         check_button = False
-    
+
 # Function to create the pie chart
 def create_pie_chart(selected_day, correct_day=None, is_checked=False):
     days_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
