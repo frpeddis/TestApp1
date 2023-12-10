@@ -105,7 +105,7 @@ with left_column:
 
     # Button to confirm the selection and check the answer
     # Display the button only if question_count is less than 5
-    if st.session_state.question_count < 4:
+    if st.session_state.question_count < 5:
         check_button = st.button(st.session_state.button_label)
     else:
         check_button = False
