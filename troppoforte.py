@@ -140,6 +140,7 @@ with right_column:
             st.balloons()
             st.success(f"{day_of_week} is right! :thumbsup:")
         else:
+            st.snow()
             st.session_state.error_count_list[st.session_state.question_count] += 1
             st.error(f"{day_of_week} was right! :coffee:")
 
