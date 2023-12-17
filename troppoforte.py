@@ -8,6 +8,7 @@ from gtts import gTTS
 from num2words import num2words
 from io import BytesIO
 import plotly.graph_objects as go
+import time
 
 # Function to convert the date to Italian words
 def date_to_italian_words(date):
@@ -43,6 +44,8 @@ if 'time_list' not in st.session_state:
     st.session_state.time_list = []
 if 'show_summary' not in st.session_state:
     st.session_state.show_summary = False
+if 'display_restart_button' not in st.session_state:
+    st.session_state.display_restart_button = False
 
 # Streamlit app title
 st.title("What's the day? :sunglasses: ")
@@ -159,7 +162,6 @@ if st.session_state.question_count >= 5:
     st.session_state.show_summary = True
 
 if st.session_state.show_summary:
-    
     average_time = st.session_state.total_time / 5
     st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
     st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
@@ -182,10 +184,15 @@ if st.session_state.show_summary:
     plt.legend()
     st.pyplot(plt)
 
-    if st.button("Restart"):
+    if st.session_state.display_restart_button:
+        st.write("Restarting in 3 seconds...")
+        time.sleep(3)  # Wait for 3 seconds
+        st.session_state.display_restart_button = False
         st.session_state.question_count = 0
         st.session_state.total_time = 0.0
         st.session_state.time_list = []
         st.session_state.button_label = "👉 Check Question 1/NEXT"
         st.session_state.show_summary = False
         st.experimental_rerun()
+else:
+    st.session_state.display_restart_button = False
