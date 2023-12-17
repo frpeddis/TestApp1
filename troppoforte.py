@@ -196,3 +196,4 @@ if st.session_state.show_summary:
         st.experimental_rerun()
 else:
     st.session_state.display_restart_button = False
+
