@@ -8,7 +8,7 @@ from streamlit_sortables import sort_items
 st.title('Quanto sei forte ?')
 
 # URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events2.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni6.csv'
 
 # Carica il file CSV da GitHub
 @st.cache
@@ -28,7 +28,7 @@ if not data.empty and len(data) >= 5:
     # Mostra le invenzioni casuali
     
     items = [{'header': 'In alto le più antiche!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
-    st.write('Metti in ordine questi eventi!')
+    st.write('Metti in ordine queste invenzioni!')
     
     # Utilizza streamlit-sortables per ordinare gli elementi
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
@@ -54,4 +54,3 @@ if not data.empty and len(data) >= 5:
                             unsafe_allow_html=True)
         else:
             st.error("Urca, l'ordine non è corretto. Riprova.")
-
