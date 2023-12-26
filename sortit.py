@@ -36,7 +36,15 @@ else:
     with st.container():
         st.subheader("Ordina gli Eventi per Data")
         ordered_names = [row['Descrizione Breve'] for _, row in selected_records.iterrows()]
-        ordered_names = st.multiselect("Riordina gli eventi qui:", ordered_names, ordered_names)
+        
+        # Implementazione di riordinamento
+        item_to_move = st.selectbox("Seleziona un evento da spostare:", ordered_names)
+        new_position = st.selectbox("Scegli la nuova posizione:", range(len(ordered_names)))
+        
+        if st.button("Conferma Spostamento"):
+            # Sposta l'elemento nella nuova posizione
+            ordered_names.remove(item_to_move)
+            ordered_names.insert(new_position, item_to_move)
 
         # Controlla l'ordine
         if st.button("Verifica Ordine"):
