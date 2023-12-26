@@ -1,6 +1,6 @@
 streamlit
 plotly
-streamlit-lottie
+streamlit_sortables
 pyttsx3
 pillow
 pytesseract
