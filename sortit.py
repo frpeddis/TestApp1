@@ -48,3 +48,5 @@ if not data.empty and len(data) >= 5:
                             unsafe_allow_html=True)
         else:
             st.error("Ordine non corretto. Riprova.") 
+
+# ... [rest of your code, if any] ...
