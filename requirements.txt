@@ -1,5 +1,6 @@
 streamlit
 plotly
+streamlit-lottie
 pyttsx3
 pillow
 pytesseract
