@@ -10,32 +10,34 @@ if uploaded_file is not None:
     try:
         # Leggi il file CSV caricato
         data = pd.read_csv(uploaded_file)
+        st.session_state['data'] = data  # Memorizza i dati nella sessione
     except Exception as e:
         st.error(f"Errore nella lettura del file: {e}")
-        data = pd.DataFrame()
+        st.session_state['data'] = pd.DataFrame()
 else:
     st.info("Attendi il caricamento del file CSV.")
-    data = pd.DataFrame()
+    st.session_state['data'] = pd.DataFrame()
 
 # Verifica se i dati sono sufficienti
-if data.empty:
+if st.session_state.get('data', pd.DataFrame()).empty:
     st.error("Il DataFrame è vuoto.")
-elif len(data) < 5:
+elif len(st.session_state['data']) < 5:
     st.error("Non ci sono abbastanza dati per selezionare 5 record casuali.")
 else:
-    # Seleziona 5 record casuali
-    selected_records = data.sample(5)
+    # Seleziona 5 record casuali, solo se non sono già stati selezionati
+    if 'selected_records' not in st.session_state:
+        st.session_state['selected_records'] = st.session_state['data'].sample(5)
 
     # Container 1: Descrizione Sintetica
     with st.container():
         st.subheader("Descrizioni Sintetiche")
-        for _, row in selected_records.iterrows():
+        for _, row in st.session_state['selected_records'].iterrows():
             st.write(f"- {row['Descrizione Breve']}")
 
     # Container 2: Ordinamento Eventi
     with st.container():
         st.subheader("Ordina gli Eventi per Data")
-        ordered_names = [row['Descrizione Breve'] for _, row in selected_records.iterrows()]
+        ordered_names = [row['Descrizione Breve'] for _, row in st.session_state['selected_records'].iterrows()]
         
         # Implementazione di riordinamento
         item_to_move = st.selectbox("Seleziona un evento da spostare:", ordered_names)
@@ -45,12 +47,13 @@ else:
             # Sposta l'elemento nella nuova posizione
             ordered_names.remove(item_to_move)
             ordered_names.insert(new_position, item_to_move)
+            st.session_state['selected_records'] = st.session_state['selected_records'].loc[st.session_state['selected_records']['Descrizione Breve'].isin(ordered_names)]
 
         # Controlla l'ordine
         if st.button("Verifica Ordine"):
             ordered_records = pd.DataFrame()
             for name in ordered_names:
-                ordered_records = ordered_records.append(selected_records[selected_records['Descrizione Breve'] == name])
+                ordered_records = ordered_records.append(st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == name])
 
             ordered_correctly = ordered_records['anno della scoperta'].is_monotonic_increasing
             if ordered_correctly and len(ordered_records) == 5:
