@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from io import StringIO
 from streamlit_sortables import sort_items
+import random
 
 # Titolo dell'applicazione
 st.title('Quanto sei forte ? 😎')
@@ -25,13 +26,25 @@ if not data.empty and len(data) >= 5:
     if 'selected_records' not in st.session_state:
         st.session_state['selected_records'] = data.sample(5)
 
+    if 'hint_indices' not in st.session_state:
+        st.session_state['hint_indices'] = list(range(5))
+
     # Mostra le invenzioni casuali
-    
     items = [{'header': 'In alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
     st.write('Metti in ordine questi eventi!')
-    
+
     # Utilizza streamlit-sortables per ordinare gli elementi
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
+
+    # Pulsante Hint
+    if st.button("Hint"):
+        if st.session_state['hint_indices']:
+            hint_index = random.choice(st.session_state['hint_indices'])
+            st.session_state['hint_indices'].remove(hint_index)
+            hint_record = st.session_state['selected_records'].iloc[hint_index]
+            st.write(hint_record)
+        else:
+            st.error("Non ci sono più suggerimenti disponibili.")
 
     # Verifica l'ordine
     if st.button("Ce l'hai fatta ?"):
