@@ -9,7 +9,7 @@ import random
 st.title('Quanto sei forte ? 😎')
 
 # URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events35.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events34.csv'
 
 # Carica il file CSV da GitHub
 @st.cache
