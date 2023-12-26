@@ -42,7 +42,8 @@ if not data.empty and len(data) >= 5:
             hint_index = random.choice(st.session_state['hint_indices'])
             st.session_state['hint_indices'].remove(hint_index)
             hint_record = st.session_state['selected_records'].iloc[hint_index]
-            st.write(hint_record)
+            hint_text = f"{hint_record['Descrizione Breve']} {hint_record['Anno di Scoperta']}"
+            st.write(hint_text)
         else:
             st.error("Non ci sono più suggerimenti disponibili.")
 
