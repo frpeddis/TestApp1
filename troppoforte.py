@@ -141,6 +141,7 @@ with right_column:
             st.success(f"{day_of_week} is right! :thumbsup:")
         else:
             st.session_state.error_count_list[st.session_state.question_count] += 1
+            st.snow()
             st.error(f"{day_of_week} was right! :coffee:")
 
         question_time_taken = (
