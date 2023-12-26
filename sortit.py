@@ -3,13 +3,18 @@ import pandas as pd
 import requests
 
 # Funzione per caricare i dati da GitHub
-@st.cache
+#@st.cache
 def load_data_from_github(url):
     response = requests.get(url)
     if response.status_code == 200:
-        # Opzionale: stampa le prime righe del file per il debugging
-        print(response.text[:500])  # Stampa i primi 500 caratteri del file
-        return pd.read_csv(url)  # Legge il file CSV
+        # Stampa i primi 500 caratteri del file per il debugging
+        print(response.text[:500])
+        try:
+            # Modifica questa riga per utilizzare il delimitatore corretto
+            return pd.read_csv(url, sep=',', error_bad_lines=False)  
+        except pd.errors.ParserError as e:
+            print("Errore di parsing:", e)
+            return pd.DataFrame()
     else:
         st.error("Impossibile caricare i dati dal repository GitHub.")
         return pd.DataFrame()
