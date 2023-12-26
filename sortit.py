@@ -6,7 +6,7 @@ from streamlit_sortables import sort_items
 import random
 
 # Titolo dell'applicazione
-st.title('Quanto sei forte ? 😎')
+st.title('Quanto sei forte in Storia? 😎')
 
 # URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events36.csv'
