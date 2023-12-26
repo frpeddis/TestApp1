@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 
 # Funzione per caricare i dati da GitHub
-#@st.cache
+@st.cache
 def load_data_from_github(url):
     response = requests.get(url)
     if response.status_code == 200:
