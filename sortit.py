@@ -1,28 +1,21 @@
 import streamlit as st
 import pandas as pd
-import requests
 
-# Funzione per caricare i dati da GitHub
-@st.cache
-def load_data_from_github(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        # Stampa i primi 500 caratteri del file per il debugging
-        print(response.text[:500])
-        try:
-            # Modifica questa riga per utilizzare il delimitatore corretto
-            return pd.read_csv(csv_url, sep=',', error_bad_lines=False)  
-        except pd.errors.ParserError as e:
-            print("Errore di parsing:", e)
-            return pd.DataFrame()
-    else:
-        st.error("Impossibile caricare i dati dal repository GitHub.")
-        return pd.DataFrame()
+# Layout Streamlit
+st.title("Scoperte Invenzioni")
 
-# URL del file CSV su GitHub (assicurati che sia il raw URL)
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni3.csv'
-data = load_data_from_github(csv_url)
-
+# Carica il file CSV tramite drag-and-drop
+uploaded_file = st.file_uploader("Carica un file CSV", type="csv")
+if uploaded_file is not None:
+    try:
+        # Leggi il file CSV caricato
+        data = pd.read_csv(uploaded_file)
+    except Exception as e:
+        st.error(f"Errore nella lettura del file: {e}")
+        data = pd.DataFrame()
+else:
+    st.info("Attendi il caricamento del file CSV.")
+    data = pd.DataFrame()
 # Layout Streamlit
 st.title("Scoperte Invenzioni")
 
