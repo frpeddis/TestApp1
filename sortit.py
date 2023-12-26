@@ -11,7 +11,7 @@ def load_data_from_github(url):
         print(response.text[:500])
         try:
             # Modifica questa riga per utilizzare il delimitatore corretto
-            return pd.read_csv(url, sep=',', error_bad_lines=False)  
+            return pd.read_csv(csv_url, sep=',', error_bad_lines=False)  
         except pd.errors.ParserError as e:
             print("Errore di parsing:", e)
             return pd.DataFrame()
@@ -20,7 +20,7 @@ def load_data_from_github(url):
         return pd.DataFrame()
 
 # URL del file CSV su GitHub (assicurati che sia il raw URL)
-url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/Invenzioni.csv'
 data = load_data_from_github(csv_url)
 
 # Layout Streamlit
