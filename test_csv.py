@@ -3,16 +3,13 @@ import pandas as pd
 import streamlit as st
 
 
+df = pd.read_csv("https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni.csv")  # read a CSV file inside the 'data" folder next to 'app.py'
+# df = pd.read_excel(...)  # will work for Excel files
+
+st.title("Hello world!")  # add a title
+st.write(df)  # visualize my dataframe in the Streamlit app
 
 
 
-DATA_URL = ('https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni.csv')
-@st.cache
-def load_data():
-    data = pd.read_csv(DATA_URL)
 
-    return data
-df = load_data()
 
-# show data on streamlit
-st.write(df)
