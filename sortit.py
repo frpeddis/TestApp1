@@ -31,7 +31,7 @@ if not data.empty and len(data) >= 5:
         for desc in sorted_items[0]['items']:
             ordered_records = ordered_records.append(st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc])
 
-        ordered_correctly = ordered_records['anno della scoperta'].is_monotonic_increasing
+        ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
             st.success("Hai indovinato l'ordine corretto!")
         else:
