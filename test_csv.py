@@ -8,7 +8,7 @@ st.title('CSV File Upload and Display')
 st.markdown('**Please upload a CSV file to view its content.**')
 
 # File uploader allows user to add their own CSV
-uploaded_file = st.file_uploader("Upload CSV", type=["xls"])
+uploaded_file = st.file_uploader("Upload CSV")
 
 # Check if there is a file uploaded
 if uploaded_file is not None:
