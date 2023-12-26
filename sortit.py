@@ -49,22 +49,22 @@ if not data.empty and len(data) >= 5:
 
     # Verifica l'ordine
     if st.button("Ce l'hai fatta ?"):
-        ordered_records = pd.DataFrame()
-        for desc in sorted_items[0]['items']:
-            matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
-            if not matching_record.empty:
-                ordered_records = pd.concat([ordered_records, matching_record])
-            else:
-                st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
-
-        ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
-        if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-            st.balloons()
-            st.markdown("<div style='background-color:lightgreen;color:blue;padding:14px;'>"
-                        "Daje !!! Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
-            for _, row in ordered_records.iterrows():
-                st.markdown(f"<div style='background-color:darkblue;color:white;padding:12px;'>"
-                            f"{row['Descrizione Breve']} {row['Anno di Scoperta']} - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
-                            unsafe_allow_html=True)
+    ordered_records = pd.DataFrame()
+    for desc in sorted_items[0]['items']:
+        matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
+        if not matching_record.empty:
+            ordered_records = pd.concat([ordered_records, matching_record])
         else:
-            st.error("Urca, l'ordine non è corretto. Riprova.")
+            st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
+
+    ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
+    if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
+        st.balloons()
+        st.markdown("<div style='background-color:lightgreen;color:blue;padding:14px;'>"
+                    "Daje !!! Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
+        for _, row in ordered_records.iterrows():
+            st.markdown(f"<div style='background-color:darkblue;color:white;padding:12px;'>"
+                        f"{row['Descrizione Breve']} {int(row['Anno di Scoperta'])} - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
+                        unsafe_allow_html=True)
+    else:
+        st.error("Urca, l'ordine non è corretto. Riprova.")
