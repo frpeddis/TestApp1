@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 import requests
-from streamlit_lottie import st_lottie
+#from streamlit_lottie import st_lottie
 
 # Funzione per caricare i dati da GitHub
 @st.cache
@@ -53,7 +53,7 @@ if st.button("Verifica Ordine"):
     ordered_correctly = True # Aggiungi la logica di controllo qui
     if ordered_correctly:
         st.success("Hai indovinato l'ordine corretto!")
-        st_lottie(victory_sound, height=300, key="win")
+        #st_lottie(victory_sound, height=300, key="win")
         # Mostra dettagli aggiuntivi
         for _, row in selected_records.iterrows():
             st.write(f"{row['nome sintetico di invenzione']} - {row['anno della scoperta']} - {row['descrizione estesa']} - {row['Nome inventore']} - {row['Paese di origine']}")
