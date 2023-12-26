@@ -42,7 +42,7 @@ if not data.empty and len(data) >= 5:
                         "Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div style='background-color:lightgreen;color:white;padding:12px;'>"
-                            f"{row['Descrizione Breve']} - {row['Anno di Scoperta']} - {row['Nome dell'Inventore']}</div>",
+                            f"{row['Descrizione Breve']} - {row['Anno di Scoperta']} - {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
         else:
             st.error("Ordine non corretto. Riprova.")
