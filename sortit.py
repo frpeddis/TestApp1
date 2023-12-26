@@ -16,8 +16,6 @@ if uploaded_file is not None:
 else:
     st.info("Attendi il caricamento del file CSV.")
     data = pd.DataFrame()
-# Layout Streamlit
-st.title("Scoperte Invenzioni")
 
 # Verifica se i dati sono sufficienti
 if data.empty:
