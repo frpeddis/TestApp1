@@ -37,7 +37,8 @@ if not data.empty and len(data) >= 5:
 
         ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-            st.markdown("<div style='background-color:green;color:white;padding:10px;'>"
+            st.baloons()
+            st.markdown("<div style='background-color:lightgreen;color:white;padding:10px;'>"
                         "Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div style='background-color:green;color:white;padding:10px;'>"
