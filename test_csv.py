@@ -1,4 +1,4 @@
-DATA_URL = ('covid.csv')
+DATA_URL = ('https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni.csv')
 @st.cache
 def load_data():
     data = pd.read_csv(DATA_URL)
