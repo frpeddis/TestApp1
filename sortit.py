@@ -5,7 +5,7 @@ from io import StringIO
 from streamlit_sortables import sort_items
 
 # Titolo dell'applicazione
-st.title('Quanto sei forte ? 👏👏👏')
+st.title('Quanto sei forte ? 😎')
 
 # URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events31.csv'
