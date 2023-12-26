@@ -28,7 +28,7 @@ if not data.empty and len(data) >= 5:
     # Mostra le invenzioni casuali
     
     items = [{'header': 'In alto le più antiche!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
-    st.write('Metti in ordine queste invenzioni!')
+    st.write('Metti in ordine questi eventi!')
     
     # Utilizza streamlit-sortables per ordinare gli elementi
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
