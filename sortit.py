@@ -44,7 +44,7 @@ if not data.empty and len(data) >= 5:
                             f"{row['Descrizione Breve']} - {row['Anno di Scoperta']} - "
                             f"Inventore: {row['Nome dell'Inventore']} - "
                             f"Paese: {row['Paese di Origine']}<br>"
-                            f"<strong>Descrizione Lunga:</strong> {row['Descrizione Lunga']}</div>",
+                            #f"<strong>Descrizione Lunga:</strong> {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
         else:
             st.error("Ordine non corretto. Riprova.") 
