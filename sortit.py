@@ -37,16 +37,11 @@ if not data.empty and len(data) >= 5:
 
         ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-            st.markdown("<div style='background-color:light green;color:white;padding:10px;'>"
+            st.markdown("<div style='background-color:green;color:white;padding:10px;'>"
                         "Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div style='background-color:green;color:white;padding:10px;'>"
-                            f"{row['Descrizione Breve']} - {row['Anno di Scoperta']} - "
-                            f"Inventore: {row['Nome dell'Inventore']} - "
-                            f"Paese: {row['Paese di Origine']}<br>"
-                            #f"<strong>Descrizione Lunga:</strong> {row['Descrizione Lunga']}</div>",
-                            #unsafe_allow_html=True)
+                            f"{row['Descrizione Breve']} - {row['Anno di Scoperta']}</div>",
+                            unsafe_allow_html=True)
         else:
-            st.error("Ordine non corretto. Riprova.") 
-
-# ... [rest of your code, if any] ...
+            st.error("Ordine non corretto. Riprova.")
