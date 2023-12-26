@@ -8,7 +8,7 @@ import random
 # Titolo dell'applicazione
 st.title('Quanto sei forte ? 😎')
 
-#  URL del file CSV su GitHub
+# URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events35.csv'
 
 # Carica il file CSV da GitHub
