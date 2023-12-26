@@ -20,7 +20,7 @@ def load_data_from_github(url):
         return pd.DataFrame()
 
 # URL del file CSV su GitHub (assicurati che sia il raw URL)
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/Inventions3.csv'
 data = load_data_from_github(csv_url)
 
 # Layout Streamlit
