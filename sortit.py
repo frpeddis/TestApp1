@@ -4,13 +4,27 @@ import requests
 
 # Funzione per caricare i dati da GitHub
 @st.cache
+#def load_data_from_github(url):
+#    response = requests.get(url)
+#    if response.status_code == 200:
+#        return pd.read_csv(url)
+#    else:
+#        st.error("Impossibile caricare i dati dal repository GitHub.")
+#        return pd.DataFrame()
+
+
 def load_data_from_github(url):
     response = requests.get(url)
     if response.status_code == 200:
-        return pd.read_csv(url)
+        # Opzionale: stampa le prime righe del file per il debugging
+        print(response.text[:500])  # Stampa i primi 500 caratteri del file
+        # Sostituisci ',' con il delimitatore appropriato se necessario
     else:
         st.error("Impossibile caricare i dati dal repository GitHub.")
         return pd.DataFrame()
+
+
+
 
 # URL del file CSV su GitHub (assicurati che sia il raw URL)
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni.csv'
