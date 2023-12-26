@@ -30,7 +30,7 @@ else:
     with st.container():
         st.subheader("Descrizioni Sintetiche")
         for _, row in selected_records.iterrows():
-            st.write(f"- {row['nome sintetico di invenzione']}")
+            st.write(f"- {row['Descrizione Breve']}")
 
     # Container 2: Ordinamento Eventi
     with st.container():
