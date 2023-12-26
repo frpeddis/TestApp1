@@ -35,19 +35,19 @@ else:
     # Container 2: Ordinamento Eventi
     with st.container():
         st.subheader("Ordina gli Eventi per Data")
-        ordered_names = [row['nome sintetico di invenzione'] for _, row in selected_records.iterrows()]
+        ordered_names = [row['Descrizione Breve'] for _, row in selected_records.iterrows()]
         ordered_names = st.multiselect("Riordina gli eventi qui:", ordered_names, ordered_names)
 
         # Controlla l'ordine
         if st.button("Verifica Ordine"):
             ordered_records = pd.DataFrame()
             for name in ordered_names:
-                ordered_records = ordered_records.append(selected_records[selected_records['nome sintetico di invenzione'] == name])
+                ordered_records = ordered_records.append(selected_records[selected_records['Descrizione Breve'] == name])
 
             ordered_correctly = ordered_records['anno della scoperta'].is_monotonic_increasing
             if ordered_correctly and len(ordered_records) == 5:
                 st.success("Hai indovinato l'ordine corretto!")
                 for _, row in ordered_records.iterrows():
-                    st.write(f"{row['nome sintetico di invenzione']} - {row['anno della scoperta']} - {row['descrizione estesa']} - {row['Nome inventore']} - {row['Paese di origine']}")
+                    st.write(f"{row['Descrizione Breve']} - {row['anno della scoperta']} - {row['descrizione estesa']} - {row['Nome inventore']} - {row['Paese di origine']}")
             else:
                 st.error("Ordine non corretto. Riprova.")
