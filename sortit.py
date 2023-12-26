@@ -53,5 +53,5 @@ if not data.empty and len(data) >= 5:
                             f"{row['Descrizione Breve']} {row['Anno di Scoperta']} - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
         else:
-            st.error("Mannaggia, l'ordine non è corretto. Riprova.")
+            st.error("Urca, l'ordine non è corretto. Riprova.")
 
