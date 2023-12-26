@@ -32,7 +32,7 @@ if not data.empty and len(data) >= 5:
             # Trova il record corrispondente
             matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
             if not matching_record.empty:
-                ordered_records = ordered_records.append(matching_record)
+                ordered_records = pd.concat([ordered_records, matching_record])
             else:
                 st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
 
