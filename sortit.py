@@ -1,17 +1,24 @@
 import streamlit as st
 import pandas as pd
+import requests
+from io import StringIO
 from streamlit_sortables import sort_items
 
 # Titolo dell'applicazione
 st.title('Quanto sei forte ?')
 
-# Carica il file CSV
-uploaded_file = st.file_uploader("Carica un file CSV", type="csv")
-if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file)
-else:
-    st.info("Attendi il caricamento del file CSV.")
-    data = pd.DataFrame()
+# URL del file CSV su GitHub
+csv_url = 'https://raw.githubusercontent.com/your_username/your_repository/main/your_file.csv'
+
+# Carica il file CSV da GitHub
+@st.cache
+def load_data(url):
+    response = requests.get(url)
+    csv_raw = StringIO(response.text)
+    data = pd.read_csv(csv_raw)
+    return data
+
+data = load_data(csv_url)
 
 # Se i dati sono sufficienti, seleziona 5 record casuali
 if not data.empty and len(data) >= 5:
@@ -46,3 +53,4 @@ if not data.empty and len(data) >= 5:
                             unsafe_allow_html=True)
         else:
             st.error("Mannaggia, l'ordine non è corretto. Riprova.")
+
