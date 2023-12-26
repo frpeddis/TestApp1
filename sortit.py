@@ -41,7 +41,7 @@ if not data.empty and len(data) >= 5:
             st.markdown("<div style='background-color:lightgreen;color:white;padding:14px;'>"
                         "Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
-                st.markdown(f"<div style='background-color:blue;color:white;padding:12px;'>"
+                st.markdown(f"<div style='background-color:darkblue;color:white;padding:12px;'>"
                             f"{row['Descrizione Breve']} - {row['Anno di Scoperta']} - {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
         else:
