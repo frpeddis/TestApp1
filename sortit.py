@@ -8,7 +8,7 @@ from streamlit_sortables import sort_items
 st.title('Quanto sei forte ?')
 
 # URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/Invenzioni6.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events3.csv'
 
 # Carica il file CSV da GitHub
 @st.cache
