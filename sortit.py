@@ -29,7 +29,12 @@ if not data.empty and len(data) >= 5:
     if st.button("Verifica Ordine"):
         ordered_records = pd.DataFrame()
         for desc in sorted_items[0]['items']:
-            ordered_records = ordered_records.append(st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc])
+            # Trova il record corrispondente
+            matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
+            if not matching_record.empty:
+                ordered_records = ordered_records.append(matching_record)
+            else:
+                st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
 
         ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
