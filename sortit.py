@@ -53,7 +53,7 @@ if not data.empty and len(data) >= 5:
         st.session_state['hint_indices'] = list(range(5))
 
     # Mostra le invenzioni casuali
-    items = [{'header': '🔄 In alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
+    items = [{'header': '🔄 Trascina in alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
     
     st.markdown("<div style='background-color: White; color: darkblue; padding: 14px; border: 2px solid blue; border-radius: 14px;'>"
             "Metti in ordine questi eventi! 🗓️</div>", unsafe_allow_html=True)
