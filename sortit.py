@@ -64,7 +64,7 @@ if not data.empty and len(data) >= 5:
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
     # Pulsante Hint
-    if st.button("👋 Hint"):
+    if st.button("👋 Aiutino"):
         if st.session_state['hint_indices']:
             hint_index = random.choice(st.session_state['hint_indices'])
             st.session_state['hint_indices'].remove(hint_index)
@@ -75,7 +75,7 @@ if not data.empty and len(data) >= 5:
             st.error("Non ci sono più suggerimenti disponibili.")
 
     # Verifica l'ordine
-    if st.button("👉 Ce l'hai fatta ?"):
+    if st.button("👉 Vuoi provare ?"):
         ordered_records = pd.DataFrame()
         for desc in sorted_items[0]['items']:
             matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
