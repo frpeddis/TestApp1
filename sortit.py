@@ -21,6 +21,19 @@ def load_data(url):
 
 data = load_data(csv_url)
 
+# Stile CSS personalizzato per i box
+st.markdown("""
+    <style>
+    .custom-box {
+        border: 2px solid blue;
+        background-color: blue;
+        color: white;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Se i dati sono sufficienti, seleziona 5 record casuali
 if not data.empty and len(data) >= 5:
     if 'selected_records' not in st.session_state:
@@ -42,8 +55,8 @@ if not data.empty and len(data) >= 5:
             hint_index = random.choice(st.session_state['hint_indices'])
             st.session_state['hint_indices'].remove(hint_index)
             hint_record = st.session_state['selected_records'].iloc[hint_index]
-            hint_text = f"{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}"
-            st.write(hint_text)
+            hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
+            st.markdown(hint_text, unsafe_allow_html=True)
         else:
             st.error("Non ci sono più suggerimenti disponibili.")
 
@@ -63,7 +76,7 @@ if not data.empty and len(data) >= 5:
             st.markdown("<div style='background-color:lightgreen;color:blue;padding:14px;'>"
                         "Daje !!! Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
-                st.markdown(f"<div style='background-color:darkblue;color:white;padding:12px;'>"
+                st.markdown(f"<div class='custom-box'>"
                             f"{row['Descrizione Breve']} {int(row['Anno di Scoperta'])} - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
         else:
