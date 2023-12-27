@@ -59,7 +59,7 @@ if not data.empty and len(data) >= 5:
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
     # Pulsante Hint
-    if st.button("🖐️ Hint"):
+    if st.button("👋 Hint"):
         if st.session_state['hint_indices']:
             hint_index = random.choice(st.session_state['hint_indices'])
             st.session_state['hint_indices'].remove(hint_index)
