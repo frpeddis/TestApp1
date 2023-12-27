@@ -69,7 +69,7 @@ if not data.empty and len(data) >= 5:
             hint_index = random.choice(st.session_state['hint_indices'])
             st.session_state['hint_indices'].remove(hint_index)
             hint_record = st.session_state['selected_records'].iloc[hint_index]
-            hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
+            hint_text = f"<div class='custom-box'>{hint_record['Anno di Scoperta']} {int(hint_record['Descrizione Breve'])}</div>"
             st.markdown(hint_text, unsafe_allow_html=True)
         else:
             st.error("Non ci sono più suggerimenti disponibili.")
