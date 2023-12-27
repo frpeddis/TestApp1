@@ -4,6 +4,7 @@ import requests
 from io import StringIO
 from streamlit_sortables import sort_items
 import random
+import time
 
 # Titolo dell'applicazione
 st.title('Ti ricordi ? 😎')
@@ -33,6 +34,14 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
+
+# Inizializza il timer
+if 'start_time' not in st.session_state:
+    st.session_state['start_time'] = time.time()
+
+# Mostra il tempo trascorso
+elapsed_time = int(time.time() - st.session_state['start_time'])
+st.write(f"Tempo trascorso: {elapsed_time} secondi")
 
 # Se i dati sono sufficienti, seleziona 5 record casuali
 if not data.empty and len(data) >= 5:
@@ -73,12 +82,15 @@ if not data.empty and len(data) >= 5:
         ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
             st.balloons()
+            end_time = int(time.time() - st.session_state['start_time'])
             st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white;'>"
-                        "Daje !!! L'ordine è corretto! 👏👏👏 </div>", unsafe_allow_html=True)
+                        f"Daje !!! L'ordine è corretto! 👏👏👏 Tempo totale: {end_time} secondi</div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div class='custom-box'>"
                             f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
+            # Resetta il timer
+            st.session_state['start_time'] = time.time()
 
         else:
             st.error("Urca, l'ordine non è corretto. Riprova.")
