@@ -22,7 +22,7 @@ def load_data(url):
 
 data = load_data(csv_url)
 
-# Stile CSS personalizzato per i box
+# Stile CSS personalizzato per i box con spigoli stondati
 st.markdown("""
     <style>
     .custom-box {
@@ -31,6 +31,7 @@ st.markdown("""
         color: blue;
         padding: 10px;
         margin-bottom: 10px;
+        border-radius: 10px; /* Spigoli stondati */
     }
     </style>
     """, unsafe_allow_html=True)
@@ -54,11 +55,8 @@ if not data.empty and len(data) >= 5:
     # Mostra le invenzioni casuali
     items = [{'header': '🔄 In alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
     
-    st.markdown("<div style='background-color: darkblue; color: white; padding: 14px; border: 6px solid white;'>"
-                        f"Metti in ordine questi eventi! 🗓️", unsafe_allow_html=True)
-
-    
-    
+    st.markdown("<div style='background-color: darkblue; color: white; padding: 14px; border: 6px solid white; border-radius: 10px;'>"
+                        "Metti in ordine questi eventi! 🗓️</div>", unsafe_allow_html=True)
 
     # Utilizza streamlit-sortables per ordinare gli elementi
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
@@ -88,7 +86,7 @@ if not data.empty and len(data) >= 5:
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
             st.balloons()
             end_time = int(time.time() - st.session_state['start_time'])
-            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white;'>"
+            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 10px;'>"
                         f"👏👏👏 Daje !!! L'ordine è corretto! <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div class='custom-box'>"
