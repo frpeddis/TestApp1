@@ -84,7 +84,7 @@ if not data.empty and len(data) >= 5:
             st.balloons()
             end_time = int(time.time() - st.session_state['start_time'])
             st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white;'>"
-                        f"Daje !!! L'ordine è corretto! 👏👏👏 Tempo totale: {end_time} secondi</div>", unsafe_allow_html=True)
+                        f"👏👏👏 Daje !!! L'ordine è corretto! ⌛Tempo totale: {end_time} secondi</div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div class='custom-box'>"
                             f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
