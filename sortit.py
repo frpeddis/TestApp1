@@ -52,13 +52,13 @@ if not data.empty and len(data) >= 5:
         st.session_state['hint_indices'] = list(range(5))
 
     # Mostra le invenzioni casuali
-    items = [{'header': 'In alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
+    items = [{'header': *'In alto i più antichi!'*, 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
     
-    st.markdown("<div style='background-color: dark azure; color: white; padding: 14px; border: 6px solid white;'>"
+    st.markdown("<div style='background-color: blue; color: white; padding: 14px; border: 6px solid white;'>"
                         f"🔄 Metti in ordine questi eventi!", unsafe_allow_html=True)
 
     
-    st.write('Metti in ordine questi eventi!')
+    
 
     # Utilizza streamlit-sortables per ordinare gli elementi
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
