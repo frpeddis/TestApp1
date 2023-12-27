@@ -26,8 +26,8 @@ st.markdown("""
     <style>
     .custom-box {
         border: 2px solid blue;
-        background-color: blue;
-        color: white;
+        background-color: white;
+        color: blue;
         padding: 10px;
         margin-bottom: 10px;
     }
