@@ -77,7 +77,7 @@ if not data.empty and len(data) >= 5:
                         "Daje !!! Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div class='custom-box'>"
-                            f"<strong>{row['Descrizione Breve']} {int(row['Anno di Scoperta'])}</strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
+                            f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
 
         else:
