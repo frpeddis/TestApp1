@@ -7,7 +7,7 @@ import random
 import time
 
 # Titolo dell'applicazione
-st.title('Metti in ordine questi eventi 😎')
+st.title('Riordina gli eventi! 😎')
 
 # URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events36.csv'
