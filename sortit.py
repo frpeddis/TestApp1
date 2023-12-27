@@ -73,8 +73,8 @@ if not data.empty and len(data) >= 5:
         ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
             st.balloons()
-            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid white;'>"
-                        "Daje !!! Hai indovinato l'ordine corretto! 👏👏👏 </div>", unsafe_allow_html=True)
+            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 4px solid white;'>"
+                        "Daje !!! L'ordine è corretto! 👏👏👏 </div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div class='custom-box'>"
                             f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
