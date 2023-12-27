@@ -55,7 +55,7 @@ if not data.empty and len(data) >= 5:
     # Mostra le invenzioni casuali
     items = [{'header': '🔄 In alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
     
-    st.markdown("<div style='background-color: darkblue; color: white; padding: 14px; border: 6px solid white; border-radius: 10px;'>"
+    st.markdown("<div style='background-color: White; color: darkblue; padding: 14px; border: 6px solid white; border-radius: 14px;'>"
                         "Metti in ordine questi eventi! 🗓️</div>", unsafe_allow_html=True)
 
     # Utilizza streamlit-sortables per ordinare gli elementi
@@ -86,7 +86,7 @@ if not data.empty and len(data) >= 5:
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
             st.balloons()
             end_time = int(time.time() - st.session_state['start_time'])
-            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 10px;'>"
+            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 14px;'>"
                         f"👏👏👏 Daje !!! L'ordine è corretto! <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
                 st.markdown(f"<div class='custom-box'>"
