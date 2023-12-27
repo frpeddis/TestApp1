@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 from io import StringIO
-from streamlit_sortables import sort_items
 import random
 
 # Titolo dell'applicazione
@@ -21,9 +20,17 @@ def load_data(url):
 
 data = load_data(csv_url)
 
-# Stile CSS personalizzato per i box
+# Personalizzazione dello stile dei box
 st.markdown("""
     <style>
+    .draggable-box {
+        color: blue;
+        background-color: white;
+        border: 2px solid blue;
+        padding: 5px;
+        margin-bottom: 2px;
+        cursor: pointer;
+    }
     .custom-box {
         border: 2px solid blue;
         background-color: white;
@@ -34,7 +41,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Se i dati sono sufficienti, seleziona 5 record casuali
+# Seleziona 5 record casuali
 if not data.empty and len(data) >= 5:
     if 'selected_records' not in st.session_state:
         st.session_state['selected_records'] = data.sample(5)
@@ -43,11 +50,11 @@ if not data.empty and len(data) >= 5:
         st.session_state['hint_indices'] = list(range(5))
 
     # Mostra le invenzioni casuali
-    items = [{'header': 'In alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
     st.write('Metti in ordine questi eventi!')
 
-    # Utilizza streamlit-sortables per ordinare gli elementi
-    sorted_items = sort_items(items, multi_containers=True, direction="vertical")
+    # Implementazione semplice di drag-and-drop
+    for index, row in st.session_state['selected_records'].iterrows():
+        st.markdown(f"<div class='draggable-box' draggable='true'>{row['Descrizione Breve']}</div>", unsafe_allow_html=True)
 
     # Pulsante Hint
     if st.button("🖐️ Hint"):
@@ -55,10 +62,16 @@ if not data.empty and len(data) >= 5:
             hint_index = random.choice(st.session_state['hint_indices'])
             st.session_state['hint_indices'].remove(hint_index)
             hint_record = st.session_state['selected_records'].iloc[hint_index]
-            hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
+            hint_text = f"<div class='custom-box'><strong>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</strong></div>"
             st.markdown(hint_text, unsafe_allow_html=True)
         else:
             st.error("Non ci sono più suggerimenti disponibili.")
+
+    # Pulsante per la verifica dell'ordine (da implementare)
+    if st.button("👉 Ce l'hai fatta ?"):
+        st.write("Verifica dell'ordine non ancora implementata.")
+
+# Altre parti del tuo codice...
 
     # Verifica l'ordine
     if st.button("👉 Ce l'hai fatta ?"):
