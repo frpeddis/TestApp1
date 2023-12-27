@@ -58,44 +58,44 @@ if not data.empty and len(data) >= 5:
     st.markdown("<div style='background-color: White; color: darkblue; padding: 14px; border: 2px solid blue; border-radius: 14px;'>"
             "Metti in ordine questi eventi! 🗓️</div>", unsafe_allow_html=True)
 
-    
-    
     # Utilizza streamlit-sortables per ordinare gli elementi
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
-    # Pulsante Hint
-    if st.button("👋 Hint"):
-        if st.session_state['hint_indices']:
-            hint_index = random.choice(st.session_state['hint_indices'])
-            st.session_state['hint_indices'].remove(hint_index)
-            hint_record = st.session_state['selected_records'].iloc[hint_index]
-            hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
-            st.markdown(hint_text, unsafe_allow_html=True)
-        else:
-            st.error("Non ci sono più suggerimenti disponibili.")
+    # Layout dei pulsanti
+    col1, col2 = st.beta_columns([1,1])
+    with col1:
+        if st.button("👉 Ce l'hai fatta ?"):
+            ordered_records = pd.DataFrame()
+            for desc in sorted_items[0]['items']:
+                matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
+                if not matching_record.empty:
+                    ordered_records = pd.concat([ordered_records, matching_record])
+                else:
+                    st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
 
-    # Verifica l'ordine
-    if st.button("👉 Ce l'hai fatta ?"):
-        ordered_records = pd.DataFrame()
-        for desc in sorted_items[0]['items']:
-            matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
-            if not matching_record.empty:
-                ordered_records = pd.concat([ordered_records, matching_record])
+            ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
+            if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
+                st.balloons()
+                end_time = int(time.time() - st.session_state['start_time'])
+                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 14px;'>"
+                            f"👏👏👏 Daje !!! L'ordine è corretto! <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
+                for _, row in ordered_records.iterrows():
+                    st.markdown(f"<div class='custom-box'>"
+                                f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
+                                unsafe_allow_html=True)
+                # Resetta il timer
+                st.session_state['start_time'] = time.time()
+
             else:
-                st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
+                st.error("Urca, l'ordine non è corretto. Riprova.")
 
-        ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
-        if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-            st.balloons()
-            end_time = int(time.time() - st.session_state['start_time'])
-            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 14px;'>"
-                        f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
-            for _, row in ordered_records.iterrows():
-                st.markdown(f"<div class='custom-box'>"
-                            f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
-                            unsafe_allow_html=True)
-            # Resetta il timer
-            st.session_state['start_time'] = time.time()
-
-        else:
-            st.error("Urca, l'ordine non è corretto. Riprova.")
+    with col2:
+        if st.button("👋 Hint"):
+            if st.session_state['hint_indices']:
+                hint_index = random.choice(st.session_state['hint_indices'])
+                st.session_state['hint_indices'].remove(hint_index)
+                hint_record = st.session_state['selected_records'].iloc[hint_index]
+                hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
+                st.markdown(hint_text, unsafe_allow_html=True)
+            else:
+                st.error("Non ci sono più suggerimenti disponibili.")
