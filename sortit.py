@@ -31,7 +31,7 @@ st.markdown("""
         color: blue;
         padding: 10px;
         margin-bottom: 10px;
-        border-radius: 10px; /* Spigoli stondati */
+        border-radius: 14px; /* Spigoli stondati */
     }
     </style>
     """, unsafe_allow_html=True)
