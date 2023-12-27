@@ -7,7 +7,7 @@ import random
 import time
 
 # Titolo dell'applicazione
-st.title('Ti ricordi ? 😎')
+st.title('Ti ricordi le date? 😎')
 
 # URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events36.csv'
