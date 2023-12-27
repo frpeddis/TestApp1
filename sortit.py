@@ -41,7 +41,7 @@ if 'start_time' not in st.session_state:
 
 # Mostra il tempo trascorso
 elapsed_time = int(time.time() - st.session_state['start_time'])
-st.write(f"Tempo trascorso: {elapsed_time} secondi")
+#st.write(f"Tempo trascorso: {elapsed_time} secondi")
 
 # Se i dati sono sufficienti, seleziona 5 record casuali
 if not data.empty and len(data) >= 5:
