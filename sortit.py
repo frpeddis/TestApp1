@@ -8,26 +8,6 @@ import random
 # Titolo dell'applicazione
 st.title('Ti ricordi ? 😎')
 
-# Stile CSS globale per gli elementi di streamlit-sortables
-st.markdown("""
-    <style>
-    .stSortable .st-sb-item {
-        color: blue;
-        background-color: white;
-        border: 2px solid blue;
-        padding: 5px;
-        margin-bottom: 2px;
-    }
-    .custom-box {
-        border: 2px solid blue;
-        background-color: white;
-        color: blue;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
 # URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events36.csv'
 
@@ -40,6 +20,19 @@ def load_data(url):
     return data
 
 data = load_data(csv_url)
+
+# Stile CSS personalizzato per i box
+st.markdown("""
+    <style>
+    .custom-box {
+        border: 2px solid blue;
+        background-color: white;
+        color: blue;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 # Se i dati sono sufficienti, seleziona 5 record casuali
 if not data.empty and len(data) >= 5:
@@ -62,7 +55,7 @@ if not data.empty and len(data) >= 5:
             hint_index = random.choice(st.session_state['hint_indices'])
             st.session_state['hint_indices'].remove(hint_index)
             hint_record = st.session_state['selected_records'].iloc[hint_index]
-            hint_text = f"<div class='custom-box'><strong>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</strong></div>"
+            hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
             st.markdown(hint_text, unsafe_allow_html=True)
         else:
             st.error("Non ci sono più suggerimenti disponibili.")
@@ -80,10 +73,12 @@ if not data.empty and len(data) >= 5:
         ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
         if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
             st.balloons()
-            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid white;'>"
-                        "Daje !!! Hai indovinato l'ordine corretto!</div>", unsafe_allow_html=True)
+            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white;'>"
+                        "Daje !!! L'ordine è corretto! 👏👏👏 </div>", unsafe_allow_html=True)
             for _, row in ordered_records.iterrows():
-                st.markdown(f"<div class='custom-box'><strong>{row['Descrizione Breve']} {int(row['Anno di Scoperta'])}</strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
+                st.markdown(f"<div class='custom-box'>"
+                            f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
+
         else:
             st.error("Urca, l'ordine non è corretto. Riprova.")
