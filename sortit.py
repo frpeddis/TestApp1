@@ -10,7 +10,7 @@ import time
 st.title('Riordina gli eventi! 😎')
 
 #  URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events38.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events37.csv'
 
 # Carica il file CSV da GitHub
 @st.cache
