@@ -9,7 +9,7 @@ import time
 # Titolo dell'applicazione
 st.title('Riordina gli eventi! 😎')
 
-# URL del file CSV su GitHub
+#  URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events38.csv'
 
 # Carica il file CSV da GitHub
