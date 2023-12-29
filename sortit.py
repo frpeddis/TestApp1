@@ -74,7 +74,7 @@ with st.container():
         sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
         # Pulsante Hint
-        if st.button("👋 Aiutino"):
+        if st.button("👋 Aiutino ?"):
             if st.session_state['hint_indices']:
                 hint_index = random.choice(st.session_state['hint_indices'])
                 st.session_state['hint_indices'].remove(hint_index)
@@ -105,7 +105,8 @@ with st.container():
                                 f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                                 unsafe_allow_html=True)
             else:
-                st.error("Urca, l'ordine non è corretto. Riprova.")
+                st.snow()
+                st.error("Urca! L'ordine non è corretto. Riprova dai!")
 
     # Pulsante per giocare di nuovo
     if st.button("🔄 Gioca di nuovo"):
