@@ -107,6 +107,9 @@ with st.container():
             else:
                 st.snow()
                 st.error("Urca! L'ordine non è corretto. Riprova dai!")
+                st.markdown("<div style='color: red; font-weight: bold; border: 1px solid red; padding: 10px; border-radius: 5px;'>"
+                "Urca! L'ordine non è corretto. Riprova dai!</div>", unsafe_allow_html=True)
+
 
     # Pulsante per giocare di nuovo
     if st.button("🔄 Gioca di nuovo"):
