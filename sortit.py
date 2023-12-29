@@ -69,7 +69,7 @@ with st.container():
             st.session_state['hint_indices'] = list(range(5))
 
         # Mostra le invenzioni casuali
-        st.markdown("<div class='custom-box'>👆 Trascina in alto i segnalibri più antichi, 👇 in basso i più recenti!</div>", unsafe_allow_html=True)
+        st.markdown("<div class='custom-box'> <P>Riordina le pagine del tuo libro si Storia ! </P>👆 Trascina in alto i segnalibri più antichi, 👇 in basso i più recenti!</div>", unsafe_allow_html=True)
         
         items = [{'header': ' ', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
         
