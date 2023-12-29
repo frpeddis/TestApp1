@@ -91,7 +91,7 @@ with st.container():
                 st.error("Non ci sono più suggerimenti disponibili.")
 
         # Verifica l'ordine
-        if st.button("🤞 Vuoi provare ?"):
+        if st.button("🤞 Vai!"):
             ordered_records = pd.DataFrame()
             for desc in sorted_items[0]['items']:
                 matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
