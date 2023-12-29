@@ -9,6 +9,31 @@ from num2words import num2words
 from io import BytesIO
 import plotly.graph_objects as go
 
+
+# Imposta lo sfondo e lo stile per il box personalizzato
+st.markdown(f"""
+    <style>
+    .stApp {{
+        #background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img42.jpeg');
+        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/calendar.jpg');
+        #background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/libro2.jpg');
+
+        background-repeat: no-repeat;
+        background-size: cover;
+    }}
+    .custom-box {{
+        background-color: white;
+        color: darkblue;
+        padding: 10px;
+        border: 2px solid darkblue;
+        border-radius: 10px;
+        margin: 10px 0;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
+
+
 # Function to convert the date to Italian words
 def date_to_italian_words(date):
     day = date.strftime("%d")
