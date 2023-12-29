@@ -110,13 +110,18 @@ with st.container():
                     st.markdown(f"<div class='custom-box'>"
                                 f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                                 unsafe_allow_html=True)
+                # Pulsante per giocare di nuovo
+                if st.button("🔄 Gioca di nuovo"):
+                    reset_game()
+                    st.experimental_rerun()    
+            
+            
+            
+            
             else:
                 
                 st.error("Urca! L'ordine non è corretto. Riprova dai!")
                 
 
 
-    # Pulsante per giocare di nuovo
-    if st.button("🔄 Gioca di nuovo"):
-        reset_game()
-        st.experimental_rerun()
+ 
