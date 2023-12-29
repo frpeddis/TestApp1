@@ -124,7 +124,7 @@ with st.container():
             
             else:
                 
-                st.error("Urca! L'ordine non è corretto. Riprova dai!")
+                st.error("Urca! Riprova dai!")
                 
 
 
