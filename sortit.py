@@ -9,12 +9,21 @@ import time
 # Configura il layout della pagina (questa deve essere la prima chiamata Streamlit)
 st.set_page_config(layout="wide")
 
-#  Imposta lo sfondo
+# Imposta lo sfondo e lo stile per il box personalizzato
 st.markdown(f"""
     <style>
     .stApp {{
         background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img42.jpeg');
+        background-repeat: no-repeat;
         background-size: cover;
+    }}
+    .custom-box {{
+        background-color: white;
+        color: darkblue;
+        padding: 10px;
+        border: 2px solid darkblue;
+        border-radius: 10px;
+        margin: 10px 0;
     }}
     </style>
     """, unsafe_allow_html=True)
