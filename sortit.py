@@ -26,7 +26,7 @@ def reset_game():
     st.session_state['selected_records'] = data.sample(5)
     st.session_state['hint_indices'] = list(range(5))
 
-#  Stile CSS personalizzato con immagine di sfondo
+# Stile CSS personalizzato con immagine di sfondo
 st.markdown("""
     <style>
     body {
