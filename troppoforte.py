@@ -10,7 +10,7 @@ from io import BytesIO
 import plotly.graph_objects as go
 
 
-# Imposta lo sfondo e lo stile per il box personalizzato
+#  Imposta lo sfondo e lo stile per il box personalizzato
 st.markdown(f"""
     <style>
     .stApp {{
