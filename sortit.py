@@ -96,7 +96,7 @@ with st.container():
             if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
                 st.balloons()
                 end_time = int(time.time() - st.session_state['start_time'])
-                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 14px;'>"
+                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 3px solid blue; border-radius: 14px;'>"
                             f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
                 for _, row in ordered_records.iterrows():
                     st.markdown(f"<div class='custom-box'>"
