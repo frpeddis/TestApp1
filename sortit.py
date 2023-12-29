@@ -20,6 +20,8 @@ def load_data(url):
     data = pd.read_csv(csv_raw)
     return data
 
+data = load_data(csv_url)
+
 # Inizializza o resetta il gioco
 def reset_game(data):
     if not data.empty and len(data) >= 5:
@@ -43,63 +45,65 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-data = load_data(csv_url)
-
 if 'start_time' not in st.session_state:
     reset_game(data)
 
-# Mostra il tempo trascorso
-elapsed_time = int(time.time() - st.session_state['start_time'])
+# Only calculate elapsed time if the game has started
+if 'start_time' in st.session_state:
+    elapsed_time = int(time.time() - st.session_state['start_time'])
 
-# Se i dati sono sufficienti, seleziona 5 record casuali
-if not data.empty and len(data) >= 5:
-    if 'selected_records' not in st.session_state:
-        st.session_state['selected_records'] = data.sample(5)
+    # Se i dati sono sufficienti, seleziona 5 record casuali
+    if not data.empty and len(data) >= 5:
+        if 'selected_records' not in st.session_state:
+            st.session_state['selected_records'] = data.sample(5)
 
-    if 'hint_indices' not in st.session_state:
-        st.session_state['hint_indices'] = list(range(5))
+        if 'hint_indices' not in st.session_state:
+            st.session_state['hint_indices'] = list(range(5))
 
-    # Mostra le invenzioni casuali
-    items = [{'header': '👆 Trascina in alto i più antichi, 👇 in basso i più recenti!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
-    
-    # Utilizza streamlit-sortables per ordinare gli elementi
-    sorted_items = sort_items(items, multi_containers=True, direction="vertical")
+        # Mostra le invenzioni casuali
+        items = [{'header': '👆 Trascina in alto i più antichi, 👇 in basso i più recenti!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
+        
+        # Utilizza streamlit-sortables per ordinare gli elementi
+        sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
-    # Pulsante Hint
-    if st.button("👋 Aiutino"):
-        if st.session_state['hint_indices']:
-            hint_index = random.choice(st.session_state['hint_indices'])
-            st.session_state['hint_indices'].remove(hint_index)
-            hint_record = st.session_state['selected_records'].iloc[hint_index]
-            hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
-            st.markdown(hint_text, unsafe_allow_html=True)
-        else:
-            st.error("Non ci sono più suggerimenti disponibili.")
-
-    # Verifica l'ordine
-    if st.button("🤞 Vuoi provare ?"):
-        ordered_records = pd.DataFrame()
-        for desc in sorted_items[0]['items']:
-            matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
-            if not matching_record.empty:
-                ordered_records = pd.concat([ordered_records, matching_record])
+        # Pulsante Hint
+        if st.button("👋 Aiutino"):
+            if st.session_state['hint_indices']:
+                hint_index = random.choice(st.session_state['hint_indices'])
+                st.session_state['hint_indices'].remove(hint_index)
+                hint_record = st.session_state['selected_records'].iloc[hint_index]
+                hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
+                st.markdown(hint_text, unsafe_allow_html=True)
             else:
-                st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
+                st.error("Non ci sono più suggerimenti disponibili.")
 
-        ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
-        if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-            st.balloons()
-            end_time = int(time.time() - st.session_state['start_time'])
-            st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 14px;'>"
-                        f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
-            for _, row in ordered_records.iterrows():
-                st.markdown(f"<div class='custom-box'>"
-                            f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
-                            unsafe_allow_html=True)
-        else:
-            st.error("Urca, l'ordine non è corretto. Riprova.")
+        # Verifica l'ordine
+        if st.button("🤞 Vuoi provare ?"):
+            ordered_records = pd.DataFrame()
+            for desc in sorted_items[0]['items']:
+                matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
+                if not matching_record.empty:
+                    ordered_records = pd.concat([ordered_records, matching_record])
+                else:
+                    st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
 
-# Pulsante per giocare di nuovo
-if st.button("🔄 Gioca di nuovo"):
-    reset_game(data)
-    st.experimental_rerun()
+            ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
+            if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
+                st.balloons()
+                end_time = int(time.time() - st.session_state['start_time'])
+                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 14px;'>"
+                            f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
+                for _, row in ordered_records.iterrows():
+                    st.markdown(f"<div class='custom-box'>"
+                                f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
+                                unsafe_allow_html=True)
+            else:
+                st.error("Urca, l'ordine non è corretto. Riprova.")
+
+    # Pulsante per giocare di nuovo
+    if st.button("🔄 Gioca di nuovo"):
+        reset_game(data)
+        st.experimental_rerun()
+else:
+    st.write("Waiting to start the game...")
+
