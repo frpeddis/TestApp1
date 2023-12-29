@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 from io import StringIO
+from streamlit_sortables import sort_items
 import random
 import time
 
@@ -42,7 +43,7 @@ def reset_game():
     st.session_state['hint_indices'] = list(range(5))
 
 # URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events30.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 data = load_data(csv_url)
 
 # Crea un container per il contenuto dell'app
@@ -65,9 +66,10 @@ with st.container():
             st.session_state['hint_indices'] = list(range(5))
 
         # Mostra le invenzioni casuali
-        st.markdown("<div class='custom-box'>👆 Trascina in alto i più antichi, 👇 in basso i più recenti!</div>", unsafe_allow_html=True)
-        for record in st.session_state['selected_records']['Descrizione Breve']:
-            st.markdown(f"<div class='custom-box'>{record}</div>", unsafe_allow_html=True)
+        items = [{'header': '👆 Trascina in alto i più antichi, 👇 in basso i più recenti!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
+        
+        # Utilizza streamlit-sortables per ordinare gli elementi
+        sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
         # Pulsante Hint
         if st.button("👋 Aiutino"):
@@ -83,7 +85,7 @@ with st.container():
         # Verifica l'ordine
         if st.button("🤞 Vuoi provare ?"):
             ordered_records = pd.DataFrame()
-            for desc in st.session_state['selected_records']['Descrizione Breve']:
+            for desc in sorted_items[0]['items']:
                 matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
                 if not matching_record.empty:
                     ordered_records = pd.concat([ordered_records, matching_record])
@@ -91,10 +93,10 @@ with st.container():
                     st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
 
             ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
-            if ordered_correctly and len(ordered_records) == len(st.session_state['selected_records']):
+            if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
                 st.balloons()
                 end_time = int(time.time() - st.session_state['start_time'])
-                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 6px solid white; border-radius: 14px;'>"
+                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 3px solid blue; border-radius: 14px;'>"
                             f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
                 for _, row in ordered_records.iterrows():
                     st.markdown(f"<div class='custom-box'>"
