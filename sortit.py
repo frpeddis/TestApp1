@@ -73,7 +73,7 @@ with st.container():
         st.markdown("""
         <div class='custom-box'>
             <p><b><span style='font-size: 19px;'>Riordina le pagine del tuo libro di Storia !</span></b></p>
-                👆 Trascina in alto i <span style='background-color: #ff4b4c; color: white; padding: 3px 6px; border-radius: 3px;'>segnalibri</span> più antichi, 👇 in basso i più recenti!
+                👆 Trascina in alto i <span style='background-color: #ff4b4c; color: white; padding: 3px 6px; border-radius: 3px;'>segnalibri</span> più antichi, <P>👇 in basso i più recenti!</P>
         </div>
         """, unsafe_allow_html=True)      
 
