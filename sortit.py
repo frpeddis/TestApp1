@@ -6,6 +6,19 @@ from streamlit_sortables import sort_items
 import random
 import time
 
+# Configura il layout della pagina (questa deve essere la prima chiamata Streamlit)
+st.set_page_config(layout="wide")
+
+# Imposta lo sfondo
+st.markdown(f"""
+    <style>
+    .stApp {{
+        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img4.jpg');
+        background-size: cover;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
 # Carica il file CSV da GitHub
 @st.cache
 def load_data(url):
@@ -23,19 +36,6 @@ def reset_game():
 # URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events30.csv'
 data = load_data(csv_url)
-
-# Configura il layout della pagina
-st.set_page_config(layout="wide")
-
-# Imposta lo sfondo
-st.markdown(f"""
-    <style>
-    .stApp {{
-        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img4.jpg');
-        background-size: cover;
-    }}
-    </style>
-    """, unsafe_allow_html=True)
 
 # Crea un container per il contenuto dell'app
 with st.container():
