@@ -9,7 +9,7 @@ import time
 # Titolo dell'applicazione
 st.title('Riordina gli eventi! 😎')
 
-#  URL del file CSV su GitHub
+# URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events30.csv'
 
 # Carica il file CSV da GitHub
@@ -20,19 +20,8 @@ def load_data(url):
     data = pd.read_csv(csv_raw)
     return data
 
-data = load_data(csv_url)
-
-# Display the data to verify
-st.write("Data Loaded from CSV:")
-st.dataframe(data)
-
-# Check if there are enough rows in the data
-if len(data) < 5:
-    st.error("Not enough data to start the game. The game requires at least 5 rows.")
-    st.stop()
-
 # Inizializza o resetta il gioco
-def reset_game(data):
+def reset_game():
     st.session_state['start_time'] = time.time()
     st.session_state['selected_records'] = data.sample(5)
     st.session_state['hint_indices'] = list(range(5))
@@ -51,13 +40,16 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+data = load_data(csv_url)
+
 if 'start_time' not in st.session_state:
-    reset_game(data)
+    reset_game()
 
-# Only calculate elapsed time if the game has started
-if 'start_time' in st.session_state:
-    elapsed_time = int(time.time() - st.session_state['start_time'])
+# Mostra il tempo trascorso
+elapsed_time = int(time.time() - st.session_state['start_time'])
 
+# Se i dati sono sufficienti, seleziona 5 record casuali
+if not data.empty and len(data) >= 5:
     if 'selected_records' not in st.session_state:
         st.session_state['selected_records'] = data.sample(5)
 
@@ -106,5 +98,5 @@ if 'start_time' in st.session_state:
 
 # Pulsante per giocare di nuovo
 if st.button("🔄 Gioca di nuovo"):
-    reset_game(data)
+    reset_game()
     st.experimental_rerun()
