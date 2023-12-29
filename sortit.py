@@ -105,10 +105,9 @@ with st.container():
                                 f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                                 unsafe_allow_html=True)
             else:
-                st.snow()
+                
                 st.error("Urca! L'ordine non è corretto. Riprova dai!")
-                st.markdown("<div style='color: dark red; font-weight: bold; border: 1px solid dark red; padding: 10px; border-radius: 5px;'>"
-                "Urca! L'ordine non è corretto. Riprova dai!</div>", unsafe_allow_html=True)
+                
 
 
     # Pulsante per giocare di nuovo
