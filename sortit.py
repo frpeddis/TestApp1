@@ -9,7 +9,7 @@ import time
 # Configura il layout della pagina (questa deve essere la prima chiamata Streamlit)
 st.set_page_config(layout="wide")
 
-# Imposta lo sfondo
+#  Imposta lo sfondo
 st.markdown(f"""
     <style>
     .stApp {{
