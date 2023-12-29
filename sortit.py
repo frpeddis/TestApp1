@@ -14,7 +14,8 @@ st.markdown(f"""
     <style>
     .stApp {{
         background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img41.jpeg');
-        background-size: 1024px 2048px;
+        background-repeat: no-repeat;
+        background-size: auto;
     }}
     </style>
     """, unsafe_allow_html=True)
