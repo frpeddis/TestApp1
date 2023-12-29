@@ -9,7 +9,7 @@ import time
 # Titolo dell'applicazione
 st.title('Riordina gli eventi! 😎')
 
-#   URL del file CSV su GitHub
+# URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
 # Carica il file CSV da GitHub
@@ -20,9 +20,13 @@ def load_data(url):
     data = pd.read_csv(csv_raw)
     return data
 
-data = load_data(csv_url)
+# Inizializza o resetta il gioco
+def reset_game():
+    st.session_state['start_time'] = time.time()
+    st.session_state['selected_records'] = data.sample(5)
+    st.session_state['hint_indices'] = list(range(5))
 
-# Stile CSS personalizzato per i box con spigoli stondati
+# Stile CSS personalizzato
 st.markdown("""
     <style>
     .custom-box {
@@ -31,18 +35,18 @@ st.markdown("""
         color: blue;
         padding: 10px;
         margin-bottom: 10px;
-        border-radius: 14px; /* Spigoli stondati */
+        border-radius: 14px;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# Inizializza il timer
+data = load_data(csv_url)
+
 if 'start_time' not in st.session_state:
-    st.session_state['start_time'] = time.time()
+    reset_game()
 
 # Mostra il tempo trascorso
 elapsed_time = int(time.time() - st.session_state['start_time'])
-#st.write(f"Tempo trascorso: {elapsed_time} secondi")
 
 # Se i dati sono sufficienti, seleziona 5 record casuali
 if not data.empty and len(data) >= 5:
@@ -54,11 +58,6 @@ if not data.empty and len(data) >= 5:
 
     # Mostra le invenzioni casuali
     items = [{'header': '🔄 Trascina in alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
-    
-    #st.markdown("<div style='background-color: White; color: darkblue; padding: 14px; border: 2px solid blue; border-radius: 14px;'>"
-    #        "Metti in ordine questi eventi! 🗓️</div>", unsafe_allow_html=True)
-
-    
     
     # Utilizza streamlit-sortables per ordinare gli elementi
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
@@ -94,8 +93,10 @@ if not data.empty and len(data) >= 5:
                 st.markdown(f"<div class='custom-box'>"
                             f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                             unsafe_allow_html=True)
-            # Resetta il timer
-            st.session_state['start_time'] = time.time()
-
         else:
             st.error("Urca, l'ordine non è corretto. Riprova.")
+
+# Pulsante per giocare di nuovo
+if st.button("🔄 Gioca di nuovo"):
+    reset_game()
+    st.experimental_rerun()
