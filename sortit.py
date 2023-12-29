@@ -53,7 +53,7 @@ data = load_data(csv_url)
 with st.container():
     # Titolo dell'applicazione
     #st.title('Riordina le pagine del libro di storia! 😎')
-    time.sleep(1.5)
+    time.sleep(2.5)
 
     if 'start_time' not in st.session_state:
         reset_game()
@@ -71,7 +71,7 @@ with st.container():
 
         # Mostra le invenzioni casuali
         st.markdown("<div class='custom-box'> <P><B>Riordina le pagine del tuo libro di Storia ! </B></P>👆 Trascina in alto i segnalibri più antichi, 👇 in basso i più recenti!</div>", unsafe_allow_html=True)
-        time.sleep(1.5)
+        time.sleep(2.5)
 
         items = [{'header': ' ', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
         
