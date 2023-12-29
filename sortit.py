@@ -10,7 +10,7 @@ import time
 st.title('Riordina gli eventi! 😎')
 
 # URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events3333.csv'
 
 # Carica il file CSV da GitHub
 @st.cache
@@ -21,10 +21,13 @@ def load_data(url):
     return data
 
 # Inizializza o resetta il gioco
-def reset_game():
-    st.session_state['start_time'] = time.time()
-    st.session_state['selected_records'] = data.sample(5)
-    st.session_state['hint_indices'] = list(range(5))
+def reset_game(data):
+    if not data.empty and len(data) >= 5:
+        st.session_state['start_time'] = time.time()
+        st.session_state['selected_records'] = data.sample(5)
+        st.session_state['hint_indices'] = list(range(5))
+    else:
+        st.error("Not enough data to start the game.")
 
 # Stile CSS personalizzato
 st.markdown("""
@@ -43,7 +46,7 @@ st.markdown("""
 data = load_data(csv_url)
 
 if 'start_time' not in st.session_state:
-    reset_game()
+    reset_game(data)
 
 # Mostra il tempo trascorso
 elapsed_time = int(time.time() - st.session_state['start_time'])
@@ -98,5 +101,5 @@ if not data.empty and len(data) >= 5:
 
 # Pulsante per giocare di nuovo
 if st.button("🔄 Gioca di nuovo"):
-    reset_game()
+    reset_game(data)
     st.experimental_rerun()
