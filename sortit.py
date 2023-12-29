@@ -57,7 +57,7 @@ if not data.empty and len(data) >= 5:
         st.session_state['hint_indices'] = list(range(5))
 
     # Mostra le invenzioni casuali
-    items = [{'header': '🔄 Trascina in alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
+    items = [{'header': ':arrow_up_down: Trascina in alto i più antichi!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
     
     # Utilizza streamlit-sortables per ordinare gli elementi
     sorted_items = sort_items(items, multi_containers=True, direction="vertical")
