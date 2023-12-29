@@ -66,7 +66,9 @@ with st.container():
             st.session_state['hint_indices'] = list(range(5))
 
         # Mostra le invenzioni casuali
-        items = [{'header': '👆 Trascina in alto i più antichi, 👇 in basso i più recenti!', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
+        st.markdown("<div class='custom-box'>👆 Trascina in alto i più antichi, 👇 in basso i più recenti!</div>", unsafe_allow_html=True)
+        
+        items = [{'header': ' ', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
         
         # Utilizza streamlit-sortables per ordinare gli elementi
         sorted_items = sort_items(items, multi_containers=True, direction="vertical")
