@@ -53,6 +53,7 @@ data = load_data(csv_url)
 with st.container():
     # Titolo dell'applicazione
     #st.title('Riordina le pagine del libro di storia! 😎')
+    time.sleep(0.9)
 
     if 'start_time' not in st.session_state:
         reset_game()
