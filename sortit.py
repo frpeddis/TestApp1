@@ -30,7 +30,7 @@ def reset_game():
 st.markdown("""
     <style>
     body {
-        background: url('https://github.com/frpeddis/TestApp1/blob/main/img4.jpg') no-repeat center center fixed; 
+        background: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img4.jpg') no-repeat center center fixed; 
         background-size: cover;
     }
     .custom-box {
