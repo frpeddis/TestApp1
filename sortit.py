@@ -53,7 +53,7 @@ data = load_data(csv_url)
 with st.container():
     # Titolo dell'applicazione
     #st.title('Riordina le pagine del libro di storia! 😎')
-    time.sleep(0.9)
+    time.sleep(1.5)
 
     if 'start_time' not in st.session_state:
         reset_game()
@@ -71,13 +71,15 @@ with st.container():
 
         # Mostra le invenzioni casuali
         st.markdown("<div class='custom-box'> <P><B>Riordina le pagine del tuo libro di Storia ! </B></P>👆 Trascina in alto i segnalibri più antichi, 👇 in basso i più recenti!</div>", unsafe_allow_html=True)
-        
+        time.sleep(1.5)
+
         items = [{'header': ' ', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
         
         # Utilizza streamlit-sortables per ordinare gli elementi
         sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
         # Pulsante Hint
+         
         if st.button("👋 Aiutino ?"):
             if st.session_state['hint_indices']:
                 hint_index = random.choice(st.session_state['hint_indices'])
