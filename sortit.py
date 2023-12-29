@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 st.markdown(f"""
     <style>
     .stApp {{
-        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img4.jpg');
+        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img41.jpg');
         background-size: cover;
     }}
     </style>
