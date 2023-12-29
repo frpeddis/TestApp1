@@ -26,9 +26,13 @@ def reset_game():
     st.session_state['selected_records'] = data.sample(5)
     st.session_state['hint_indices'] = list(range(5))
 
-# Stile CSS personalizzato
+# Stile CSS personalizzato con immagine di sfondo
 st.markdown("""
     <style>
+    body {
+        background: url('https://github.com/frpeddis/TestApp1/blob/main/img4.jpg') no-repeat center center fixed; 
+        background-size: cover;
+    }
     .custom-box {
         border: 2px solid blue;
         background-color: white;
