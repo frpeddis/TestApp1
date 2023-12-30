@@ -46,7 +46,7 @@ def reset_game():
     st.session_state['hint_indices'] = list(range(5))
 
 # URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events12.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 data = load_data(csv_url)
 
 # Crea un container per il contenuto dell'app
