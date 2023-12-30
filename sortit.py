@@ -19,7 +19,7 @@ def load_data(url):
     return data
 
 # URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363n.csv'
 data = load_data(csv_url)
 
 # Imposta lo sfondo e lo stile per il box personalizzato
