@@ -9,26 +9,6 @@ from num2words import num2words
 from io import BytesIO
 import plotly.graph_objects as go
 
-# Imposta lo sfondo e lo stile per il box personalizzato
-st.markdown(f"""
-    <style>
-    .stApp {{
-        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/calendar.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-    }}
-    .custom-box {{
-        background-color: white;
-        color: darkblue;
-        padding: 10px;
-        border: 2px solid darkblue;
-        border-radius: 10px;
-        margin: 10px 0;
-    }}
-    </style>
-    """, unsafe_allow_html=True)
-
-
 
 # Function to convert the date to Italian words
 def date_to_italian_words(date):
@@ -187,8 +167,7 @@ if st.session_state.show_summary:
     st.markdown(f'<p style="color:fuchsia;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
     st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
 
-    # Imposta qui lo sfondo trasparente
-    plt.figure(figsize=(10, 6), transparent=True)
+    plt.figure(figsize=(10, 6))
     plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Time Taken')
     
     for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
@@ -202,11 +181,7 @@ if st.session_state.show_summary:
     plt.ylim(bottom=0)
     plt.title('Time Taken for Each Question')
     plt.legend()
-
-    # Se devi salvare il grafico con sfondo trasparente, usa la riga seguente:
-    # plt.savefig("nome_del_file.png", transparent=True)
-
-    st.pyplot(plt)  # Mostra il grafico con sfondo trasparente
+    st.pyplot(plt)
 
     if st.button("Restart"):
         st.session_state.question_count = 0
