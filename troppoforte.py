@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 st.markdown(f"""
     <style>
     .stApp {{
-        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/calendar.jpeg');
+        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/calendar.jpg');
         background-repeat: no-repeat;
         background-size: cover;
     }}
