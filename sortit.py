@@ -14,7 +14,7 @@ st.markdown(f"""
     <style>
     .stApp {{
         #background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/img42.jpeg');
-        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/calendar.jpg');
+        #background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/calendar.jpg');
         background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/libro2.jpg');
 
         background-repeat: no-repeat;
@@ -46,7 +46,7 @@ def reset_game():
     st.session_state['hint_indices'] = list(range(5))
 
 # URL del file CSV su GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events1.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events11.csv'
 data = load_data(csv_url)
 
 # Crea un container per il contenuto dell'app
