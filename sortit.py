@@ -10,7 +10,7 @@ import time
 st.set_page_config(layout="wide")
 
 # Load CSV file from GitHub
-@st.cache
+@st.cache(allow_output_mutation=True)
 def load_data(url):
     response = requests.get(url)
     csv_raw = StringIO(response.text)
