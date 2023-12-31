@@ -44,6 +44,7 @@ def reset_game(data):
     st.session_state['selected_records'] = data.sample(5)
     st.session_state['hint_indices'] = list(range(5))
     st.session_state['game_over'] = False
+    st.session_state['has_error'] = False
     st.experimental_rerun()
 
 # Load data
@@ -70,16 +71,6 @@ with st.container():
 
         sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
-        if st.button("👋 Aiutino ?") and 'hint_indices' in st.session_state:
-            if st.session_state['hint_indices']:
-                hint_index = random.choice(st.session_state['hint_indices'])
-                st.session_state['hint_indices'].remove(hint_index)
-                hint_record = st.session_state['selected_records'].iloc[hint_index]
-                hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
-                st.markdown(hint_text, unsafe_allow_html=True)
-            else:
-                st.error("Non ci sono più suggerimenti disponibili.")
-
         if st.button("🤞 Vai!"):
             ordered_records = pd.DataFrame()
             for desc in sorted_items[0]['items']:
@@ -88,10 +79,12 @@ with st.container():
                     ordered_records = pd.concat([ordered_records, matching_record])
                 else:
                     st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
+                    st.session_state['has_error'] = True
 
             ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
             if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
                 st.session_state['game_over'] = True
+                st.session_state['has_error'] = False
                 st.balloons()
                 end_time = int(time.time() - st.session_state['start_time'])
                 st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
@@ -101,7 +94,20 @@ with st.container():
                                 f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                                 unsafe_allow_html=True)
             else:
+                st.session_state['has_error'] = True
                 st.error("Urca! Riprova dai!")
+
+        # Mostriamo il pulsante "Aiutino" solo se c'è stato un errore
+        if st.session_state.get('has_error', False):
+            if st.button("👋 Aiutino ?"):
+                if st.session_state['hint_indices']:
+                    hint_index = random.choice(st.session_state['hint_indices'])
+                    st.session_state['hint_indices'].remove(hint_index)
+                    hint_record = st.session_state['selected_records'].iloc[hint_index]
+                    hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
+                    st.markdown(hint_text, unsafe_allow_html=True)
+                else:
+                    st.error("Non ci sono più suggerimenti disponibili.")
 
         if st.session_state.get('game_over') and st.button("🔄 Gioca di nuovo"):
             reset_game(data)
