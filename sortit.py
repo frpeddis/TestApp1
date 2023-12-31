@@ -10,7 +10,6 @@ import time
 st.set_page_config(layout="wide")
 
 # Carica il file CSV da GitHub
-@st.cache
 def load_data(url):
     response = requests.get(url)
     csv_raw = StringIO(response.text)
@@ -19,7 +18,6 @@ def load_data(url):
 
 # URL del file CSV su GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
-data = load_data(csv_url)
 
 # Imposta lo sfondo e lo stile per il box personalizzato
 st.markdown(f"""
@@ -43,7 +41,8 @@ st.markdown(f"""
 # Inizializza o resetta il gioco
 def reset_game():
     st.session_state['start_time'] = time.time()
-    st.session_state['selected_records'] = data.sample(5)
+    st.session_state['data'] = load_data(csv_url)  # Load data again
+    st.session_state['selected_records'] = st.session_state['data'].sample(5)
     st.session_state['hint_indices'] = list(range(5))
 
 with st.container():
@@ -52,9 +51,9 @@ with st.container():
 
     elapsed_time = int(time.time() - st.session_state['start_time'])
 
-    if not data.empty and len(data) >= 5:
+    if not st.session_state['data'].empty and len(st.session_state['data']) >= 5:
         if 'selected_records' not in st.session_state:
-            st.session_state['selected_records'] = data.sample(5)
+            st.session_state['selected_records'] = st.session_state['data'].sample(5)
 
         if 'hint_indices' not in st.session_state:
             st.session_state['hint_indices'] = list(range(5))
