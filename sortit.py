@@ -70,7 +70,16 @@ with st.container():
 
         sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
-        
+        if st.button("👋 Aiutino ?") and 'hint_indices' in st.session_state:
+            if st.session_state['hint_indices']:
+                hint_index = random.choice(st.session_state['hint_indices'])
+                st.session_state['hint_indices'].remove(hint_index)
+                hint_record = st.session_state['selected_records'].iloc[hint_index]
+                hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
+                st.markdown(hint_text, unsafe_allow_html=True)
+            else:
+                st.error("Non ci sono più suggerimenti disponibili.")
+
         if st.button("🤞 Vai!"):
             ordered_records = pd.DataFrame()
             for desc in sorted_items[0]['items']:
@@ -94,16 +103,5 @@ with st.container():
             else:
                 st.error("Urca! Riprova dai!")
 
-                if st.button("👋 Aiutino ?") and 'hint_indices' in st.session_state:
-                    if st.session_state['hint_indices']:
-                        hint_index = random.choice(st.session_state['hint_indices'])
-                        st.session_state['hint_indices'].remove(hint_index)
-                        hint_record = st.session_state['selected_records'].iloc[hint_index]
-                        hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
-                        st.markdown(hint_text, unsafe_allow_html=True)
-                    else:
-                        st.error("Non ci sono più suggerimenti disponibili.")
-
-        
         if st.session_state.get('game_over') and st.button("🔄 Gioca di nuovo"):
             reset_game(data)
