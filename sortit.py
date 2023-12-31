@@ -1,8 +1,4 @@
 import streamlit as st
-
-# Assicurati che questa sia la prima chiamata Streamlit
-st.set_page_config(layout="wide")
-
 import pandas as pd
 import requests
 from io import StringIO
@@ -10,7 +6,10 @@ from streamlit_sortables import sort_items
 import random
 import time
 
-# Carica il file CSV da GitHub
+# Ensure this is the first call to Streamlit
+st.set_page_config(layout="wide")
+
+# Load CSV file from GitHub
 @st.cache
 def load_data(url):
     response = requests.get(url)
@@ -18,12 +17,12 @@ def load_data(url):
     data = pd.read_csv(csv_raw)
     return data
 
-# URL del file CSV su GitHub
+# CSV file URL on GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 data = load_data(csv_url)
 
-# Imposta lo sfondo e lo stile per il box personalizzato
-st.markdown(f"""
+# Set background and custom box style
+st.markdown("""
     <style>
     .stApp {{
         background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/libro2.jpg');
@@ -41,11 +40,17 @@ st.markdown(f"""
     </style>
     """, unsafe_allow_html=True)
 
-# Inizializza o resetta il gioco
+# Initialize or reset the game
 def reset_game():
+    st.session_state.clear()  # Clear the entire session state
     st.session_state['start_time'] = time.time()
     st.session_state['selected_records'] = data.sample(5)
     st.session_state['hint_indices'] = list(range(5))
+
+# Restart the game
+def restart_game():
+    reset_game()
+    st.experimental_rerun()
 
 with st.container():
     if 'start_time' not in st.session_state:
@@ -65,10 +70,9 @@ with st.container():
             <p><b><span style='font-size: 19px;'>Riordina le pagine del tuo libro di Storia !</span></b></p>
                 👆 Trascina in alto i <span style='background-color: #ff4b4c; color: white; padding: 3px 6px; border-radius: 3px;'>segnalibri</span> più antichi, <P>👇 in basso i più recenti!</P>
         </div>
-        """, unsafe_allow_html=True)      
+        """, unsafe_allow_html=True)
 
         items = [{'header': ' ', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
-
         sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
         if st.button("👋 Aiutino ?"):
@@ -101,7 +105,6 @@ with st.container():
                                 f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                                 unsafe_allow_html=True)
                 if st.button("🔄 Gioca di nuovo"):
-                    reset_game()
-                    st.experimental_rerun()    
+                    restart_game()
             else:
                 st.error("Urca! Riprova dai!")
