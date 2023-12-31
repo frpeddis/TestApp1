@@ -6,22 +6,20 @@ from streamlit_sortables import sort_items
 import random
 import time
 
-# Assicurati che questa sia la prima chiamata Streamlit
+# Set Streamlit page configuration
 st.set_page_config(layout="wide")
 
-# Carica il file CSV da GitHub
-@st.cache
+# Function to load data from GitHub
 def load_data(url):
     response = requests.get(url)
     csv_raw = StringIO(response.text)
     data = pd.read_csv(csv_raw)
     return data
 
-# URL del file CSV su GitHub
+# URL of the CSV file on GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
-data = load_data(csv_url)
 
-# Imposta lo sfondo e lo stile per il box personalizzato
+# Set background style
 st.markdown(f"""
     <style>
     .stApp {{
@@ -40,28 +38,29 @@ st.markdown(f"""
     </style>
     """, unsafe_allow_html=True)
 
-# Inizializza o resetta il gioco
-def reset_game():
+# Initialize or reset the game
+def reset_game(data):
     st.session_state['start_time'] = time.time()
     st.session_state['selected_records'] = data.sample(5)
     st.session_state['hint_indices'] = list(range(5))
+    st.session_state['game_over'] = False
+
+# Load data
+data = load_data(csv_url)
 
 with st.container():
     if 'start_time' not in st.session_state:
-        reset_game()
+        reset_game(data)
 
     elapsed_time = int(time.time() - st.session_state['start_time'])
 
     if not data.empty and len(data) >= 5:
         if 'selected_records' not in st.session_state:
-            st.session_state['selected_records'] = data.sample(5)
-
-        if 'hint_indices' not in st.session_state:
-            st.session_state['hint_indices'] = list(range(5))
+            reset_game(data)
 
         st.markdown("""
         <div class='custom-box'>
-            <p><b><span style='font-size: 19px;'>Riordina le pagine del tuo libro di Storia !</span></b></p>
+            <p><b><span style='font-size: 19px;'>Riordina le pagine del tuo libro di Storia!</span></b></p>
                 👆 Trascina in alto i <span style='background-color: #ff4b4c; color: white; padding: 3px 6px; border-radius: 3px;'>segnalibri</span> più antichi, <P>👇 in basso i più recenti!</P>
         </div>
         """, unsafe_allow_html=True)
@@ -70,7 +69,7 @@ with st.container():
 
         sorted_items = sort_items(items, multi_containers=True, direction="vertical")
 
-        if st.button("👋 Aiutino ?"):
+        if st.button("👋 Aiutino ?") and 'hint_indices' in st.session_state:
             if st.session_state['hint_indices']:
                 hint_index = random.choice(st.session_state['hint_indices'])
                 st.session_state['hint_indices'].remove(hint_index)
@@ -91,6 +90,7 @@ with st.container():
 
             ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
             if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
+                st.session_state['game_over'] = True
                 st.balloons()
                 end_time = int(time.time() - st.session_state['start_time'])
                 st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
@@ -102,5 +102,5 @@ with st.container():
             else:
                 st.error("Urca! Riprova dai!")
 
-        if st.button("🔄 Gioca di nuovo"):
-            st.experimental_rerun()
+        if st.session_state.get('game_over') and st.button("🔄 Gioca di nuovo"):
+            reset_game(data)
