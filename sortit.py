@@ -1,14 +1,13 @@
 import streamlit as st
-
-# Assicurati che questa sia la prima chiamata Streamlit
-st.set_page_config(layout="wide")
-
 import pandas as pd
 import requests
 from io import StringIO
 from streamlit_sortables import sort_items
 import random
 import time
+
+# Assicurati che questa sia la prima chiamata Streamlit
+st.set_page_config(layout="wide")
 
 # Carica il file CSV da GitHub
 @st.cache
@@ -65,7 +64,7 @@ with st.container():
             <p><b><span style='font-size: 19px;'>Riordina le pagine del tuo libro di Storia !</span></b></p>
                 👆 Trascina in alto i <span style='background-color: #ff4b4c; color: white; padding: 3px 6px; border-radius: 3px;'>segnalibri</span> più antichi, <P>👇 in basso i più recenti!</P>
         </div>
-        """, unsafe_allow_html=True)      
+        """, unsafe_allow_html=True)
 
         items = [{'header': ' ', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
 
