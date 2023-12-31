@@ -44,6 +44,7 @@ def reset_game(data):
     st.session_state['selected_records'] = data.sample(5)
     st.session_state['hint_indices'] = list(range(5))
     st.session_state['game_over'] = False
+    st.experimental_rerun()
 
 # Load data
 data = load_data(csv_url)
