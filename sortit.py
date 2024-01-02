@@ -9,6 +9,12 @@ import time
 # Set Streamlit page configuration
 st.set_page_config(layout="wide")
 
+video_file = open('intro.mp4', 'rb')
+video_bytes = video_file.read()
+
+st.video(video_bytes)
+
+
 # Function to load data from GitHub
 def load_data(url):
     response = requests.get(url)
