@@ -98,7 +98,6 @@ with st.container():
                                 f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                                 unsafe_allow_html=True)
             else:
-                st.error()
                 st.session_state['has_error'] = True
                 st.error("Urca! Riprova dai!")
 
