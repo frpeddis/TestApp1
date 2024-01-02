@@ -88,7 +88,6 @@ with st.container():
             if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
                 st.session_state['game_over'] = True
                 st.session_state['has_error'] = False
-                st.success()
                 st.balloons()
                 end_time = int(time.time() - st.session_state['start_time'])
                 st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
