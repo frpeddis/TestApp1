@@ -68,7 +68,7 @@ st.markdown(f"""
         transform: translateY(-5px);  /* Lift effect on hover */
     }}
     .stButton > button {{
-        background-color: azure;  
+        background-color: purple;  
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
