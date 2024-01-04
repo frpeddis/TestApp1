@@ -16,7 +16,7 @@ st.set_page_config(layout="wide")
 def load_data(url):
     response = requests.get(url)
     csv_raw = StringIO(response.text)
-    data = pd.read_csv(csv_raw)
+    data = pd.read_csv(csv_raw, error_bad_lines=False)
     return data
 
 # URL of the CSV file on GitHub
