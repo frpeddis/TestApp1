@@ -61,7 +61,7 @@ st.markdown(f"""
         color: darkblue;
         padding: 10px;
         border: 2px solid darkblue;
-        border-radius: 10px;
+        border-radius: 14px;
         margin: 10px 0;
     }}
     .custom-box:hover {{
@@ -70,7 +70,7 @@ st.markdown(f"""
     .stButton > button {{
         background-color: darkblue;  
         color: white;
-        border-radius: 5px;
+        border-radius: 20px;
         padding: 10px 20px;
         border: none;
         transition: background-color 0.3s ease;
