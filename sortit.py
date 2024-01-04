@@ -48,21 +48,41 @@ data = load_data(csv_url)
 # URL of the CSV file on GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
-# Set background style
+# Enhance Custom Box Style
 st.markdown(f"""
     <style>
-    .stApp {{
-        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/libro2.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {{
+        font-family: 'Roboto', sans-serif;
     }}
+
     .custom-box {{
-        background-color: white;
-        color: darkblue;
-        padding: 10px;
-        border: 2px solid darkblue;
+        background-color: #f3f4f6;  /* Light grey background */
+        color: #333;  /* Darker text for better readability */
+        padding: 15px;
+        border: 1px solid #ccc;  /* Subtle border */
         border-radius: 10px;
-        margin: 10px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Soft shadow for depth */
+        margin: 15px 0;
+        transition: transform 0.3s ease;  /* Smooth hover effect */
+    }}
+
+    .custom-box:hover {{
+        transform: translateY(-5px);  /* Lift effect on hover */
+    }}
+
+    .stButton > button {{
+        background-color: #4caf50;  /* Green background for buttons */
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }}
+
+    .stButton > button:hover {{
+        background-color: #45a049;  /* Darker green on hover */
     }}
     </style>
     """, unsafe_allow_html=True)
