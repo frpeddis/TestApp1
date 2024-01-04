@@ -76,7 +76,8 @@ st.markdown(f"""
         transition: background-color 0.3s ease;
     }}
     .stButton > button:hover {{
-        background-color: blue;  /* Darker green on hover */
+        background-color: darkblue;  /* Darker green on hover */
+        color: white;
     }}
     </style>
     """, unsafe_allow_html=True)
