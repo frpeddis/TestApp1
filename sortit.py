@@ -47,8 +47,8 @@ st.markdown(f"""
         color: darkblue;
         padding: 10px;
         border: 2px solid darkblue;
-        border-radius: 10px;
-        margin: 10px 0;
+        border-radius: 14px;
+        margin: 6px 0;
     }}
     .correct-order {{
         background-color: #28a745;  /* Green background */
