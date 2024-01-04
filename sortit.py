@@ -16,11 +16,11 @@ st.set_page_config(layout="wide")
 def load_data(url):
     response = requests.get(url)
     csv_raw = StringIO(response.text)
-    data = pd.read_csv(csv_raw)
+    data = pd.read_csv(csv_raw, error_bad_lines=False)
     return data
 
 # URL of the CSV file on GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363n.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
 # Set background style
 st.markdown(f"""
