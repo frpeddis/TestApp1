@@ -64,6 +64,14 @@ st.markdown(f"""
         border-radius: 10px;
         margin: 10px 0;
     }}
+    .stButton > button {{
+        background-color: blue;  
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }}
     </style>
     """, unsafe_allow_html=True)
 
