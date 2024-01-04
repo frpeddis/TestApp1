@@ -65,7 +65,7 @@ st.markdown(f"""
         margin: 10px 0;
     }}
     .stButton > button {{
-        background-color: dark blue;  
+        background-color: darkblue;  
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
