@@ -65,12 +65,15 @@ st.markdown(f"""
         margin: 10px 0;
     }}
     .stButton > button {{
-        background-color: blue;  
+        background-color: dark blue;  
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
         border: none;
         transition: background-color 0.3s ease;
+    }}
+    .stButton > button:hover {{
+        background-color: blue;  /* Darker green on hover */
     }}
     </style>
     """, unsafe_allow_html=True)
