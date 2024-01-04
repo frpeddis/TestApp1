@@ -47,7 +47,7 @@ st.markdown(f"""
         color: darkblue;
         padding: 10px;
         border: 2px solid darkblue;
-        border-radius: 14px;
+        border-radius: 18px;
         margin: 6px 0;
     }}
     .correct-order {{
