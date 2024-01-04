@@ -61,7 +61,7 @@ st.markdown(f"""
         color: darkblue;
         padding: 10px;
         border: 2px solid darkblue;
-        border-radius: 14px;
+        border-radius: 10px;
         margin: 4px 0;
     }}
     .custom-box:hover {{
