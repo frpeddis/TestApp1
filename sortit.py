@@ -9,16 +9,42 @@ import time
 # Set Streamlit page configuration
 st.set_page_config(layout="wide")
 
-
-
-
 # Function to load data from GitHub
-def load_data(url):
-    response = requests.get(url)
-    csv_raw = StringIO(response.text)
-    data = pd.read_csv(csv_raw, error_bad_lines=False)
-    return data
 
+def load_data(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            csv_raw = StringIO(response.text)
+            # Attempt to read the CSV without skipping bad lines first to catch the error
+            try:
+                data = pd.read_csv(csv_raw)
+                return data
+            except pd.errors.ParserError as e:
+                # Reset the StringIO object to read from the beginning
+                csv_raw.seek(0)
+                # Informative error logging
+                for i, line in enumerate(csv_raw.readlines()):
+                    try:
+                        pd.read_csv(StringIO(line))
+                    except pd.errors.ParserError:
+                        print(f"Error in line {i+1}: {line.strip()}")
+                        break
+                # Optionally, return a DataFrame with error_bad_lines=False
+                csv_raw.seek(0)
+                return pd.read_csv(csv_raw, error_bad_lines=False)
+        else:
+            print(f"Failed to load data: HTTP {response.status_code}")
+            return pd.DataFrame()
+    except Exception as e:
+        print(f"An error occurred while loading the data: {e}")
+        return pd.DataFrame()
+
+# URL of the CSV file
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
+
+# Load data
+data = load_data(csv_url)
 # URL of the CSV file on GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
@@ -43,23 +69,26 @@ st.markdown(f"""
 
 # Initialize or reset the game
 def reset_game(data):
-    st.session_state['start_time'] = time.time()
-    st.session_state['selected_records'] = data.sample(5)
-    st.session_state['hint_indices'] = list(range(5))
-    st.session_state['game_over'] = False
-    st.session_state['has_error'] = False
-    st.experimental_rerun()
+    if not data.empty:
+        st.session_state['start_time'] = time.time()
+        st.session_state['selected_records'] = data.sample(5)
+        st.session_state['hint_indices'] = list(range(5))
+        st.session_state['game_over'] = False
+        st.session_state['has_error'] = False
+        st.experimental_rerun()
+    else:
+        st.error("No data available to start the game.")
 
 # Load data
 data = load_data(csv_url)
 
 with st.container():
-    if 'start_time' not in st.session_state:
+    if 'start_time' not in st.session_state or data.empty:
         reset_game(data)
 
-    elapsed_time = int(time.time() - st.session_state['start_time'])
+    if not data.empty:
+        elapsed_time = int(time.time() - st.session_state['start_time'])
 
-    if not data.empty and len(data) >= 5:
         if 'selected_records' not in st.session_state:
             reset_game(data)
 
@@ -100,7 +129,7 @@ with st.container():
                 st.session_state['has_error'] = True
                 st.error("Urca! Riprova dai!")
 
-        # Mostriamo il pulsante "Aiutino" solo se c'è stato un errore
+        # Show the hint button only if there's an error
         if st.session_state.get('has_error', False):
             if st.button("👋 Aiutino ?"):
                 if st.session_state['hint_indices']:
