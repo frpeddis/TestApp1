@@ -57,7 +57,7 @@ st.markdown(f"""
         background-size: cover;
     }}
     .custom-box {{
-        background-color: lightyellow;
+        background-color: white;
         color: darkblue;
         padding: 10px;
         border: 2px solid darkblue;
