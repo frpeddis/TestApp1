@@ -78,7 +78,7 @@ st.markdown(f"""
     .stButton > button:hover {{
         background-color: darkblue;  /* Darker green on hover */
         color: white;
-        border: 2px blue;
+        border: 2px white;
     }}
     </style>
     """, unsafe_allow_html=True)
