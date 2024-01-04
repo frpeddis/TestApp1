@@ -20,7 +20,7 @@ def load_data(url):
     return data
 
 # URL of the CSV file on GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363b.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
 # Set background style
 st.markdown(f"""
