@@ -10,22 +10,27 @@ import time
 st.set_page_config(layout="wide")
 
 # Function to load data from GitHub
+
 def load_data(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
             csv_raw = StringIO(response.text)
+            # Attempt to read the CSV without skipping bad lines first to catch the error
             try:
                 data = pd.read_csv(csv_raw)
                 return data
             except pd.errors.ParserError as e:
+                # Reset the StringIO object to read from the beginning
                 csv_raw.seek(0)
+                # Informative error logging
                 for i, line in enumerate(csv_raw.readlines()):
                     try:
                         pd.read_csv(StringIO(line))
                     except pd.errors.ParserError:
                         print(f"Error in line {i+1}: {line.strip()}")
                         break
+                # Optionally, return a DataFrame with error_bad_lines=False
                 csv_raw.seek(0)
                 return pd.read_csv(csv_raw, error_bad_lines=False)
         else:
@@ -35,7 +40,15 @@ def load_data(url):
         print(f"An error occurred while loading the data: {e}")
         return pd.DataFrame()
 
-# Add CSS for correct order
+# URL of the CSV file
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
+
+# Load data
+data = load_data(csv_url)
+# URL of the CSV file on GitHub
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
+
+# Set background style
 st.markdown(f"""
     <style>
     .stApp {{
@@ -43,22 +56,19 @@ st.markdown(f"""
         background-repeat: no-repeat;
         background-size: cover;
     }}
-    .custom-box, .correct-order {{
+    .custom-box {{
+        background-color: white;
         color: darkblue;
         padding: 10px;
         border: 2px solid darkblue;
-        border-radius: 18px;
-        margin: 6px 0;
+        border-radius: 10px;
+        margin: 10px 0;
     }}
-    .correct-order {{
-        background-color: #28a745;  /* Green background */
-        color: white;
-    }}
-    .custom-box:hover, .correct-order:hover {{
+    .custom-box:hover {{
         transform: translateY(-5px);  /* Lift effect on hover */
     }}
     .stButton > button {{
-        background-color: darkblue;
+        background-color: darkblue;  
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
@@ -83,9 +93,6 @@ def reset_game(data):
     else:
         st.error("No data available to start the game.")
 
-# URL of the CSV file
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
-
 # Load data
 data = load_data(csv_url)
 
@@ -102,7 +109,7 @@ with st.container():
         st.markdown("""
         <div class='custom-box'>
             <p><b><span style='font-size: 19px;'>Riordina le pagine del tuo libro di Storia!</span></b></p>
-            👆 Trascina in alto i <span style='background-color: #ff4b4c; color: white; padding: 3px 6px; border-radius: 3px;'>segnalibri</span> più antichi, <P>👇 in basso i più recenti!</P>
+                👆 Trascina in alto i <span style='background-color: #ff4b4c; color: white; padding: 3px 6px; border-radius: 3px;'>segnalibri</span> più antichi, <P>👇 in basso i più recenti!</P>
         </div>
         """, unsafe_allow_html=True)
 
@@ -129,13 +136,14 @@ with st.container():
                 st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
                             f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
                 for _, row in ordered_records.iterrows():
-                    st.markdown(f"<div class='correct-order'>"
+                    st.markdown(f"<div class='custom-box'>"
                                 f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                                 unsafe_allow_html=True)
             else:
                 st.session_state['has_error'] = True
                 st.error("Urca! Riprova dai!")
 
+        # Show the hint button only if there's an error
         if st.session_state.get('has_error', False):
             if st.button("👋 Aiutino ?"):
                 if st.session_state['hint_indices']:
