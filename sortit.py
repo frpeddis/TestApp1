@@ -64,6 +64,9 @@ st.markdown(f"""
         border-radius: 10px;
         margin: 10px 0;
     }}
+    .custom-box:hover {{
+        transform: translateY(-5px);  /* Lift effect on hover */
+    }}
     .stButton > button {{
         background-color: darkblue;  
         color: white;
