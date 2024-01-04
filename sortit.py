@@ -72,7 +72,7 @@ st.markdown(f"""
         color: darkblue;
         border-radius: 24px;
         padding: 10px 20px;
-        border: none;
+        border: 2px solid darkblue;
         transition: background-color 0.3s ease;
     }}
     .stButton > button:hover {{
