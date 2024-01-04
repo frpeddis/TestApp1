@@ -70,7 +70,7 @@ st.markdown(f"""
     .stButton > button {{
         background-color: darkblue;  
         color: white;
-        border-radius: 20px;
+        border-radius: 24px;
         padding: 10px 20px;
         border: none;
         transition: background-color 0.3s ease;
