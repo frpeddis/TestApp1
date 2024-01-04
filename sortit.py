@@ -57,12 +57,12 @@ st.markdown(f"""
         background-size: cover;
     }}
     .custom-box {{
-        background-color: white;
+        background-color: lightyellow;
         color: darkblue;
         padding: 10px;
         border: 2px solid darkblue;
         border-radius: 14px;
-        margin: 10px 0;
+        margin: 4px 0;
     }}
     .custom-box:hover {{
         transform: translateY(-5px);  /* Lift effect on hover */
