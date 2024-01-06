@@ -1,6 +1,6 @@
 streamlit
 plotly
-git + https://github.com/frpeddis/streamlit-sortables.git
+git+https://github.com/frpeddis/streamlit-sortables.git
 pyttsx3
 pillow
 pytesseract
