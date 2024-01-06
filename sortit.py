@@ -70,11 +70,13 @@ st.markdown(f"""
         color: white;
         border: 2px white;
     }}
+
     /* Custom styles for sortable items */
-    .sortable-item {{
+    .container-body {{
         background-color: transparent !important;
         /* Additional styling as needed */
     }}
+    </style>
     </style>
     """, unsafe_allow_html=True)
 
