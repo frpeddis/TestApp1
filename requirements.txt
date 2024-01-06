@@ -1,6 +1,6 @@
 streamlit
 plotly
-streamlit-sortables @ git+https://github.com/frpeddis/streamlit-sortables
+streamlit-sortables==0.2.0
 pyttsx3
 pillow
 pytesseract
