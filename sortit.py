@@ -72,7 +72,7 @@ st.markdown(f"""
     }}
 
     /* Custom styles for sortable items */
-    .container-body {{
+    .btn shadow-none sortable-item  {{
         background-color: transparent !important;
         /* Additional styling as needed */
     }}
