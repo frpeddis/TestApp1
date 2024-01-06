@@ -1,6 +1,6 @@
 streamlit
 plotly
-git+https://github.com/frpeddis/streamlit-sortables.git#egg=streamlit-sortables
+streamlit-sortables==0.2.0
 pyttsx3
 pillow
 pytesseract
@@ -10,5 +10,3 @@ pydub==0.25.1
 gtts==2.2.3
 num2words==0.5.10
 matplotlib==3.4.3
-
-
