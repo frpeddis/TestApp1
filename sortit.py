@@ -10,22 +10,27 @@ import time
 st.set_page_config(layout="wide")
 
 # Function to load data from GitHub
+
 def load_data(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
             csv_raw = StringIO(response.text)
+            # Attempt to read the CSV without skipping bad lines first to catch the error
             try:
                 data = pd.read_csv(csv_raw)
                 return data
             except pd.errors.ParserError as e:
+                # Reset the StringIO object to read from the beginning
                 csv_raw.seek(0)
+                # Informative error logging
                 for i, line in enumerate(csv_raw.readlines()):
                     try:
                         pd.read_csv(StringIO(line))
                     except pd.errors.ParserError:
                         print(f"Error in line {i+1}: {line.strip()}")
                         break
+                # Optionally, return a DataFrame with error_bad_lines=False
                 csv_raw.seek(0)
                 return pd.read_csv(csv_raw, error_bad_lines=False)
         else:
@@ -40,8 +45,10 @@ csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.cs
 
 # Load data
 data = load_data(csv_url)
+# URL of the CSV file on GitHub
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
-# Set background style with the new .sortable-item style
+# Set background style
 st.markdown(f"""
     <style>
     .stApp {{
@@ -72,15 +79,6 @@ st.markdown(f"""
         background-color: darkblue;  /* Darker green on hover */
         color: white;
         border: 2px white;
-    }}
-    /* Overriding styles for sortable items */
-    .sortable-item, .sortable-item:hover {{
-        margin: 5px;
-        background-color: darkblue; /* Override background color */
-        color: white;
-        padding-top: 3px;
-        padding-bottom: 3px;
-        height: 100%;
     }}
     </style>
     """, unsafe_allow_html=True)
@@ -147,6 +145,7 @@ with st.container():
                 st.session_state['has_error'] = True
                 st.error("Urca! Riprova dai!")
 
+        # Show the hint button only if there's an error
         if st.session_state.get('has_error', False):
             if st.button("👋 Aiutino ?"):
                 if st.session_state['hint_indices']:
