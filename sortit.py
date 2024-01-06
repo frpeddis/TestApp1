@@ -9,54 +9,54 @@ import time
 # Set Streamlit page configuration
 st.set_page_config(layout="wide")
 
-# CSS from SortableComponents.css
+# CSS from SortableComponents.css with !important added
 sortable_css = """
 .sortable-container {
-    margin: auto;
-    padding: 0px;
-    font: var(--font);
+    margin: auto !important;
+    padding: 0px !important;
+    font: var(--font) !important;
 }
 .sortable-component.vertical {
-    display: flex;
-    flex-wrap:wrap;
-    justify-content: flex-start;
-    align-items: stretch;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
 }
 .sortable-component.vertical .sortable-container {
-    min-width: 175px;
-    margin: 0px;
-    padding: 10px;
-    flex-grow: 1;
+    min-width: 175px !important;
+    margin: 0px !important;
+    padding: 10px !important;
+    flex-grow: 1 !important;
 }
 .container-header {
-    margin: 0px;
-    background-color: var(--background-color);
+    margin: 0px !important;
+    background-color: var(--background-color) !important;
 }
 .container-body {
-    margin: 0px;
-    padding: 3px;
-    width: 100%;
-    min-height: 48px;
-    border-radius: 3px;
-    background-color: var(--secondary-background-color);
+    margin: 0px !important;
+    padding: 3px !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    border-radius: 3px !important;
+    background-color: var(--secondary-background-color) !important;
 }
-.sortable-item, .sortable-item:hover{
-    margin: 5px;
-    background-color: darkblue;
-    color: white;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    height: 100%;
+.sortable-item, .sortable-item:hover {
+    margin: 5px !important;
+    background-color: darkblue !important;
+    color: white !important;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    height: 100% !important;
 }
 .active {
-    opacity: 0.5;
+    opacity: 0.5 !important;
 }
 .sortable-component.vertical .sortable-item {
-    display: block;
+    display: block !important;
 }
 """
 
-# Inject the custom CSS
+# Inject the custom CSS at the start
 st.markdown(f"<style>{sortable_css}</style>", unsafe_allow_html=True)
 
 # Function to load data from GitHub
