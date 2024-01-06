@@ -10,22 +10,27 @@ import time
 st.set_page_config(layout="wide")
 
 # Function to load data from GitHub
+
 def load_data(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
             csv_raw = StringIO(response.text)
+            # Attempt to read the CSV without skipping bad lines first to catch the error
             try:
                 data = pd.read_csv(csv_raw)
                 return data
             except pd.errors.ParserError as e:
+                # Reset the StringIO object to read from the beginning
                 csv_raw.seek(0)
+                # Informative error logging
                 for i, line in enumerate(csv_raw.readlines()):
                     try:
                         pd.read_csv(StringIO(line))
                     except pd.errors.ParserError:
                         print(f"Error in line {i+1}: {line.strip()}")
                         break
+                # Optionally, return a DataFrame with error_bad_lines=False
                 csv_raw.seek(0)
                 return pd.read_csv(csv_raw, error_bad_lines=False)
         else:
@@ -38,7 +43,12 @@ def load_data(url):
 # URL of the CSV file
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
-# Set background style and custom styles for sortable items
+# Load data
+data = load_data(csv_url)
+# URL of the CSV file on GitHub
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
+
+# Set background style
 st.markdown(f"""
     <style>
     .stApp {{
@@ -70,13 +80,6 @@ st.markdown(f"""
         color: white;
         border: 2px white;
     }}
-
-    /* Custom styles for sortable items */
-    .btn shadow-none sortable-item  {{
-        background-color: transparent !important;
-        /* Additional styling as needed */
-    }}
-    </style>
     </style>
     """, unsafe_allow_html=True)
 
@@ -142,6 +145,7 @@ with st.container():
                 st.session_state['has_error'] = True
                 st.error("Urca! Riprova dai!")
 
+        # Show the hint button only if there's an error
         if st.session_state.get('has_error', False):
             if st.button("👋 Aiutino ?"):
                 if st.session_state['hint_indices']:
