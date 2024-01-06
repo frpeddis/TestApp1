@@ -80,6 +80,15 @@ st.markdown(f"""
         color: white;
         border: 2px white;
     }}
+    /* New styles for sortable items */
+    .sortable-item, .sortable-item:hover {{
+        margin: 5px;
+        background-color: darkblue;
+        color: white;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        height: 100%;
+    }}
     </style>
     """, unsafe_allow_html=True)
 
