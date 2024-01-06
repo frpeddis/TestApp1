@@ -9,73 +9,28 @@ import time
 # Set Streamlit page configuration
 st.set_page_config(layout="wide")
 
-# CSS from SortableComponents.css with !important added
-sortable_css = """
-.sortable-container {
-    margin: auto !important;
-    padding: 0px !important;
-    font: var(--font) !important;
-}
-.sortable-component.vertical {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: flex-start !important;
-    align-items: stretch !important;
-}
-.sortable-component.vertical .sortable-container {
-    min-width: 175px !important;
-    margin: 0px !important;
-    padding: 10px !important;
-    flex-grow: 1 !important;
-}
-.container-header {
-    margin: 0px !important;
-    background-color: var(--background-color) !important;
-}
-.container-body {
-    margin: 0px !important;
-    padding: 3px !important;
-    width: 100% !important;
-    min-height: 48px !important;
-    border-radius: 3px !important;
-    background-color: var(--secondary-background-color) !important;
-}
-.sortable-item, .sortable-item:hover {
-    margin: 5px !important;
-    background-color: darkblue !important;
-    color: white !important;
-    padding-top: 3px !important;
-    padding-bottom: 3px !important;
-    height: 100% !important;
-}
-.active {
-    opacity: 0.5 !important;
-}
-.sortable-component.vertical .sortable-item {
-    display: block !important;
-}
-"""
-
-# Inject the custom CSS at the start
-st.markdown(f"<style>{sortable_css}</style>", unsafe_allow_html=True)
-
 # Function to load data from GitHub
+
 def load_data(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
             csv_raw = StringIO(response.text)
+            # Attempt to read the CSV without skipping bad lines first to catch the error
             try:
                 data = pd.read_csv(csv_raw)
                 return data
             except pd.errors.ParserError as e:
+                # Reset the StringIO object to read from the beginning
                 csv_raw.seek(0)
+                # Informative error logging
                 for i, line in enumerate(csv_raw.readlines()):
                     try:
                         pd.read_csv(StringIO(line))
                     except pd.errors.ParserError:
                         print(f"Error in line {i+1}: {line.strip()}")
                         break
+                # Optionally, return a DataFrame with error_bad_lines=False
                 csv_raw.seek(0)
                 return pd.read_csv(csv_raw, error_bad_lines=False)
         else:
@@ -85,11 +40,13 @@ def load_data(url):
         print(f"An error occurred while loading the data: {e}")
         return pd.DataFrame()
 
-# URL of the CSV file on GitHub
+# URL of the CSV file
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
 # Load data
 data = load_data(csv_url)
+# URL of the CSV file on GitHub
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
 # Set background style
 st.markdown(f"""
