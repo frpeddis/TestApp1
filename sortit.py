@@ -10,27 +10,22 @@ import time
 st.set_page_config(layout="wide")
 
 # Function to load data from GitHub
-
 def load_data(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
             csv_raw = StringIO(response.text)
-            # Attempt to read the CSV without skipping bad lines first to catch the error
             try:
                 data = pd.read_csv(csv_raw)
                 return data
             except pd.errors.ParserError as e:
-                # Reset the StringIO object to read from the beginning
                 csv_raw.seek(0)
-                # Informative error logging
                 for i, line in enumerate(csv_raw.readlines()):
                     try:
                         pd.read_csv(StringIO(line))
                     except pd.errors.ParserError:
                         print(f"Error in line {i+1}: {line.strip()}")
                         break
-                # Optionally, return a DataFrame with error_bad_lines=False
                 csv_raw.seek(0)
                 return pd.read_csv(csv_raw, error_bad_lines=False)
         else:
@@ -43,12 +38,7 @@ def load_data(url):
 # URL of the CSV file
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
-# Load data
-data = load_data(csv_url)
-# URL of the CSV file on GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
-
-# Set background style
+# Set background style and custom styles for sortable items
 st.markdown(f"""
     <style>
     .stApp {{
@@ -65,7 +55,7 @@ st.markdown(f"""
         margin: 4px 0;
     }}
     .custom-box:hover {{
-        transform: translateY(-1px);  /* Lift effect on hover */
+        transform: translateY(-1px);
     }}
     .stButton > button {{
         background-color: white;  
@@ -76,14 +66,16 @@ st.markdown(f"""
         transition: background-color 0.3s ease;
     }}
     .stButton > button:hover {{
-        background-color: darkblue;  /* Darker green on hover */
+        background-color: darkblue;
         color: white;
         border: 2px white;
     }}
-    /* New styles for .sortable-item */
+    .container-body {{
+        background-color: transparent !important;
+    }}
     .sortable-item, .sortable-item:hover {{
         margin: 5px;
-        background-color: darkblue; /* Dark blue background */
+        background-color: darkblue;
         color: white;
         padding-top: 3px;
         padding-bottom: 3px;
@@ -135,36 +127,4 @@ with st.container():
                 if not matching_record.empty:
                     ordered_records = pd.concat([ordered_records, matching_record])
                 else:
-                    st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
-                    st.session_state['has_error'] = True
-
-            ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
-            if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-                st.session_state['game_over'] = True
-                st.session_state['has_error'] = False
-                st.balloons()
-                end_time = int(time.time() - st.session_state['start_time'])
-                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
-                            f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
-                for _, row in ordered_records.iterrows():
-                    st.markdown(f"<div class='custom-box'>"
-                                f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
-                                unsafe_allow_html=True)
-            else:
-                st.session_state['has_error'] = True
-                st.error("Urca! Riprova dai!")
-
-        # Show the hint button only if there's an error
-        if st.session_state.get('has_error', False):
-            if st.button("👋 Aiutino ?"):
-                if st.session_state['hint_indices']:
-                    hint_index = random.choice(st.session_state['hint_indices'])
-                    st.session_state['hint_indices'].remove(hint_index)
-                    hint_record = st.session_state['selected_records'].iloc[hint_index]
-                    hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
-                    st.markdown(hint_text, unsafe_allow_html=True)
-                else:
-                    st.error("Non ci sono più suggerimenti disponibili.")
-
-        if st.session_state.get('game_over') and st.button("🔄 Gioca di nuovo"):
-            reset_game(data)
+                   
