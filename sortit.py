@@ -10,7 +10,6 @@ import time
 st.set_page_config(layout="wide")
 
 # Function to load data from GitHub
-
 def load_data(url):
     try:
         response = requests.get(url)
@@ -43,11 +42,6 @@ def load_data(url):
 # URL of the CSV file
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
-# Load data
-data = load_data(csv_url)
-# URL of the CSV file on GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
-
 # Set background style
 st.markdown(f"""
     <style>
@@ -55,6 +49,9 @@ st.markdown(f"""
         background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/libro2.jpg');
         background-repeat: no-repeat;
         background-size: cover;
+    }}
+    .transparent-container {{
+        background-color: transparent;
     }}
     .custom-box {{
         background-color: white;
@@ -76,7 +73,7 @@ st.markdown(f"""
         transition: background-color 0.3s ease;
     }}
     .stButton > button:hover {{
-        background-color: darkblue;  /* Darker green on hover */
+        background-color: darkblue;  /* Darker blue on hover */
         color: white;
         border: 2px white;
     }}
@@ -99,6 +96,7 @@ def reset_game(data):
 data = load_data(csv_url)
 
 with st.container():
+    st.markdown('<div class="transparent-container">', unsafe_allow_html=True)
     if 'start_time' not in st.session_state or data.empty:
         reset_game(data)
 
@@ -122,40 +120,4 @@ with st.container():
         if st.button("🤞 Vai!"):
             ordered_records = pd.DataFrame()
             for desc in sorted_items[0]['items']:
-                matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
-                if not matching_record.empty:
-                    ordered_records = pd.concat([ordered_records, matching_record])
-                else:
-                    st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
-                    st.session_state['has_error'] = True
-
-            ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
-            if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-                st.session_state['game_over'] = True
-                st.session_state['has_error'] = False
-                st.balloons()
-                end_time = int(time.time() - st.session_state['start_time'])
-                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
-                            f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
-                for _, row in ordered_records.iterrows():
-                    st.markdown(f"<div class='custom-box'>"
-                                f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
-                                unsafe_allow_html=True)
-            else:
-                st.session_state['has_error'] = True
-                st.error("Urca! Riprova dai!")
-
-        # Show the hint button only if there's an error
-        if st.session_state.get('has_error', False):
-            if st.button("👋 Aiutino ?"):
-                if st.session_state['hint_indices']:
-                    hint_index = random.choice(st.session_state['hint_indices'])
-                    st.session_state['hint_indices'].remove(hint_index)
-                    hint_record = st.session_state['selected_records'].iloc[hint_index]
-                    hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
-                    st.markdown(hint_text, unsafe_allow_html=True)
-                else:
-                    st.error("Non ci sono più suggerimenti disponibili.")
-
-        if st.session_state.get('game_over') and st.button("🔄 Gioca di nuovo"):
-            reset_game(data)
+                matching_record = st
