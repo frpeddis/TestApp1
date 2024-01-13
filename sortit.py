@@ -149,7 +149,8 @@ with st.container():
 
         # Show the hint button only if there's an error
         if st.session_state.get('has_error', False):
-            st.empty()  # Spazio vuoto
+            st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+
             if st.button("👋 Aiutino ?"):
                 if st.session_state['hint_indices']:
                     hint_index = random.choice(st.session_state['hint_indices'])
