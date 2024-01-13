@@ -143,7 +143,7 @@ with st.container():
                                 unsafe_allow_html=True)
             else:
                 st.session_state['has_error'] = True
-                st.markdown("<div style='background-color: orange; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
+                st.markdown("<div style='background-color: orange; color: darkblue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
                             f"<strong>Urca! Riprova dai! </strong>", unsafe_allow_html=True)
                 
 
