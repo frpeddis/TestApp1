@@ -144,7 +144,7 @@ with st.container():
             else:
                 st.session_state['has_error'] = True
                 st.markdown("<div style='background-color: orange; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
-                            f"<strong>Urca! Riprova dai! </strong>", unsafe_allow_html=True)
+                            f"<strong>Urca! <P>Riprova dai!</P> </strong>", unsafe_allow_html=True)
                 
 
         # Show the hint button only if there's an error
