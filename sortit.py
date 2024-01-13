@@ -52,7 +52,7 @@ csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.cs
 st.markdown("""
     <style>
     html, body, [class*="st-"], .stButton > button {
-        font-size: 110%;  /* Increase font size by 10% */
+        font-size: 120%;  /* Increase font size by 10% */
     }
     .stApp {
         background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/libro2.jpg');
