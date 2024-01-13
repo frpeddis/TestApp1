@@ -49,40 +49,37 @@ data = load_data(csv_url)
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
 
 # Set background style
-st.markdown("""
+st.markdown(f"""
     <style>
-    html, body, [class*="st-"], .stButton > button {
-        font-size: 102%;  /* Increase font size by 10% */
-    }
-    .stApp {
+    .stApp {{
         background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/libro2.jpg');
         background-repeat: no-repeat;
         background-size: cover;
-    }
-    .custom-box {
+    }}
+    .custom-box {{
         background-color: white;
         color: darkblue;
         padding: 10px;
         border: 2px solid darkblue;
         border-radius: 10px;
         margin: 4px 0;
-    }
-    .custom-box:hover {
+    }}
+    .custom-box:hover {{
         transform: translateY(-1px);  /* Lift effect on hover */
-    }
-    .stButton > button {
-        background-color: white;
+    }}
+    .stButton > button {{
+        background-color: white;  
         color: darkblue;
         border-radius: 24px;
         padding: 10px 20px;
         border: 2px solid darkblue;
         transition: background-color 0.3s ease;
-    }
-    .stButton > button:hover {
+    }}
+    .stButton > button:hover {{
         background-color: darkblue;  /* Darker green on hover */
         color: white;
         border: 2px white;
-    }
+    }}
     </style>
     """, unsafe_allow_html=True)
 
