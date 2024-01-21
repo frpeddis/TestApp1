@@ -92,6 +92,7 @@ def reset_game(data):
         st.session_state['hint_indices'] = list(range(5))
         st.session_state['game_over'] = False
         st.session_state['has_error'] = False
+        st.session_state['error_count'] = 0  # Initialize error count
         st.experimental_rerun()
     else:
         st.error("No data available to start the game.")
@@ -127,6 +128,7 @@ with st.container():
                 if not matching_record.empty:
                     ordered_records = pd.concat([ordered_records, matching_record])
                 else:
+                    st.session_state['error_count'] += 1  # Increment error count
                     st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
                     st.session_state['has_error'] = True
 
@@ -143,11 +145,9 @@ with st.container():
                                 f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
                                 unsafe_allow_html=True)
             else:
-                # fix suggerito da AntBett
                 st.session_state['has_error'] = True
                 st.markdown("<div style='background-color: orange; color: darkblue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
-                            f"<strong>Urca! Riprova dai! </strong>", unsafe_allow_html=True)
-                
+                            f"<strong>Urca! Riprova dai! </strong> Numero di errori fatti: {st.session_state['error_count']}</div>", unsafe_allow_html=True)
 
         # Show the hint button only if there's an error
         if st.session_state.get('has_error', False):
