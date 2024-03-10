@@ -20,11 +20,11 @@ def load_data(url):
             data = pd.read_csv(csv_raw)
             return data
         else:
-            print(f"Failed to load data: HTTP {response.status_code}")
-            return pd.DataFrame()
+            st.error(f"Failed to load data: HTTP {response.status_code}")
+            st.stop()
     except Exception as e:
-        print(f"An error occurred while loading the data: {e}")
-        return pd.DataFrame()
+        st.error(f"An error occurred while loading the data: {e}")
+        st.stop()
 
 # URL of the CSV file on GitHub
 csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events366.csv'
