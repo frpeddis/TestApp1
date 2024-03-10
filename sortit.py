@@ -41,13 +41,11 @@ def load_data(url):
         print(f"An error occurred while loading the data: {e}")
         return pd.DataFrame()
 
-# URL of the CSV file
-#csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/convertcsv.csv'
+# URL of the CSV file on GitHub
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events366.csv'
 
 # Load data
 data = load_data(csv_url)
-# URL of the CSV file on GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events366.csv'
 
 # Set background style
 st.markdown(f"""
@@ -96,9 +94,6 @@ def reset_game(data):
     else:
         st.error("No data available to start the game.")
 
-# Load data
-data = load_data(csv_url)
-
 with st.container():
     if 'start_time' not in st.session_state or data.empty:
         reset_game(data)
@@ -130,23 +125,22 @@ with st.container():
                     st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
                     st.session_state['has_error'] = True
 
-            ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
-            if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-                st.session_state['game_over'] = True
-                st.session_state['has_error'] = False
-                st.balloons()
-                end_time = int(time.time() - st.session_state['start_time'])
-                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
-                            f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
-                for _, row in ordered_records.iterrows():
-                    st.markdown(f"<div class='custom-box'>"
-                                f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
-                                unsafe_allow_html=True)
-            else:
-                # fix suggerito da AntBett
-                st.session_state['has_error'] = True
-                st.markdown("<div style='background-color: orange; color: darkblue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
-                            f"<strong>Urca! Riprova dai! </strong>", unsafe_allow_html=True)
+            if not st.session_state.get('has_error', False):
+                ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
+                if len(ordered_records) == len(sorted_items[0]['items']):
+                    st.session_state['game_over'] = True
+                    st.balloons()
+                    end_time = int(time.time() - st.session_state['start_time'])
+                    st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
+                                f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
+                    for _, row in ordered_records.iterrows():
+                        st.markdown(f"<div class='custom-box'>"
+                                    f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
+                                    unsafe_allow_html=True)
+                else:
+                    st.session_state['has_error'] = True
+                    st.markdown("<div style='background-color: orange; color: darkblue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
+                                f"<strong>Urca! Riprova dai! </strong>", unsafe_allow_html=True)
                 
 
         # Show the hint button only if there's an error
