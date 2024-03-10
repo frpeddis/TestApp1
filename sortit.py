@@ -81,6 +81,10 @@ st.markdown(f"""
         color: white;
         border: 2px white;
     }}
+    .description-container {{
+        max-height: 200px; /* Adjust the maximum height of the container */
+        overflow-y: auto; /* Add scroll if content exceeds container height */
+    }}
     </style>
     """, unsafe_allow_html=True)
 
