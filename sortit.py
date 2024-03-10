@@ -1,3 +1,4 @@
+#code created by Francesco Peddis and ChatGPT !
 import streamlit as st
 import pandas as pd
 import requests
@@ -63,7 +64,6 @@ st.markdown(f"""
         border: 2px solid darkblue;
         border-radius: 10px;
         margin: 4px 0;
-        width: 90%; /* Adjust the width of the custom box */
     }}
     .custom-box:hover {{
         transform: translateY(-1px);  /* Lift effect on hover */
@@ -80,10 +80,6 @@ st.markdown(f"""
         background-color: darkblue;  /* Darker green on hover */
         color: white;
         border: 2px white;
-    }}
-    .description-container {{
-        max-height: 200px; /* Adjust the maximum height of the container */
-        overflow-y: auto; /* Add scroll if content exceeds container height */
     }}
     </style>
     """, unsafe_allow_html=True)
