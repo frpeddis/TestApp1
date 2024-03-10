@@ -42,12 +42,12 @@ def load_data(url):
         return pd.DataFrame()
 
 # URL of the CSV file
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events3a.csv'
+#csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events3a.csv'
 
 # Load data
 data = load_data(csv_url)
 # URL of the CSV file on GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events3632.csv'
 
 # Set background style
 st.markdown(f"""
