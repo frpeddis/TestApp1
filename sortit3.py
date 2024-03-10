@@ -41,7 +41,7 @@ def load_data(url):
         return pd.DataFrame()
 
 # URL of the CSV file
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363.csv'
+csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events366.csv'
 
 # Load data
 data = load_data(csv_url)
