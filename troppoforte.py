@@ -5,10 +5,8 @@ import tempfile
 import streamlit as st
 from datetime import datetime, timedelta
 from gtts import gTTS
-from num2words import num2words
 from io import BytesIO
 import plotly.graph_objects as go
-
 
 # Function to convert the date to Italian words
 def date_to_italian_words(date):
