@@ -1,110 +1,192 @@
-import streamlit as st
-import pandas as pd
-import requests
-from io import StringIO
-from streamlit_sortables import sort_items
 import random
-import time
+import matplotlib.pyplot as plt
+import calendar
+import tempfile
+import streamlit as st
+from datetime import datetime, timedelta
+from gtts import gTTS
+from num2words import num2words
+from io import BytesIO
+import plotly.graph_objects as go
 
-# Set Streamlit page configuration
-st.set_page_config(layout="wide")
 
-# Function to load data from GitHub
-def load_data(url):
-    response = requests.get(url)
-    csv_raw = StringIO(response.text)
-    data = pd.read_csv(csv_raw)
-    return data
+# Function to convert the date to Italian words
+def date_to_italian_words(date):
+    day = date.strftime("%d")
+    month = date.strftime("%m")
+    year = date.strftime("%Y")
+    return f"{day}/{month}/{year}"
 
-# URL of the CSV file on GitHub
-csv_url = 'https://raw.githubusercontent.com/frpeddis/TestApp1/main/events363b.csv'
+# Function to calculate a random date
+def calculate_random_date():
+    start_date = datetime(1582, 10, 15)
+    end_date = datetime(2099, 12, 31)
+    return start_date + timedelta(
+        seconds=random.randint(0, int((end_date - start_date).total_seconds()))
+    )
 
-# Set background style
-st.markdown(f"""
-    <style>
-    .stApp {{
-        background-image: url('https://raw.githubusercontent.com/frpeddis/TestApp1/main/libro2.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-    }}
-    .custom-box {{
-        background-color: white;
-        color: darkblue;
-        padding: 10px;
-        border: 2px solid darkblue;
-        border-radius: 10px;
-        margin: 10px 0;
-    }}
-    </style>
-    """, unsafe_allow_html=True)
+# Initialize session state variables
+if 'question_count' not in st.session_state:
+    st.session_state.question_count = 0
+if 'error_count_list' not in st.session_state:
+    st.session_state.error_count_list = [0] * 5
+if 'total_time' not in st.session_state:
+    st.session_state.total_time = 0.0
+if 'question_start_time' not in st.session_state:
+    st.session_state.question_start_time = datetime.now()
+if 'random_date' not in st.session_state:
+    st.session_state.random_date = calculate_random_date()
+if 'selected_day_of_week' not in st.session_state:
+    st.session_state.selected_day_of_week = None
+if 'button_label' not in st.session_state:
+    st.session_state.button_label = "Check Question 1/NEXT"
+if 'time_list' not in st.session_state:
+    st.session_state.time_list = []
+if 'show_summary' not in st.session_state:
+    st.session_state.show_summary = False
 
-# Initialize or reset the game
-def reset_game(data):
-    st.session_state['start_time'] = time.time()
-    st.session_state['selected_records'] = data.sample(5)
-    st.session_state['hint_indices'] = list(range(5))
-    st.session_state['game_over'] = False
-    st.session_state['has_error'] = False
-    st.experimental_rerun()
+# Streamlit app title
+st.title(":sunglasses: What's the day? 🎲")
 
-# Load data
-data = load_data(csv_url)
+# Adding an option for "Silent mode"
+silent_mode = st.checkbox("Silent mode")
+if not silent_mode:
+    # Function to convert text to speech using gTTS
+    def text_to_speech(text, random_date):
+        today = datetime.now()
+        prefix = "Che giorno era il " if random_date < today - timedelta(days=1) else "Che giorno sarà il "
+        
+        # Always select Italian as the language
+        selected_lang = 'it'
+        
+        tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
+        
+        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
+            tts.save(temp.name)
+            temp.seek(0)
+            audio_data = temp.read()
+        
+        audio_io = BytesIO(audio_data)
+        audio_io.seek(0)
+        return audio_io
 
-with st.container():
-    if 'start_time' not in st.session_state:
-        reset_game(data)
+    # Convert the date to Italian words
+    date_words = date_to_italian_words(st.session_state.random_date)
 
-    elapsed_time = int(time.time() - st.session_state['start_time'])
+    # Text to speech with the modified function
+    audio_io = text_to_speech(date_words, st.session_state.random_date)
 
-    if not data.empty and len(data) >= 5:
-        if 'selected_records' not in st.session_state:
-            reset_game(data)
+    # Streamlit audio player
+    audio_io.seek(0)
+    audio_bytes = audio_io.read()
+    st.audio(audio_bytes, format='audio/wav')
 
-        st.markdown("""
-        <div class='custom-box'>
-            <p><b><span style='font-size: 19px;'>Riordina le pagine del tuo libro di Storia!</span></b></p>
-                👆 Trascina in alto i <span style='background-color: #ff4b4c; color: white; padding: 3px 6px; border-radius: 3px;'>segnalibri</span> più antichi, <P>👇 in basso i più recenti!</P>
-        </div>
-        """, unsafe_allow_html=True)
+# Display the random date only in "Silent mode" and in the format "dd/mm/yyyy"
+if silent_mode:
+    date_displayed = date_to_italian_words(st.session_state.random_date)
+    st.write(f"Random date: {date_displayed}")
 
-        items = [{'header': ' ', 'items': list(st.session_state['selected_records']['Descrizione Breve'])}]
+# Creating two columns for the layout
+left_column, right_column = st.columns(2)
 
-        sorted_items = sort_items(items, multi_containers=True, direction="vertical")
+# In the left column, place the day selection radio buttons
+with left_column:
+    day_options = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    st.session_state.selected_day_of_week = st.radio("Seleziona:", day_options, key="day_radio")
 
-        if st.button("🤞 Vai!"):
-            ordered_records = pd.DataFrame()
-            for desc in sorted_items[0]['items']:
-                matching_record = st.session_state['selected_records'][st.session_state['selected_records']['Descrizione Breve'] == desc]
-                if not matching_record.empty:
-                    ordered_records = pd.concat([ordered_records, matching_record])
-                else:
-                    st.error(f"L'elemento '{desc}' non trovato nei record selezionati.")
+    # Button to confirm the selection and check the answer
+    # Display the button only if question_count is less than 5
+    if st.session_state.question_count < 5:
+        check_button = st.button(st.session_state.button_label)
+    else:
+        check_button = False
 
-            ordered_correctly = ordered_records['Anno di Scoperta'].is_monotonic_increasing
-            if ordered_correctly and len(ordered_records) == len(sorted_items[0]['items']):
-                st.session_state['game_over'] = True
-                st.session_state['has_error'] = False
-                st.balloons()
-                end_time = int(time.time() - st.session_state['start_time'])
-                st.markdown("<div style='background-color: lightgreen; color: blue; padding: 14px; border: 2px solid dark blue; border-radius: 14px;'>"
-                            f"Daje !!! L'ordine è corretto! 👏👏👏 <P>⌛Tempo totale: <strong> {end_time} </strong> secondi</div></P>", unsafe_allow_html=True)
-                for _, row in ordered_records.iterrows():
-                    st.markdown(f"<div class='custom-box'>"
-                                f"<strong>{int(row['Anno di Scoperta'])} - {row['Descrizione Breve']} </strong> - {row['Nome Inventore']} - {row['Paese']} - {row['Descrizione Lunga']}</div>",
-                                unsafe_allow_html=True)
+# Function to create the pie chart
+def create_pie_chart(selected_day, correct_day=None, is_checked=False):
+    days_short = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    full_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    colors = ['lightgray'] * 7
+
+    if selected_day:
+        selected_day_index = full_days.index(selected_day)
+        colors[selected_day_index] = 'violet'
+
+        if is_checked:
+            if correct_day == selected_day:
+                colors[selected_day_index] = 'lightgreen'
             else:
-                st.session_state['has_error'] = True
-                st.error("Urca! Riprova dai!")
+                colors[selected_day_index] = 'red'
+                correct_day_index = full_days.index(correct_day)
+                colors[correct_day_index] = 'lightgreen'
 
-        if st.session_state.get('has_error', False) and st.button("👋 Aiutino ?"):
-            if st.session_state['hint_indices']:
-                hint_index = random.choice(st.session_state['hint_indices'])
-                st.session_state['hint_indices'].remove(hint_index)
-                hint_record = st.session_state['selected_records'].iloc[hint_index]
-                hint_text = f"<div class='custom-box'>{hint_record['Descrizione Breve']} {int(hint_record['Anno di Scoperta'])}</div>"
-                st.markdown(hint_text, unsafe_allow_html=True)
-            else:
-                st.error("Non ci sono più suggerimenti disponibili.")
+    fig = go.Figure(data=[go.Pie(labels=days_short, values=[1]*7, marker=dict(colors=colors), hole=.4, direction='clockwise')])
+    fig.update_traces(textinfo='label', textfont_size=15, hoverinfo='none')
+    fig.update_layout(
+        showlegend=False,
+        height=160,
+        width=160,
+        margin=dict(l=8, r=8, t=8, b=8)
+    )
 
-        if st.session_state.get('game_over') and st.button("🔄 Gioca di nuovo"):
-            reset_game(data)
+    return fig
+
+# In the right column, display the pie chart
+with right_column:
+    day_of_week = calendar.day_name[st.session_state.random_date.weekday()]
+    fig = create_pie_chart(st.session_state.selected_day_of_week, day_of_week if check_button else None, check_button)
+    st.plotly_chart(fig, use_container_width=True)
+
+    if check_button:
+        if st.session_state.selected_day_of_week == day_of_week:
+            st.balloons()
+            st.success(f"{day_of_week} is right! :thumbsup:")
+        else:
+            st.session_state.error_count_list[st.session_state.question_count] += 1
+            st.snow()
+            st.error(f"{day_of_week} was right! :coffee:")
+
+        question_time_taken = (
+            datetime.now() - st.session_state.question_start_time
+        ).total_seconds()
+        st.session_state.total_time += question_time_taken
+        st.session_state.time_list.append(question_time_taken)
+        st.session_state.question_count += 1
+        st.session_state.question_start_time = datetime.now()
+        st.session_state.random_date = calculate_random_date()
+        st.session_state.button_label = f"Check Question {st.session_state.question_count + 1} / NEXT"
+
+# Show summary after 5 questions
+if st.session_state.question_count >= 5:
+    st.session_state.show_summary = True
+
+if st.session_state.show_summary:
+    
+    average_time = st.session_state.total_time / 5
+    st.write(f"Total time taken for all 5 questions: {round(st.session_state.total_time, 2)} seconds")
+    st.write(f"Shortest time taken: {round(min(st.session_state.time_list), 2)} seconds")
+    st.markdown(f'<p style="color:fuchsia;">Average time taken: {round(average_time, 2)} seconds</p>', unsafe_allow_html=True)
+    st.write(f"Longest time taken: {round(max(st.session_state.time_list), 2)} seconds")
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, 6), st.session_state.time_list, marker='o', linestyle='--', label='Time Taken')
+    
+    for i, (time_taken, error_count) in enumerate(zip(st.session_state.time_list, st.session_state.error_count_list)):
+        color = 'g' if error_count == 0 else 'r'
+        plt.scatter(i+1, time_taken, color=color, zorder=5, s=100, label=None)
+    
+    plt.axhline(y=average_time, color='fuchsia', linestyle='-', label='Average Time')
+    plt.xlabel('Question Number')
+    plt.ylabel('Time Taken (s)')
+    plt.xticks(range(1, 6))
+    plt.ylim(bottom=0)
+    plt.title('Time Taken for Each Question')
+    plt.legend()
+    st.pyplot(plt)
+
+    if st.button("Restart"):
+        st.session_state.question_count = 0
+        st.session_state.total_time = 0.0
+        st.session_state.time_list = []
+        st.session_state.button_label = "Check Question 1 / NEXT"
+        st.session_state.show_summary = False
+        st.experimental_rerun()
