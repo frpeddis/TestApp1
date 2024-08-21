@@ -4,7 +4,6 @@ import calendar
 import streamlit as st
 from datetime import datetime, timedelta
 from gtts import gTTS
-from num2words import num2words
 from io import BytesIO
 import plotly.graph_objects as go
 
@@ -70,10 +69,11 @@ if not silent_mode:
     audio_io = text_to_speech(date_words, st.session_state.random_date)
 
     # Streamlit audio player
-    st.audio(audio_io, format='audio/mp3')
+    audio_bytes = audio_io.read()
+    st.audio(audio_bytes, format='audio/mp3')
 
     # Option to download the audio (useful for iOS devices)
-    st.download_button(label="Download Audio", data=audio_io, file_name="date_audio.mp3", mime="audio/mp3")
+    st.download_button(label="Download Audio", data=audio_bytes, file_name="date_audio.mp3", mime="audio/mp3")
 
 # Display the random date only in "Silent mode" and in the format "dd/mm/yyyy"
 if silent_mode:
