@@ -1,7 +1,6 @@
 import random
 import matplotlib.pyplot as plt
 import calendar
-import tempfile
 import streamlit as st
 from datetime import datetime, timedelta
 from gtts import gTTS
@@ -59,13 +58,8 @@ if not silent_mode:
         selected_lang = 'it'
         
         tts = gTTS(text=f"{prefix} {text}", lang=selected_lang)
-        
-        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=True) as temp:
-            tts.save(temp.name)
-            temp.seek(0)
-            audio_data = temp.read()
-        
-        audio_io = BytesIO(audio_data)
+        audio_io = BytesIO()
+        tts.write_to_fp(audio_io)
         audio_io.seek(0)
         return audio_io
 
@@ -76,12 +70,10 @@ if not silent_mode:
     audio_io = text_to_speech(date_words, st.session_state.random_date)
 
     # Streamlit audio player
-    audio_io.seek(0)
-    audio_bytes = audio_io.read()
-    
-    # Add a button for playing audio to ensure user interaction
-    if st.button("Play Audio"):
-        st.audio(audio_bytes, format='audio/mp3')
+    st.audio(audio_io, format='audio/mp3')
+
+    # Option to download the audio (useful for iOS devices)
+    st.download_button(label="Download Audio", data=audio_io, file_name="date_audio.mp3", mime="audio/mp3")
 
 # Display the random date only in "Silent mode" and in the format "dd/mm/yyyy"
 if silent_mode:
