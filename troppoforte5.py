@@ -77,8 +77,8 @@ if not silent_mode:
     # Display the audio player
     st.audio(audio_file_path)
 
-    # Option to download the audio (useful for iOS devices)
-    st.download_button(label="Download Audio", data=audio_io, file_name="date_audio.mp3", mime="audio/mp3")
+    # Hide the download button
+    # st.download_button(label="Download Audio", data=audio_io, file_name="date_audio.mp3", mime="audio/mp3")
 
 # Display the random date only in "Silent mode" and in the format "dd/mm/yyyy"
 if silent_mode:
@@ -182,10 +182,11 @@ if st.session_state.show_summary:
     plt.legend()
     st.pyplot(plt)
 
-    if st.button("Restart"):
-        st.session_state.question_count = 0
-        st.session_state.total_time = 0.0
-        st.session_state.time_list = []
-        st.session_state.button_label = "Check Question 1 / NEXT"
-        st.session_state.show_summary = False
-        st.experimental_rerun()
+    # Hide the restart button
+    # if st.button("Restart"):
+    #     st.session_state.question_count = 0
+    #     st.session_state.total_time = 0.0
+    #     st.session_state.time_list = []
+    #     st.session_state.button_label = "Check Question 1 / NEXT"
+    #     st.session_state.show_summary = False
+    #     st.experimental_rerun()
