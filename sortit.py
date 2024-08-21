@@ -92,7 +92,7 @@ def reset_game(data):
         st.session_state['hint_indices'] = list(range(5))
         st.session_state['game_over'] = False
         st.session_state['has_error'] = False
-        st.experimental_rerun()
+        #st.experimental_rerun()
     else:
         st.error("No data available to start the game.")
 
